@@ -1,9 +1,7 @@
 package com.ecommerce.model;
 
 import jakarta.persistence.*;
-import lombok.Data;
-import lombok.EqualsAndHashCode;
-import lombok.NoArgsConstructor;
+import lombok.*;
 
 @EqualsAndHashCode(callSuper = true)
 @Data
@@ -11,9 +9,6 @@ import lombok.NoArgsConstructor;
 @Entity
 @Table(name = "cart_details")
 public class CartDetail extends BaseEntity {
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
 
     private Integer quantity;
 

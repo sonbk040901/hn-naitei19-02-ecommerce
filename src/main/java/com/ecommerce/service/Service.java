@@ -1,5 +1,7 @@
 package com.ecommerce.service;
 
+import com.ecommerce.dto.BaseDTO;
+
 import java.util.List;
 
 /**
@@ -8,14 +10,14 @@ import java.util.List;
  * @Date: 15/09/2023
  * @Time: 09:05
  */
-public interface Service<PK, E> {
-    List<E> get();
+public interface Service<PK, D extends BaseDTO> {
+    List<D> get();
 
-    E get(PK id);
+    D get(PK id);
 
-    void save(E e);
+    void save(D e);
 
-    void update(E e);
+    void update(D e);
 
-    void delete(E e);
+    void delete(D e);
 }

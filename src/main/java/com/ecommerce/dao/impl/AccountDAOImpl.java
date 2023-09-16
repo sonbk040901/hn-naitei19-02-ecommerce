@@ -1,6 +1,6 @@
 package com.ecommerce.dao.impl;
 
-import com.ecommerce.dao.AccountDAO;
+import com.ecommerce.dao.custom.AccountDAOCustom;
 import com.ecommerce.model.Account;
 import org.springframework.stereotype.Repository;
 
@@ -11,8 +11,11 @@ import org.springframework.stereotype.Repository;
  * @Time: 16:15
  */
 @Repository
-public class AccountDAOImpl extends BaseDAO<Long, Account> implements AccountDAO {
-    public AccountDAOImpl() {
-        super(Account.class);
+public class AccountDAOImpl extends BaseDAO implements AccountDAOCustom {
+    @Override
+    public Account findByUsername(String username) {
+        var a =  session.createQuery("FROM Account WHERE username = :username", Account.class)
+                .setParameter("username", username).list().get(0);
+        return a;
     }
 }
