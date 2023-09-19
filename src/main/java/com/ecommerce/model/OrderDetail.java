@@ -1,9 +1,7 @@
 package com.ecommerce.model;
 
 import jakarta.persistence.*;
-import lombok.Data;
-import lombok.EqualsAndHashCode;
-import lombok.NoArgsConstructor;
+import lombok.*;
 
 @EqualsAndHashCode(callSuper = true)
 @Data
@@ -11,9 +9,6 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @Table(name = "order_details")
 public class OrderDetail extends BaseEntity {
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
     private Long price;
 
     @ManyToOne(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
