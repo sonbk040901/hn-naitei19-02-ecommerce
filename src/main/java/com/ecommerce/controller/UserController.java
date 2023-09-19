@@ -16,14 +16,9 @@ import org.springframework.web.bind.annotation.ResponseBody;
  * @Date: 15/09/2023
  * @Time: 16:11
  */
-@Controller("users")
+@Controller
 @RequestMapping("/users")
 @RequiredArgsConstructor(onConstructor = @__(@Autowired))
 public class UserController {
     private final UserService userService;
-    @GetMapping("/{username}")
-    @ResponseBody
-    public UserDTO findByUsername(@PathVariable String username) {
-        return userService.findByUsername(username);
-    }
 }

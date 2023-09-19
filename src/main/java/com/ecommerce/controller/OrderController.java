@@ -12,7 +12,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
  * @Date: 15/09/2023
  * @Time: 22:50
  */
-@Controller("orders")
+@Controller
 @RequestMapping("/orders")
 @RequiredArgsConstructor(onConstructor = @__(@Autowired))
 public class OrderController {
