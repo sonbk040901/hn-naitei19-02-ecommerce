@@ -1,9 +1,7 @@
 package com.ecommerce.model;
 
 import jakarta.persistence.*;
-import lombok.Data;
-import lombok.EqualsAndHashCode;
-import lombok.NoArgsConstructor;
+import lombok.*;
 
 @EqualsAndHashCode(callSuper = true)
 @Data
@@ -11,9 +9,6 @@ import lombok.NoArgsConstructor;
 @Entity
 @Table(name = "reject_causes")
 public class RejectCause extends BaseEntity {
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
     private String content;
     @OneToOne(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     @JoinColumn(name = "order_id", insertable = false, updatable = false)

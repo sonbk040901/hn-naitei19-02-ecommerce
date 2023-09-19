@@ -1,6 +1,7 @@
 package com.ecommerce.service;
 
-import com.ecommerce.model.Account;
+
+import com.ecommerce.dto.UserDTO;
 
 /**
  * @Project: hn-naitei19-02-ecommerce
@@ -8,5 +9,6 @@ import com.ecommerce.model.Account;
  * @Date: 15/09/2023
  * @Time: 15:42
  */
-public interface UserService extends Service<Long, Account>{
+public interface UserService extends Service<Long, UserDTO>{
+    UserDTO findByUsername(String username);
 }

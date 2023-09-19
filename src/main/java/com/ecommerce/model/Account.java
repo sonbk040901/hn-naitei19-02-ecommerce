@@ -1,20 +1,15 @@
 package com.ecommerce.model;
 
+import com.ecommerce.dto.BaseDTO;
 import jakarta.persistence.*;
-import lombok.Data;
-import lombok.EqualsAndHashCode;
-import lombok.NoArgsConstructor;
+import lombok.*;
 
 @EqualsAndHashCode(callSuper = true)
 @Data
 @NoArgsConstructor
 @Entity
 @Table(name = "accounts")
-
 public class Account extends BaseEntity {
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
 
     private String username;
 
@@ -34,6 +29,10 @@ public class Account extends BaseEntity {
     private String address;
 
     private Integer gender;
+
+    public Account(BaseDTO dto) {
+        super(dto);
+    }
 
     public Account(String username, String password, Integer role, Integer isActived, String fullname, String avatar, String phone, String address, Integer gender) {
         this.username = username;

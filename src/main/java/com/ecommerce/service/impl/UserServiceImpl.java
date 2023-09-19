@@ -1,8 +1,10 @@
 package com.ecommerce.service.impl;
 
+import com.ecommerce.dto.UserDTO;
 import com.ecommerce.model.Account;
 import com.ecommerce.service.UserService;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 
@@ -15,27 +17,36 @@ import java.util.List;
 @Service
 public class UserServiceImpl extends BaseService implements UserService {
     @Override
-    public List<Account> get() {
+    public List<UserDTO> get() {
         return null;
     }
 
     @Override
-    public Account get(Long id) {
+    public UserDTO get(Long id) {
         return null;
     }
 
     @Override
-    public void save(Account account) {
+    public void save(UserDTO userDTO) {
+        accountDAO.save(new Account(userDTO));
+    }
+
+    @Override
+    public void update(UserDTO userDTO) {
 
     }
 
     @Override
-    public void update(Account account) {
+    public void delete(UserDTO userDTO) {
 
     }
 
     @Override
-    public void delete(Account account) {
-
+    @Transactional
+    public UserDTO findByUsername(String username) {
+        var u = accountDAO.findAllByUsername(username);
+        if (u.isEmpty())
+            throw new RuntimeException("User not found");
+        return new UserDTO(u.get());
     }
 }
