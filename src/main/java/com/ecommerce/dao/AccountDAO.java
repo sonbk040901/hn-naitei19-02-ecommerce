@@ -1,7 +1,12 @@
 package com.ecommerce.dao;
 
 import com.ecommerce.model.Account;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Repository;
+
+import java.util.Optional;
+
 
 /**
  * @Project: hn-naitei19-02-ecommerce
@@ -10,5 +15,8 @@ import org.springframework.stereotype.Repository;
  * @Time: 15:44
  */
 
-public interface AccountDAO extends DAO<Long, Account>{
+@Repository
+public interface AccountDAO extends DAO<Long, Account> {
+    Optional<Account> findAllByUsername(String username);
+    Page<Account> findAllByAddress(Pageable pageable, String address);
 }

@@ -1,6 +1,7 @@
 package com.ecommerce.service.impl;
 
 import com.ecommerce.dao.AccountDAO;
+import com.ecommerce.dao.OrderDAO;
 import lombok.Getter;
 import lombok.Setter;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -16,4 +17,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 public abstract class BaseService {
     @Autowired
     protected AccountDAO accountDAO;
+    @Autowired
+    protected OrderDAO orderDAO;
 }
