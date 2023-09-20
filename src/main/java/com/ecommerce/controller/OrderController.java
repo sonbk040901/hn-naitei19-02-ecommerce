@@ -1,19 +1,24 @@
 package com.ecommerce.controller;
 
-import com.ecommerce.dto.OrderDTO;
-import com.ecommerce.dto.ReceiverDTO;
-import com.ecommerce.service.OrderService;
-import jakarta.validation.Valid;
-import lombok.RequiredArgsConstructor;
+import java.util.Optional;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.validation.annotation.Validated;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 
-import java.util.List;
-import java.util.Optional;
+import com.ecommerce.dto.OrderDTO;
+import com.ecommerce.dto.ReceiverDTO;
+import com.ecommerce.service.OrderService;
+
+import jakarta.validation.Valid;
+import lombok.RequiredArgsConstructor;
 
 /**
  * @Project: hn-naitei19-02-ecommerce
@@ -26,7 +31,7 @@ import java.util.Optional;
 @RequiredArgsConstructor(onConstructor = @__(@Autowired))
 public class OrderController {
     private final OrderService orderService;
-    private final Long userId = 1L; //fixme: get userId from session/cookie
+    private final Long userId = 1L; // fixme: get userId from session/cookie
 
     @GetMapping
     public String showAllOrders(
@@ -50,6 +55,5 @@ public class OrderController {
         model.addAttribute("order", order);
         return "user/order/show";
     }
-
 
 }
