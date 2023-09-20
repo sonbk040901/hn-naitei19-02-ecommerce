@@ -12,7 +12,7 @@ import java.util.List;
 @Table(name = "carts")
 public class Cart extends BaseEntity {
 
-    @OneToOne(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    @OneToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "user_id", insertable = false, updatable = false)
     private Account user;
 
