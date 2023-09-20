@@ -3,6 +3,7 @@ package com.ecommerce.model;
 import com.ecommerce.dto.BaseDTO;
 import jakarta.persistence.*;
 import lombok.*;
+import org.hibernate.annotations.ColumnDefault;
 
 import java.util.List;
 
@@ -24,11 +25,8 @@ public class Order extends BaseEntity {
         private final int value;
     }
 
-//    @Id
-//    @GeneratedValue(strategy = GenerationType.IDENTITY)
-//    private Long id;
     @Column(name = "total_price")
-    private Integer totalPrice;
+    private Long totalPrice;
     @Column(name = "shipping_status")
     private String shippingStatus;
     @Column(name = "shipping_fee")
@@ -41,17 +39,19 @@ public class Order extends BaseEntity {
     @Column(name = "receiver_id")
     private Long receiverId;
 
-    @ManyToOne(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "user_id", insertable = false, updatable = false)
     private Account user;
 
     @Column(name = "user_id")
     private Long userId;
 
-    @OneToMany(mappedBy = "order", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    @OneToMany(mappedBy = "order", cascade = CascadeType.PERSIST, fetch = FetchType.LAZY)
     private List<OrderDetail> orderDetails;
 
     @Enumerated(EnumType.ORDINAL)
+    @Column(columnDefinition = "tinyint")
+    @ColumnDefault("0")
     private Status status;
 
     @OneToOne(mappedBy = "order")
@@ -61,7 +61,7 @@ public class Order extends BaseEntity {
         super(dto);
     }
 
-    public Order(Integer totalPrice, String shippingStatus, Long shippingFee, Long receiverId, Long userId, Integer status) {
+    public Order(Long totalPrice, String shippingStatus, Long shippingFee, Long receiverId, Long userId, Integer status) {
         this.totalPrice = totalPrice;
         this.shippingStatus = shippingStatus;
         this.shippingFee = shippingFee;
@@ -70,12 +70,21 @@ public class Order extends BaseEntity {
         this.status = Status.values()[status];
     }
 
-    public Order(Integer totalPrice, String shippingStatus, Long shippingFee, Long receiverId, Long userId, Status status) {
+    public Order(Long totalPrice, String shippingStatus, Long shippingFee, Long receiverId, Long userId, Status status) {
         this.totalPrice = totalPrice;
         this.shippingStatus = shippingStatus;
         this.shippingFee = shippingFee;
         this.receiverId = receiverId;
         this.userId = userId;
         this.status = status;
+    }
+
+    public Order(Long totalPrice, String shippingStatus, Long shippingFee, Receiver receiver, Long userId, List<OrderDetail> orderDetails) {
+        this.totalPrice = totalPrice;
+        this.shippingStatus = shippingStatus;
+        this.shippingFee = shippingFee;
+        this.receiver = receiver;
+        this.userId = userId;
+        this.orderDetails = orderDetails;
     }
 }

@@ -11,15 +11,15 @@ import lombok.*;
 public class OrderDetail extends BaseEntity {
     private Long price;
 
-    @ManyToOne(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
-    @JoinColumn(name = "order_id", insertable=false, updatable=false)
+    @ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+    @JoinColumn(name = "order_id", insertable = false, updatable = false)
     private Order order;
 
-    @Column(name = "order_id")
+    @Column(name = "order_id", nullable = false)
     private Long orderId;
 
-    @ManyToOne(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
-    @JoinColumn(name = "product_id", insertable=false, updatable=false)
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "product_id", insertable = false, updatable = false)
     private Product product;
 
     @Column(name = "product_id")

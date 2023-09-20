@@ -17,7 +17,6 @@ import java.util.List;
 @AllArgsConstructor
 @NoArgsConstructor
 public class OrderDTO extends BaseDTO {
-    private Long id;
     private Integer totalPrice;
     private String shippingStatus;
     private Long shippingFee;

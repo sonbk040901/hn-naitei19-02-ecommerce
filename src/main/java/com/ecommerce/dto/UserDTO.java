@@ -20,7 +20,6 @@ import lombok.*;
 @NoArgsConstructor
 @AllArgsConstructor
 public class UserDTO extends BaseDTO {
-    private Long id;
     private String username;
     private String password;
     private Integer role;

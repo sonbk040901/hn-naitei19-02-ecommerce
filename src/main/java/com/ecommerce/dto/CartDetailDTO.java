@@ -1,22 +1,21 @@
 package com.ecommerce.dto;
 
-
 import lombok.*;
 
 /**
  * @Project: hn-naitei19-02-ecommerce
  * @Author: sonle
- * @Date: 16/09/2023
- * @Time: 00:52
+ * @Date: 19/09/2023
+ * @Time: 15:19
  */
 @Getter
 @Setter
-@ToString
+@ToString(callSuper = true)
 @NoArgsConstructor
 @AllArgsConstructor
-public class OrderDetailDTO extends BaseDTO {
-    private Long price;
-    private Long orderId;
-    private Long productId;
+public class CartDetailDTO extends BaseDTO {
+    private Long cart_id;
+    private Long product_id;
+    private Integer price;
     private Integer quantity;
 }

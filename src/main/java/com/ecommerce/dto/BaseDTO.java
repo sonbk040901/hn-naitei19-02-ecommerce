@@ -2,6 +2,7 @@ package com.ecommerce.dto;
 
 import com.ecommerce.model.BaseEntity;
 import lombok.AllArgsConstructor;
+import lombok.Data;
 import lombok.NoArgsConstructor;
 import org.springframework.beans.BeanUtils;
 
@@ -13,9 +14,11 @@ import org.springframework.beans.BeanUtils;
  */
 @NoArgsConstructor
 @AllArgsConstructor
+@Data
 public abstract class BaseDTO {
     private Integer page = 1;
     private Integer perPage = 3;
+    protected Long id;
 
     public BaseDTO(BaseEntity entity) {
         fromEntity(entity);
