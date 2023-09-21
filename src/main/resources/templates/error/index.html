@@ -1,10 +1,32 @@
 <!DOCTYPE html>
-<html lang="en" xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
+<html lang="en"
+      xmlns:th="http://www.thymeleaf.org"
+      xmlns="http://www.w3.org/1999/xhtml"
+>
 <head>
-    <meta charset="UTF-8">
-    <title>Error</title>
+    <meta charset="UTF-8"/>
+    <meta http-equiv="X-UA-Compatible" content="IE=edge"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+    <title>${title}</title>
+    <link rel="stylesheet" th:href="@{css/custom/404.css}"/>
+    <script
+            src="https://kit.fontawesome.com/66aa7c98b3.js"
+            crossorigin="anonymous"
+    ></script>
 </head>
 <body>
-<h1 th:text="${errorMessage}"></h1>
+<div class="container">
+    <div class="gif">
+        <img src="https://cdn.dribbble.com/users/722246/screenshots/3066818/404-page.gif" alt="gif_ing"/>
+    </div>
+<!--    <div class="content">-->
+<!--        <h1 th:text="${header}" class="main-heading"></h1>-->
+<!--        <p th:text="${messages}">-->
+<!--        </p>-->
+<!--        <a th:href="@{/}">-->
+<!--            <button >Trở về màn hình chính <i class="far fa-hand-point-right"></i></button>-->
+<!--        </a>-->
+<!--    </div>-->
+</div>
 </body>
 </html>
