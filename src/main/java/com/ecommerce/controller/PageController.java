@@ -13,6 +13,6 @@ public class PageController {
 
 	@RequestMapping("/")
 	public String homepage() {
-		return "index";
+		return "user/index";
 	}
 }
