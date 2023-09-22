@@ -9,6 +9,7 @@ import org.springframework.data.domain.Sort;
 import com.ecommerce.dao.AccountDAO;
 import com.ecommerce.dao.CartDAO;
 import com.ecommerce.dao.CartDetailDAO;
+import com.ecommerce.dao.CategoryDAO;
 import com.ecommerce.dao.OrderDAO;
 import com.ecommerce.dao.OrderDetailDAO;
 import com.ecommerce.dao.ProductDAO;
@@ -48,4 +49,7 @@ public abstract class BaseService {
 
     @Autowired
     protected ProductDAO productDAO;
+
+    @Autowired
+    protected CategoryDAO categoryDAO;
 }

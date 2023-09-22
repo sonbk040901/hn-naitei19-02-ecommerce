@@ -16,8 +16,9 @@ public class ProductDTO extends BaseDTO {
     private String name;
     private String description;
     private String thumbnail;
-    private Integer price;
+    private Long price;
     private Integer quantity;
     private Integer numberOfSale;
     private Float rating;
+    private Long categoryId;
 }

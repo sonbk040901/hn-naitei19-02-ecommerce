@@ -19,8 +19,10 @@ public interface ProductDAO extends DAO<Long, Product> {
         @Query("""
                         select p from Product p where
                         (:name IS NULL OR p.name like %:name% ) AND
-                        (:minPrice IS NULL OR p.price >:minPrice ) AND
-                        (:maxPrice IS NULL OR p.price <:maxPrice )
+                        (:minPrice IS NULL OR p.price >= :minPrice ) AND
+                        (:maxPrice IS NULL OR p.price <= :maxPrice ) AND
+                        (:category IS NULL OR p.category.name = :category ) OR
+                        (:category IS NULL OR p.category.parent.name = :category )
                         """)
-        List<Product> findByConditions(String name, Integer minPrice, Integer maxPrice);
+        List<Product> findByConditions(String name, Long minPrice, Long maxPrice, String category);
 }
