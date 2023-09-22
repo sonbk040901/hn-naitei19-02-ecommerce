@@ -1,0 +1,158 @@
+<html
+  xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+  xmlns:th="http://www.thymeleaf.org"
+  xmlns="http://www.w3.org/1999/xhtml"
+  lang="vi"
+  layout:decorate="~{layouts/user/layout}"
+>
+  <head>
+    <link rel="stylesheet" th:href="@{css/custom/user/home.css}" />
+  </head>
+
+  <div layout:fragment="content">
+    <div class="container bootdey">
+      <div class="col-md-3">
+        <!-- Categories -->
+        <section class="panel panel-margin">
+          <header class="panel-heading"><a href="/">Category</a></header>
+          <div class="panel-body">
+            <ul class="nav prod-cat">
+              <li th:each="category : ${categories}">
+                <a
+                  th:href="@{'/' + ${category.name}}"
+                  th:if="${category.name} == ${categoryName}"
+                  class="active"
+                  ><i class="fa fa-angle-right"></i>
+                  <span th:text="${category.name}"></span
+                ></a>
+
+                <a
+                  th:href="@{'/' + ${category.name}}"
+                  th:unless="${category.name} == ${categoryName}"
+                  ><i class="fa fa-angle-right"></i>
+                  <span th:text="${category.name}"></span
+                ></a>
+
+                <ul class="nav">
+                  <li th:each="children : ${category.children}">
+                    <a
+                      class="active"
+                      th:if="${children.name} == ${categoryName}"
+                      th:href="@{'/' + ${children.name}}"
+                      th:text="${children.name}"
+                    ></a>
+                    <a
+                      th:unless="${children.name} == ${categoryName}"
+                      th:href="@{'/' + ${children.name}}"
+                      th:text="${children.name}"
+                    ></a>
+                  </li>
+                </ul>
+                <span class="prod-cat-das"></span>
+              </li>
+            </ul>
+          </div>
+        </section>
+        <!-- Price -->
+        <section class="panel panel-margin">
+          <header class="panel-heading">Filter</header>
+          <div class="panel-body">
+            <form role="form product-form" action="" method="get">
+              <div class="form-group">
+                <label>Price</label>
+                <select class="form-control hasCustomSelect" name="minPrice">
+                  <option value="0">0 VND</option>
+                  <option value="500000">500,000VND</option>
+                  <option value="1000000">1,000,000VND</option>
+                  <option value="2000000">2,000,000VND</option>
+                  <option value="5000000">5,000,000 VND</option>
+                </select>
+              </div>
+              <button type="submit" class="btn btn-primary mt-1">Filter</button>
+            </form>
+          </div>
+        </section>
+        <!-- Best seller -->
+        <section class="panel">
+          <header class="panel-heading">Best Seller</header>
+          <div class="panel-body">
+            <div class="best-seller">
+              <div class="card">
+                <img
+                  class="card-img-top"
+                  src="https://www.bootdey.com/image/250x220/A2BE2/000000"
+                  alt="Card image cap"
+                />
+                <div class="card-body">
+                  <a class="card-title">Card title</a>
+                  <p class="card-text">
+                    Some quick example text to build on the card title and make
+                    up the bulk of the card's content.
+                  </p>
+                </div>
+              </div>
+
+              <div class="card">
+                <img
+                  class="card-img-top"
+                  src="https://www.bootdey.com/image/250x220/A2BE2/000000"
+                  alt="Card image cap"
+                />
+                <div class="card-body">
+                  <a class="card-title">Card title</a>
+                  <p class="card-text">
+                    Some quick example text to build on the card title and make
+                    up the bulk of the card's content.
+                  </p>
+                </div>
+              </div>
+            </div>
+          </div>
+        </section>
+      </div>
+
+      <div class="col-md-9">
+        <section class="panel panel-margin panel-pagination">
+          <div class="panel-body">
+            <nav aria-label="Page navigation example">
+              <ul class="pagination">
+                <li class="page-item"><a class="page-link" href="#">1</a></li>
+                <li class="page-item"><a class="page-link" href="#">2</a></li>
+                <li class="page-item"><a class="page-link" href="#">3</a></li>
+                <li class="page-item">
+                  <a class="page-link" href="#" aria-label="Next">
+                    <span aria-hidden="true">&raquo;</span>
+                    <span class="sr-only">Next</span>
+                  </a>
+                </li>
+              </ul>
+            </nav>
+          </div>
+        </section>
+        <div class="row product-list">
+          <div class="col-md-4" th:each="product : ${products}">
+            <section class="panel panel-margin">
+              <div class="pro-img-box">
+                <img th:src="@{${product.thumbnail}}" alt="" />
+                <a href="#" class="adtocart">
+                  <i class="fa fa-shopping-cart"></i>
+                </a>
+              </div>
+
+              <div class="panel-body text-center">
+                <h4>
+                  <a
+                    th:href="@{'/products/' + ${product.id}}"
+                    class="pro-title"
+                    th:text="${product.name}"
+                  ></a>
+                </h4>
+                <p class="price" th:text="@{${product.price} + ' ' +'VND'}"></p>
+              </div>
+            </section>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</html>

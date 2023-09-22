@@ -1,11 +1,12 @@
 package com.ecommerce.model;
 
-import jakarta.persistence.CascadeType;
+import java.util.List;
+
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
-import jakarta.persistence.FetchType;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
+import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
@@ -20,7 +21,11 @@ public class Category extends BaseEntity {
 
     private String name;
 
-    @ManyToOne(fetch = FetchType.LAZY)
+    @OneToMany()
+    @JoinColumn(name = "parent_id")
+    private List<Category> children;
+
+    @ManyToOne
     @JoinColumn(name = "parent_id", insertable = false, updatable = false)
     private Category parent;
 

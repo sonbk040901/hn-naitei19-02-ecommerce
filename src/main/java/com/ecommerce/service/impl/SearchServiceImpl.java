@@ -13,8 +13,8 @@ import com.ecommerce.service.SearchService;
 public class SearchServiceImpl extends BaseService implements SearchService {
 
     @Override
-    public List<ProductDTO> search(String name, Integer minPrice, Integer maxPrice) {
-        List<Product> list = productDAO.findByConditions(name, minPrice, maxPrice);
+    public List<ProductDTO> search(String name, Long minPrice, Long maxPrice, String category) {
+        List<Product> list = productDAO.findByConditions(name, minPrice, maxPrice, category);
         return list.stream().map(this::mapToProductDTO).toList();
     }
 
