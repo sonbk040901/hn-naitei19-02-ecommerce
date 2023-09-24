@@ -1,0 +1,228 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{layouts/user/layout}"
+      xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.3.0/css/font-awesome.min.css" rel="stylesheet"/>
+    <link rel="stylesheet" th:href="@{/css/custom/product/detail.css}">
+</head>
+<body>
+<section layout:fragment="content">
+
+    <div class="product-content product-wrap clearfix product-deatil">
+        <div class="row">
+            <div class="col-md-5 col-sm-12 col-xs-12">
+                <div class="product-image">
+                    <div id="carouselExampleIndicators" class="carousel slide" data-ride="carousel">
+
+                        <ol class="carousel-indicators">
+                            <li th:each="image, i :${product.getProductImages()}"
+                                data-target="#carouselExampleIndicators"
+                                th:data-slide-to="${i.index}" th:classappend="${i.index} == 0 ? 'active' : ''"></li>
+                            <!--                                <li data-target="#carouselExampleIndicators" data-slide-to="1"></li>-->
+                            <!--                                <li data-target="#carouselExampleIndicators" data-slide-to="2"></li>-->
+                        </ol>
+                        <div class="carousel-inner">
+                            <!-- Slide 1 -->
+                            <div th:each="image, i :${product.getProductImages()}" class="carousel-item" th:classappend="${i.index} == 0 ? 'active' : ''">
+                                <img th:src="${image.image}"
+                                     class="d-block w-100 img-slide" alt=""/>
+                            </div>
+                            <!--                                &lt;!&ndash; Slide 2 &ndash;&gt;-->
+                            <!--                                <div class="carousel-item">-->
+                            <!--                                    <img src="https://www.bootdey.com/image/700x400/87CEFA/000000"-->
+                            <!--                                         class="d-block w-100" alt=""/>-->
+                            <!--                                </div>-->
+                            <!--                                &lt;!&ndash; Slide 3 &ndash;&gt;-->
+                            <!--                                <div class="carousel-item">-->
+                            <!--                                    <img src="https://www.bootdey.com/image/700x400/B0C4DE/000000"-->
+                            <!--                                         class="d-block w-100" alt=""/>-->
+                            <!--                                </div>-->
+
+                        </div>
+
+                        <button class="carousel-control-prev" type="button" data-target="#carouselExampleIndicators"
+                                data-slide="prev">
+                            <span class="carousel-control-prev-icon icon-slide" aria-hidden="true"></span>
+                            <span class="sr-only">Previous</span>
+                        </button>
+                        <button class="carousel-control-next" type="button" data-target="#carouselExampleIndicators"
+                                data-slide="next">
+                            <span class="carousel-control-next-icon icon-slide" aria-hidden="true"></span>
+                            <span class="sr-only">Next</span>
+                        </button>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-md-6 col-md-offset-2 ml-auto col-sm-12 col-xs-12">
+                <h2 class="name" th:text="${product.name}">
+                </h2>
+
+                <i class="fa fa-star fa-2x text-primary"></i>
+                <i class="fa fa-star fa-2x text-primary"></i>
+                <i class="fa fa-star fa-2x text-primary"></i>
+                <i class="fa fa-star fa-2x text-primary"></i>
+                <i class="fa fa-star fa-2x text-muted"></i>
+                <span th:text="${product.numberOfSale}" class="ml-2"></span><small class="ml-1">lượt mua</small>
+                <hr/>
+                <h3 class="price-container"
+                    th:text="${#numbers.formatDecimal(product.price, 0, 'COMMA', 0, 'POINT')} + ' VND'">
+                </h3>
+                <hr/>
+                <div class="description description-tabs">
+                    <ul id="pills-tab" class="nav nav-pills" role="tablist">
+                        <li class="nav-item" role="presentation">
+                            <button class="nav-link active" id="pills-desc-tab" data-toggle="pill"
+                                    data-target="#pills-desc" type="button" role="tab" aria-controls="pills-desc"
+                                    aria-selected="true">Mô tả
+                            </button>
+                        </li>
+                        <!--                        <li class="nav-item" role="presentation">-->
+                        <!--                            <button class="nav-link" id="pills-profile-tab" data-toggle="pill"-->
+                        <!--                                    data-target="#pills-profile" type="button" role="tab" aria-controls="pills-profile"-->
+                        <!--                                    aria-selected="false">Thông số khác-->
+                        <!--                            </button>-->
+                        <!--                        </li>-->
+                        <li class="nav-item" role="presentation">
+                            <button class="nav-link" id="pills-contact-tab" data-toggle="pill"
+                                    data-target="#pills-contact" type="button" role="tab" aria-controls="pills-contact"
+                                    aria-selected="false">Đánh giá
+                            </button>
+                        </li>
+                    </ul>
+                    <div class="tab-content" id="pills-tabContent">
+                        <div class="tab-pane fade show active" id="pills-desc" role="tabpanel"
+                             aria-labelledby="pills-desc-tab">
+                            <br/>
+                            <strong th:text="${product.name}">Description Title</strong>
+                            <p th:text="${product.description}">
+                                Integer egestas, orci id condimentum eleifend, nibh nisi pulvinar eros, vitae ornare
+                                massa neque ut orci. Nam aliquet lectus sed odio eleifend, at iaculis dolor egestas.
+                                Nunc elementum pellentesque augue
+                                sodales porta. Etiam aliquet rutrum turpis, feugiat sodales ipsum consectetur nec.
+                            </p>
+                        </div>
+                        <div class="tab-pane fade" id="pills-profile" role="tabpanel"
+                             aria-labelledby="pills-profile-tab">
+                            <br/>
+                            <dl class="">
+                                <dt>Gravina</dt>
+                                <dd>Etiam porta sem malesuada magna mollis euismod.</dd>
+                                <dd>Donec id elit non mi porta gravida at eget metus.</dd>
+                                <dd>Eget lacinia odio sem nec elit.</dd>
+                                <br/>
+
+                                <dt>Test lists</dt>
+                                <dd>A description list is perfect for defining terms.</dd>
+                                <br/>
+
+                                <dt>Altra porta</dt>
+                                <dd>Vestibulum id ligula porta felis euismod semper</dd>
+                            </dl>
+                        </div>
+                        <div class="tab-pane fade" id="pills-contact" role="tabpanel"
+                             aria-labelledby="pills-contact-tab">
+                            <br/>
+                            <form method="post" class="well padding-bottom-10" onsubmit="return false;">
+                                <textarea rows="2" class="form-control" placeholder="Write a review"></textarea>
+                                <div class="margin-top-10">
+                                    <button type="submit" class="btn btn-sm btn-primary pull-right">
+                                        Submit Review
+                                    </button>
+                                    <a href="javascript:void(0);" class="btn btn-link profile-link-btn"
+                                       rel="tooltip" data-placement="bottom" title=""
+                                       data-original-title="Add Location"><i class="fa fa-location-arrow"></i></a>
+                                    <a href="javascript:void(0);" class="btn btn-link profile-link-btn"
+                                       rel="tooltip" data-placement="bottom" title=""
+                                       data-original-title="Add Voice"><i class="fa fa-microphone"></i></a>
+                                    <a href="javascript:void(0);" class="btn btn-link profile-link-btn"
+                                       rel="tooltip" data-placement="bottom" title=""
+                                       data-original-title="Add Photo"><i class="fa fa-camera"></i></a>
+                                    <a href="javascript:void(0);" class="btn btn-link profile-link-btn"
+                                       rel="tooltip" data-placement="bottom" title=""
+                                       data-original-title="Add File"><i class="fa fa-file"></i></a>
+                                </div>
+                            </form>
+
+                            <div class="chat-body no-padding profile-message">
+                                <ul>
+                                    <li class="message">
+                                        <img src="https://bootdey.com/img/Content/avatar/avatar1.png"
+                                             class="online" alt=""/>
+                                        <span class="message-text">
+                                            <a href="javascript:void(0);" class="username">
+                                                Alisha Molly
+                                                <span class="badge">Purchase Verified</span>
+                                                <span class="pull-right">
+                                                    <i class="fa fa-star fa-2x text-primary"></i>
+                                                    <i class="fa fa-star fa-2x text-primary"></i>
+                                                    <i class="fa fa-star fa-2x text-primary"></i>
+                                                    <i class="fa fa-star fa-2x text-primary"></i>
+                                                    <i class="fa fa-star fa-2x text-muted"></i>
+                                                </span>
+                                            </a>
+                                            Can't divide were divide fish forth fish to. Was can't form the, living life grass darkness very image let unto fowl isn't in blessed fill life yielding above all moved
+                                        </span>
+                                        <ul class="list-inline font-xs">
+                                            <li>
+                                                <a href="javascript:void(0);" class="text-info"><i
+                                                        class="fa fa-thumbs-up"></i> This was helpful (22)</a>
+                                            </li>
+                                            <li class="pull-right">
+                                                <small class="text-muted pull-right ultra-light"> Posted 1 year
+                                                    ago </small>
+                                            </li>
+                                        </ul>
+                                    </li>
+                                    <li class="message">
+                                        <img src="https://bootdey.com/img/Content/avatar/avatar2.png"
+                                             class="online"/>
+                                        <span class="message-text">
+                                            <a href="javascript:void(0);" class="username">
+                                                Aragon Zarko
+                                                <span class="badge">Purchase Verified</span>
+                                                <span class="pull-right">
+                                                    <i class="fa fa-star fa-2x text-primary"></i>
+                                                    <i class="fa fa-star fa-2x text-primary"></i>
+                                                    <i class="fa fa-star fa-2x text-primary"></i>
+                                                    <i class="fa fa-star fa-2x text-primary"></i>
+                                                    <i class="fa fa-star fa-2x text-primary"></i>
+                                                </span>
+                                            </a>
+                                            Excellent product, love it!
+                                        </span>
+                                        <ul class="list-inline font-xs">
+                                            <li>
+                                                <a href="javascript:void(0);" class="text-info"><i
+                                                        class="fa fa-thumbs-up"></i> This was helpful (22)</a>
+                                            </li>
+                                            <li class="pull-right">
+                                                <small class="text-muted pull-right ultra-light"> Posted 1 year
+                                                    ago </small>
+                                            </li>
+                                        </ul>
+                                    </li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <hr/>
+                <div class="row">
+                    <div class="col-sm-12 col-md-6 col-lg-6">
+                        <a href="javascript:void(0);" class="btn form-control add-cart-btn">Thêm vào giỏ hàng</a>
+                    </div>
+                    <div class="col-sm-12 col-md-6 col-lg-6">
+                        <a href="javascript:void(0);" class="btn form-control order-btn">Mua ngay</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+</body>
+</html>

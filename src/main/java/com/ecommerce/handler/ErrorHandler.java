@@ -1,5 +1,6 @@
 package com.ecommerce.handler;
 
+import com.ecommerce.exception.NotFound;
 import org.springframework.http.HttpStatus;
 import lombok.NonNull;
 import org.springframework.ui.Model;
@@ -28,13 +29,12 @@ public class ErrorHandler {
         return new Error(errorMessage, e.getFieldError().getField());
     }
 
-    @ExceptionHandler(NoHandlerFoundException.class)
+    @ExceptionHandler({NoHandlerFoundException.class, NotFound.class} )
     @ResponseStatus(HttpStatus.NOT_FOUND)
     public String handleNotFoundException(Model model) {
         model.addAttribute("title", "404 Not Found!!!");
         model.addAttribute("header", "Phát hiện lỗi 404");
         model.addAttribute("message", "Không tìm thấy trang bạn yêu cầu");
-        System.out.println("404");
         return "error/index";
     }
 
@@ -43,6 +43,7 @@ public class ErrorHandler {
     public String exception(
             @NonNull final Throwable throwable,
             @NonNull final Model model) {
+        throwable.printStackTrace();
         model.addAttribute("title", "500 Internal server error!!!");
         model.addAttribute("header", "Phát hiện lỗi server 500");
         model.addAttribute("message", "Do coder của chúng tôi quá phèn, chưa bắt được hết lỗi, mong bạn thông cảm");
