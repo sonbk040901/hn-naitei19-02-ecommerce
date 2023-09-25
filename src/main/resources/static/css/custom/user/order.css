@@ -1,0 +1,263 @@
+@import url('https://fonts.googleapis.com/css2?family=Roboto&display=swap');
+
+/*body{*/
+
+/*    background-color: #eee;*/
+/*    font-family: 'Roboto', sans-serif;*/
+/*}*/
+
+.main {
+    border-collapse: separate !important;
+    border-spacing: 0 1px !important;
+}
+
+.form-check-input:focus {
+    border-color: #8bbafe;
+    outline: 0;
+    box-shadow: none;
+}
+
+.btn:focus {
+    color: #fff;
+    box-shadow: none !important;
+}
+
+.filter-btn {
+    --color: #0194d0;
+    background-color: transparent;
+    border: 1px solid var(--color);
+    border-radius: 5px;
+    color: var(--color);
+    transition: .2s ease-in-out;
+    font-size: 12px;
+}
+
+.filter-btn:hover,
+.filter-btn.active {
+    background-color: var(--color);
+    border-radius: 5px;
+    color: var(--white);
+}
+.order_status{
+    font-size: .8em;
+    font-weight: 600;
+    width: 200px;
+    height: 100px;
+    top: -70px;
+    right: -70px;
+    transform: rotate(45deg) translate(37px);
+}
+.order_status.pending{
+    background-color: #c2b398;
+}
+input[type="date"]::-webkit-calendar-picker-indicator {
+    background-image: url('/images/icons8-calendar-96.png');
+    background-position: center;
+    background-repeat: no-repeat;
+    background-size: 25px;
+    cursor: pointer;
+}
+
+.date-picker {
+    --color: #0194d0;
+    width: 140px;
+    outline: none;
+    border: 1px solid var(--color);
+    border-radius: 5px;
+    color: var(--color);
+}
+
+/*#filter-btn{*/
+/*    background-color: transparent;*/
+/*    border: 1px solid orange;*/
+/*    border-radius: 5px;*/
+/*    color: orange;*/
+/*    transition: .2s ease-in-out;*/
+/*    font-size: 12px;*/
+/*}*/
+.order-color {
+    color: blue;
+}
+
+.main {
+    margin-top: 1rem;
+}
+
+#sidebar {
+    width: 20%;
+}
+
+#order-table {
+    width: 80%;
+    padding: 0 2rem;
+}
+
+.orders {
+    display: flex;
+    gap: 12px calc((100% - 32.5% * 3) / 2);
+    flex-wrap: wrap;
+    margin-top: 1rem;
+    margin-bottom: 1rem;
+    height: calc(250px * 2 + 12px);
+}
+
+.order_card {
+    width: 32.5%;
+    height: 250px;
+}
+
+.first-product {
+    width: 100%;
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 1rem;
+    gap: 10px;
+}
+
+.img-thumbnail {
+    width: 100px;
+    height: 100px;
+    object-fit: contain;
+}
+
+.product-desc {
+    width: calc(100% - 110px);
+}
+
+/*.first-product{*/
+/*    w*/
+/*}*/
+.payments-item img.mr-3 {
+    width: 47px;
+}
+
+.order-list .btn {
+    border-radius: 2px;
+    min-width: 121px;
+    font-size: 13px;
+    padding: 7px 0 7px 0;
+}
+
+.osahan-account-page-left .nav-link {
+    padding: 18px 20px;
+    border: none;
+    font-weight: 600;
+    color: #535665;
+}
+
+.osahan-account-page-left .nav-link i {
+    width: 28px;
+    height: 28px;
+    background: #535665;
+    display: inline-block;
+    text-align: center;
+    line-height: 29px;
+    font-size: 15px;
+    border-radius: 50px;
+    margin: 0 7px 0 0px;
+    color: #fff;
+}
+
+.osahan-account-page-left .nav-link.active {
+    background: #f3f7f8;
+    color: #282c3f !important;
+}
+
+.osahan-account-page-left .nav-link.active i {
+    background: #282c3f !important;
+}
+
+.osahan-user-media img {
+    width: 90px;
+}
+
+.card offer-card h5.card-title {
+    border: 2px dotted #000;
+}
+
+.card.offer-card h5 {
+    border: 1px dotted #daceb7;
+    display: inline-table;
+    color: #17a2b8;
+    margin: 0 0 19px 0;
+    font-size: 15px;
+    padding: 6px 10px 6px 6px;
+    border-radius: 2px;
+    background: #fffae6;
+    position: relative;
+}
+
+.card.offer-card h5 img {
+    height: 22px;
+    object-fit: cover;
+    width: 22px;
+    margin: 0 8px 0 0;
+    border-radius: 2px;
+}
+
+.card.offer-card h5:after {
+    border-left: 4px solid transparent;
+    border-right: 4px solid transparent;
+    border-bottom: 4px solid #daceb7;
+    content: "";
+    left: 30px;
+    position: absolute;
+    bottom: 0;
+}
+
+.card.offer-card h5:before {
+    border-left: 4px solid transparent;
+    border-right: 4px solid transparent;
+    border-top: 4px solid #daceb7;
+    content: "";
+    left: 30px;
+    position: absolute;
+    top: 0;
+}
+
+.payments-item .media {
+    align-items: center;
+}
+
+.payments-item .media img {
+    margin: 0 40px 0 11px !important;
+}
+
+.reviews-members .media .mr-3 {
+    width: 56px;
+    height: 56px;
+    object-fit: cover;
+}
+
+.order-list img.mr-4 {
+    width: 70px;
+    height: 70px;
+    object-fit: cover;
+    box-shadow: 0 .125rem .25rem rgba(0, 0, 0, .075) !important;
+    border-radius: 2px;
+}
+
+.osahan-cart-item p.text-gray.float-right {
+    margin: 3px 0 0 0;
+    font-size: 12px;
+}
+
+.osahan-cart-item .food-item {
+    vertical-align: bottom;
+}
+
+.h1, .h2, .h3, .h4, .h5, .h6, h1, h2, h3, h4, h5, h6 {
+    color: #000000;
+}
+
+.shadow-sm {
+    box-shadow: 0 .125rem .25rem rgba(0, 0, 0, .075) !important;
+}
+
+.rounded-pill {
+    border-radius: 50rem !important;
+}
+
+a:hover {
+    text-decoration: none;
+}

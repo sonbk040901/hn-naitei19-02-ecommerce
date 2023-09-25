@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      xmlns:th="http://www.thymeleaf.org"
+      xmlns="http://www.w3.org/1999/xhtml"
+      lang="vi"
+      layout:decorate="~{layouts/user/layout}">
+>
+<head>
+    <meta charset="UTF-8">
+    <title>Danh sách hóa đơn</title>
+    <link rel="stylesheet" th:href="@{/css/custom/user/order.css}"/>
+    <script defer th:src="@{/js/custom/order.js}"></script>
+</head>
+<body>
+<section layout:fragment="content" class="h-100 main bg-transparent container-fluid d-flex flex-row">
+    <div id="sidebar">
+        <nav aria-label="breadcrumb">
+            <ol class="breadcrumb">
+                <li class="breadcrumb-item"><a th:href="@{/}">Trang chủ</a></li>
+                <li class="breadcrumb-item active" aria-current="page">Hóa đơn</li>
+            </ol>
+        </nav>
+        <div class="border-bottom pb-2 ml-2">
+            <h4>Lọc hóa đơn</h4>
+        </div>
+        <div id="time" class="py-2 border-bottom ml-3">
+            <h6 class="font-weight-bold mb-3">Thời gian tạo</h6>
+            <div class="mt-2 d-flex flex-wrap" style="gap: 10px">
+                <input type="date" th:value="${#dates.format(filter.from, 'YYYY-MM-dd')}" class="date-picker py-1 px-2"
+                       id="from_date"/>
+                <input type="date" th:value="${#dates.format(filter.to, 'YYYY-MM-dd')}" class="date-picker py-1 px-2"
+                       id="to_date"/>
+            </div>
+        </div>
+        <div id="status" class="py-2 border-bottom ml-3 flex-wrap">
+            <h6 class="font-weight-bold mb-3">Trạng thái</h6>
+            <div class="mt-2 d-flex flex-wrap" style="gap: 10px">
+                <label data-value="" th:classappend="${filter.s}==''? 'active':''" class="btn filter-btn btn-sm">Tất
+                    cả</label>
+                <label data-value="pending" th:classappend="${filter.s}=='pending'? 'active':''"
+                       class="btn filter-btn btn-sm">Đang
+                    chờ
+                </label>
+                <label data-value="accepted" th:classappend="${filter.s}=='accepted'? 'active':''"
+                       class="btn filter-btn btn-sm">Xác nhận</label>
+                <label data-value="rejected" th:classappend="${filter.s}=='rejected'? 'active':''"
+                       class="btn filter-btn btn-sm">Từ chối</label>
+                <label data-value="cancelled" th:classappend="${filter.s}=='cancelled'? 'active':''"
+                       class="btn filter-btn btn-sm">Hủy</label>
+                <label data-value="shipping" th:classappend="${filter.s}=='shipping'? 'active':''"
+                       class="btn filter-btn btn-sm">Đang giao</label>
+                <label data-value="completed" th:classappend="${filter.s}=='completed'? 'active':''"
+                       class="btn filter-btn btn-sm">Đã giao</label>
+            </div>
+        </div>
+        <div class="py-2 pt-3 ml-3 flex-wrap">
+            <span id="filter-btn" class="btn btn-sm btn-primary rounded-lg">Lọc hóa đơn</span>
+        </div>
+    </div>
+    <div id="order-table" class="">
+        <section class="orders">
+            <h2 th:if="${to==0}">Không có hóa đơn nào được tìm thấy -> <a th:href="@{/orders}">xóa bộ lọc</a></h2>
+            <th:block th:each="order :${orders}">
+                <div th:replace="~{fragments/order ::
+                        order(
+                        ${order.id},
+                        ${order.firstProduct},
+                        ${order.getOrderDetails().size()},
+                        ${order.orderDetails.get(0).quantity},
+                        ${order.totalPrice},
+                        ${order.status},
+                        ${#dates.format(order.createdAt, 'dd/MM/yyyy')}
+                        )}"
+                >
+                </div>
+            </th:block>
+        </section>
+        <div class="table-footer d-flex justify-content-between align-items-end">
+            <p>
+                <span th:text="${from}"></span>-<span th:text="${to}"></span>
+                trong tổng số <span th:text="${totalItems}"></span> hóa đơn
+            </p>
+            <div th:replace="~{fragments/pagination :: pagination('orders?'+'from='+${filter.from==null?'':#dates.format(filter.from, 'YYYY-MM-dd')}+'&to='+${filter.to ==null?'': #dates.format(filter.to, 'YYYY-MM-dd')}+'&s='+${filter.s}, ${totalPages}, ${currentPage})}"></div>
+        </div>
+    </div>
+</section>
+</body>
+</html>

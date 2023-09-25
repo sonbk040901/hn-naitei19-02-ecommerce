@@ -2,6 +2,7 @@ package com.ecommerce.controller;
 
 import java.util.List;
 
+import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
@@ -19,15 +20,14 @@ import com.ecommerce.service.CategoryService;
 import com.ecommerce.service.SearchService;
 
 @Controller
+@RequiredArgsConstructor
 public class HomeController {
 
-    @Autowired
-    private SearchService searchService;
+    private final SearchService searchService;
 
-    @Autowired
-    private CategoryService categoryService;
+    private final CategoryService categoryService;
 
-    @GetMapping(value = { "/", "search" })
+    @GetMapping(value = {"/", "search"})
     public ModelAndView index(
             @RequestParam(required = false) String name,
             @RequestParam(required = false) Long minPrice,
