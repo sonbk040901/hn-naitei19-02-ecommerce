@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html
+        xmlns:th="http://www.thymeleaf.org"
+        xmlns="http://www.w3.org/1999/xhtml"
+        lang="vi"
+>
+<head>
+    <meta charset="UTF-8">
+    <title></title>
+</head>
+<body>
+
+<div class="order_card bg-light card order-list shadow-sm"
+     th:fragment="order(id, product, quantity, total, status, created_at)">
+    <a th:href="@{/orders/{id}(id=${id})}" class="p-3 d-flex flex-column align-items-lg-stretch text-dark">
+        <div class="first-product d-flex">
+            <img class="img-thumbnail" th:src="${product.thumbnail}" alt="first_product">
+            <div class="product-desc flex-grow-1">
+                <p style="line-height: 2.5em; font-size: 1.1em; font-weight: 500;"
+                   class="text-nowrap text-truncate"
+                   th:text="${product.name}"
+                   th:title="${product.name}"></p>
+                <p style="text-align: end">Số lượng: <span th:text="${quantity}"></span></p>
+            </div>
+        </div>
+        <div>
+            <hr style="width: 100px">
+        </div>
+        <div>
+            <p>Trạng thái:
+                <span th:if="${status}==0" class="badge badge-info">Đang chờ</span>
+                <span th:if="${status}==1" class="badge badge-info">Đã xác nhận</span>
+                <span th:if="${status}==2" class="badge badge-info">Đã từ chối</span>
+                <span th:if="${status}==3" class="badge badge-info">Đã hủy</span>
+                <span th:if="${status}==4" class="badge badge-info">Đang giao</span>
+                <span th:if="${status}==5" class="badge badge-info">Giao thành công</span>
+            </p>
+            <hr>
+        </div>
+        <div class="d-flex justify-content-between">
+            <p class="text-gray"><span
+                    class="text-black font-weight-bold">
+                Thành tiền: </span><span
+                    th:text="${#numbers.formatDecimal(total, 3, 'COMMA', 0, 'POINT') + ' vnđ'}"></span>
+            </p>
+            <i th:text="${created_at}"></i>
+        </div>
+
+    </a>
+</div>
+</body>
+</html>

@@ -1,18 +1,11 @@
 package com.ecommerce.service.impl;
 
+import com.ecommerce.dao.*;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
-
-import com.ecommerce.dao.AccountDAO;
-import com.ecommerce.dao.CartDAO;
-import com.ecommerce.dao.CartDetailDAO;
-import com.ecommerce.dao.CategoryDAO;
-import com.ecommerce.dao.OrderDAO;
-import com.ecommerce.dao.OrderDetailDAO;
-import com.ecommerce.dao.ProductDAO;
 
 import lombok.Getter;
 import lombok.Setter;
@@ -38,6 +31,8 @@ public abstract class BaseService {
     protected CartDetailDAO cartDetailDAO;
     @Autowired
     protected OrderDetailDAO orderDetailDAO;
+    @Autowired
+    protected ReceiverDAO receiverDAO;
 
     protected Pageable getPageable(int page, int size) {
         return PageRequest.of(page - 1, size);

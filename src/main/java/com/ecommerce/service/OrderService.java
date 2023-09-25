@@ -1,10 +1,9 @@
 package com.ecommerce.service;
 
+import com.ecommerce.dto.FilterDTO;
 import com.ecommerce.dto.OrderDTO;
 import com.ecommerce.dto.ReceiverDTO;
 import org.springframework.data.domain.Page;
-
-import java.util.List;
 
 /**
  * @Project: hn-naitei19-02-ecommerce
@@ -14,5 +13,5 @@ import java.util.List;
  */
 public interface OrderService extends Service<Long, OrderDTO> {
     OrderDTO createOrder(Long userId, ReceiverDTO receiver);
-    Page<OrderDTO> findOrdersByUserId(Long userId, int page, int size);
+    Page<OrderDTO> findOrdersByUserId(Long userId, FilterDTO filterDTO);
 }

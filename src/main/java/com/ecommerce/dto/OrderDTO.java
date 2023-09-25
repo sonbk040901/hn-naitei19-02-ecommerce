@@ -3,6 +3,7 @@ package com.ecommerce.dto;
 import jakarta.validation.Valid;
 import lombok.*;
 
+import java.util.Date;
 import java.util.List;
 
 /**
@@ -27,4 +28,6 @@ public class OrderDTO extends BaseDTO {
     private Integer status;
     @Valid
     private List<OrderDetailDTO> orderDetails;
+    private ProductDTO firstProduct;
+    private Date createdAt;
 }

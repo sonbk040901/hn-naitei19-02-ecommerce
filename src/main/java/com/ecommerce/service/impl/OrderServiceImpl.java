@@ -1,12 +1,13 @@
 package com.ecommerce.service.impl;
 
+import com.ecommerce.dto.FilterDTO;
 import com.ecommerce.dto.OrderDTO;
+import com.ecommerce.dto.ProductDTO;
 import com.ecommerce.dto.ReceiverDTO;
 import com.ecommerce.exception.NotFound;
 import com.ecommerce.model.*;
 import com.ecommerce.service.OrderService;
 import org.modelmapper.TypeToken;
-import org.modelmapper.internal.bytebuddy.description.method.MethodDescription;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
@@ -56,10 +57,18 @@ public class OrderServiceImpl extends BaseService implements OrderService {
     }
 
     @Override
-    public Page<OrderDTO> findOrdersByUserId(Long userId, int page, int size) {
-        Pageable pageable = getPageable(page, size);
-        Page<Order> orders = orderDAO.findAllByUserId(userId, pageable);
-        return orders.map(order -> modelMapper.map(order, OrderDTO.class));
+    public Page<OrderDTO> findOrdersByUserId(Long userId, FilterDTO filter) {
+        Pageable pageable = getPageable(filter.getPage(), filter.getSize());
+        Order.Status status = filter.getStatusValue() != -1 ? Order.Status.values()[filter.getStatusValue()] : null;
+        Page<Order> orders = orderDAO.findAllByUserIdAndCreatedAtBetweenAndStatusLike(userId, filter.getFrom(), filter.getTo(), status, pageable);
+        return orders.map(o -> {
+            OrderDTO orderDTO = getMappedOrderDTO(o);
+            List<OrderDetail> orderDetails = o.getOrderDetails();
+            Product product = orderDetails.get(0).getProduct();
+            ProductDTO productDTO = modelMapper.map(product, ProductDTO.class);
+            orderDTO.setFirstProduct(productDTO);
+            return orderDTO;
+        });
     }
 
     @Override
@@ -83,10 +92,11 @@ public class OrderServiceImpl extends BaseService implements OrderService {
         }
         List<OrderDetail> orderDetails = new ArrayList<>();
         mapCartDetailToOrderDetail(cartDetails, orderDetails);
-        long totalPrice = orderDetails.stream().mapToLong(OrderDetail::getPrice).sum();
         long shippingFee = calculateShippingFee(orderDetails);
+        long totalPrice = calculateTotalPrice(orderDetails, shippingFee);
         Receiver receiver = modelMapper.map(receiverDTO, Receiver.class);
-        Order order = new Order(totalPrice, null, shippingFee, receiver, userId, null);
+        receiverDAO.save(receiver);
+        Order order = new Order(totalPrice, null, shippingFee, receiver.getId(), userId, 0);
         //Lưu order và orderDetails
         orderDAO.save(order);
         orderDetails.forEach(orderDetail -> {
@@ -95,7 +105,18 @@ public class OrderServiceImpl extends BaseService implements OrderService {
         });
         //Làm trống cart
         cartDAO.emptyCart(cart.getId());
-        return modelMapper.map(order, OrderDTO.class);
+        return getMappedOrderDTO(order);
+    }
+
+    private OrderDTO getMappedOrderDTO(Order order) {
+        return modelMapper
+                .typeMap(Order.class, OrderDTO.class)
+                .addMapping(Order::getStatusValue, OrderDTO::setStatus)
+                .map(order);
+    }
+
+    private static long calculateTotalPrice(List<OrderDetail> orderDetails, long shippingFee) {
+        return orderDetails.stream().mapToLong(od -> od.getPrice() * od.getQuantity()).sum() + shippingFee;
     }
 
 

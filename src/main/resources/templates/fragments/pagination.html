@@ -1,0 +1,29 @@
+<nav xmlns:th="http://www.thymeleaf.org"
+     th:fragment="pagination(rPath, totalPages, currentPage)"
+     xmlns="http://www.w3.org/1999/xhtml" aria-label="Pagination" th:if="${totalPages > 0}">
+    <ul class="pagination justify-content-center">
+        <li class="page-item" th:classappend="${currentPage == 1} ? 'disabled'">
+            <a th:replace="fragments/paging :: paging(${rPath}, 1, '<<', 'Trang đầu')"></a>
+        </li>
+        <li class="page-item font-weight-bold" th:classappend="${currentPage == 1} ? 'disabled'">
+            <a th:replace="fragments/paging :: paging(${rPath}, ${currentPage - 1}, 'Trước', 'Previous Page')"></a>
+        </li>
+        <li class="page-item disabled" th:if="${currentPage - 2 > 1}">
+            <a class="page-link" href="#">...</a>
+        </li>
+        <li class="page-item" th:classappend="${page == currentPage} ? 'active'"
+            th:each="page : ${#numbers.sequence(currentPage > 2 ? currentPage - 2 : 1, currentPage + 2 < totalPages ? currentPage + 2 : totalPages)}"
+        >
+            <a th:replace="~{fragments/paging :: paging(${rPath}, ${page}, ${page}, 'Trang ' + ${page})}"></a>
+        </li>
+        <li class="page-item disabled" th:if="${currentPage + 2 < totalPages}">
+            <a class="page-link" href="#">...</a>
+        </li>
+        <li class="page-item font-weight-bold" th:classappend="${currentPage == totalPages} ? 'disabled'">
+            <a th:replace="fragments/paging :: paging(${rPath}, ${currentPage + 1},'Sau', 'Next Page')"></a>
+        </li>
+        <li class="page-item" th:classappend="${currentPage == totalPages} ? 'disabled'">
+            <a th:replace="fragments/paging :: paging(${rPath}, ${totalPages}, '>>', 'Trang cuối')"></a>
+        </li>
+    </ul>
+</nav>
