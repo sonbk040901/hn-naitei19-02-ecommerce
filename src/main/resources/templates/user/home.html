@@ -8,7 +8,6 @@
   <head>
     <link rel="stylesheet" th:href="@{css/custom/user/home.css}" />
   </head>
-
   <div layout:fragment="content">
     <div class="container bootdey">
       <div class="col-md-3">
@@ -19,7 +18,7 @@
             <ul class="nav prod-cat">
               <li th:each="category : ${categories}">
                 <a
-                  th:href="@{'/' + ${category.name}}"
+                  th:href="@{'/search?category=' + ${category.name}}"
                   th:if="${category.name} == ${categoryName}"
                   class="active"
                   ><i class="fa fa-angle-right"></i>
@@ -27,7 +26,7 @@
                 ></a>
 
                 <a
-                  th:href="@{'/' + ${category.name}}"
+                  th:href="@{'/search?category=' + ${category.name}}"
                   th:unless="${category.name} == ${categoryName}"
                   ><i class="fa fa-angle-right"></i>
                   <span th:text="${category.name}"></span
@@ -38,12 +37,12 @@
                     <a
                       class="active"
                       th:if="${children.name} == ${categoryName}"
-                      th:href="@{'/' + ${children.name}}"
+                      th:href="@{'/search?category=' + ${children.name}}"
                       th:text="${children.name}"
                     ></a>
                     <a
                       th:unless="${children.name} == ${categoryName}"
-                      th:href="@{'/' + ${children.name}}"
+                      th:href="@{'/search?category=' + ${children.name}}"
                       th:text="${children.name}"
                     ></a>
                   </li>
@@ -53,22 +52,28 @@
             </ul>
           </div>
         </section>
-        <!-- Price -->
+        <!-- Price + Sale -->
         <section class="panel panel-margin">
           <header class="panel-heading">Filter</header>
           <div class="panel-body">
-            <form role="form product-form" action="" method="get">
+            <form role="form product-form" th:action="@{/search}" method="get" id="form-filter">
+              <div class="form-group mb-3">
+                <label>Price (VND)</label>
+                <div class="d-flex">
+                  <input class="form-control mb-2 mr-3" name="minPrice" id="min-price-filter" placeholder="Min price"/>
+                  <input class="form-control" name="maxPrice" id="max-price-filter" placeholder="Max price" />
+                </div>
+              </div>
               <div class="form-group">
-                <label>Price</label>
-                <select class="form-control hasCustomSelect" name="minPrice">
-                  <option value="0">0 VND</option>
-                  <option value="500000">500,000VND</option>
-                  <option value="1000000">1,000,000VND</option>
-                  <option value="2000000">2,000,000VND</option>
-                  <option value="5000000">5,000,000 VND</option>
+                <label>Sale</label>
+                <select class="form-control hasCustomSelect" name="numberOfSale" id="select-sale-filter">
+                  <option value="0">0%</option>
+                  <option value="25">25%</option>
+                  <option value="50">50%</option>
+                  <option value="75">75%</option>
                 </select>
               </div>
-              <button type="submit" class="btn btn-primary mt-1">Filter</button>
+              <button type="submit" class="btn btn-primary mt-4" id="submit-filter">Filter</button>
             </form>
           </div>
         </section>
@@ -77,32 +82,18 @@
           <header class="panel-heading">Best Seller</header>
           <div class="panel-body">
             <div class="best-seller">
-              <div class="card">
+              <div class="card" th:each="saleProduct : ${saleProducts}">
                 <img
                   class="card-img-top"
-                  src="https://www.bootdey.com/image/250x220/A2BE2/000000"
+                  th:src="${saleProduct.thumbnail}"
                   alt="Card image cap"
                 />
-                <div class="card-body">
-                  <a class="card-title">Card title</a>
-                  <p class="card-text">
-                    Some quick example text to build on the card title and make
-                    up the bulk of the card's content.
-                  </p>
+                <div class="badge-overlay">
+                  <span class="top-left badge orange" th:text="'Sale ' + ${saleProduct.numberOfSale} + '%'"></span>
                 </div>
-              </div>
-
-              <div class="card">
-                <img
-                  class="card-img-top"
-                  src="https://www.bootdey.com/image/250x220/A2BE2/000000"
-                  alt="Card image cap"
-                />
                 <div class="card-body">
-                  <a class="card-title">Card title</a>
-                  <p class="card-text">
-                    Some quick example text to build on the card title and make
-                    up the bulk of the card's content.
+                  <a class="card-title" th:text="${saleProduct.name}" th:href="@{'/products/' + ${saleProduct.id}}"></a>
+                  <p class="card-text" th:text="${saleProduct.description}">
                   </p>
                 </div>
               </div>
@@ -110,26 +101,49 @@
           </div>
         </section>
       </div>
-
+      <!-- Products -->
       <div class="col-md-9">
+        <!-- Pagination -->
         <section class="panel panel-margin panel-pagination">
+          <div class="panel-sort-by">
+            <span>Sort by</span>
+            <a class="sort-item sort-item-price"data-type="numberOfSale" data-sort="DESC">Popularity</a>
+            <a class="sort-item sort-item-price" data-type="createdAt" data-sort="DESC">Newest</a>
+            <a class="sort-item sort-item-price" data-type="rating" data-sort="DESC">Rating</a>
+            <div class="dropdown">
+              <span class="sort-item dropdown-toggle"role="button" id="dropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                Price
+              </span>
+              <div class="dropdown-menu" aria-labelledby="dropdownMenuLink" data-type="price">
+                <a class="dropdown-item sort-item-price" data-type="price" data-sort="ASC">Ascending</a>
+                <a class="dropdown-item sort-item-price" data-type="price" data-sort="DESC">Decrease</a>
+              </div>
+            </div>
+          </div>
           <div class="panel-body">
             <nav aria-label="Page navigation example">
               <ul class="pagination">
-                <li class="page-item"><a class="page-link" href="#">1</a></li>
-                <li class="page-item"><a class="page-link" href="#">2</a></li>
-                <li class="page-item"><a class="page-link" href="#">3</a></li>
+                <li class="page-item" th:if="${totalPages > 0}"><a class="page-link" href="#" th:text="@{${page} + '/' + ${totalPages}}"></a></li>
                 <li class="page-item">
-                  <a class="page-link" href="#" aria-label="Next">
-                    <span aria-hidden="true">&raquo;</span>
-                    <span class="sr-only">Next</span>
+                  <a class="page-link" th:classappend="${page == 1} ? disabled-link : normal-link" th:href="@{'?page=' + ${page - 1}}" aria-label="Prev">
+                    <span aria-hidden="true">
+                      <i class="fa fa-angle-left"></i>
+                    </span>
+                  </a>
+                </li>
+                <li class="page-item">
+                  <a class="page-link" th:classappend="${page == totalPages} ? disabled-link : normal-link" th:href="@{'?page=' + ${page + 1}}" aria-label="Next">
+                    <span aria-hidden="true">
+                      <i class="fa fa-angle-right"></i>
+                    </span>
                   </a>
                 </li>
               </ul>
             </nav>
           </div>
         </section>
-        <div class="row product-list">
+        <!-- List products -->
+        <div class="row product-list" th:if="${!products.empty}">
           <div class="col-md-4" th:each="product : ${products}">
             <section class="panel panel-margin">
               <div class="pro-img-box">
@@ -137,8 +151,10 @@
                 <a href="#" class="adtocart">
                   <i class="fa fa-shopping-cart"></i>
                 </a>
+                <div class="badge-overlay">
+                  <span class="top-right badge orange" th:if="${product.numberOfSale > 0}" th:text="'Sale ' + ${product.numberOfSale} + '%'">Sale</span>
+                </div>
               </div>
-
               <div class="panel-body text-center">
                 <h4>
                   <a
@@ -148,11 +164,29 @@
                   ></a>
                 </h4>
                 <p class="price" th:text="@{${product.price} + ' ' +'VND'}"></p>
-              </div>
+            </div>
             </section>
           </div>
         </div>
-      </div>
+        <div class="panel" th:unless="${!products.empty}" style="height: 36%">
+            <div class="col-sm-12 empty-cart-cls text-center">
+              <img
+                src="https://i.imgur.com/dCdflKN.png"
+                width="130"
+                height="130"
+                class="img-fluid mb-4 mr-3"
+              />
+              <h3><strong>No result!</strong></h3>
+              <a
+                href="/"
+                class="btn btn-primary cart-btn-transform m-3"
+                data-abc="true"
+                >Continue search</a
+              >
+        </div>
+          </div>
+        </div>
     </div>
+  </div>
   </div>
 </html>
