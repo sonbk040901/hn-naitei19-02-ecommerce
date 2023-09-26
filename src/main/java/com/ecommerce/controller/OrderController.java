@@ -45,10 +45,18 @@ public class OrderController {
         return "user/order/index";
     }
 
+    //Handle hiển thị giao diện thanh toán hóa đơn (aka tạo hóa đơn)
+    @GetMapping("/new")
+    public String showPaymentForm(@ModelAttribute("order") @Valid OrderDTO orderDTO, Model model) {
+        orderDTO = orderService.initOrder(orderDTO);
+        model.addAttribute("order", orderDTO);
+        return "user/order/new";
+    }
+
     @PostMapping
-    public String createNewOrder(@ModelAttribute @Valid OrderDTO orderDTO, BindingResult result, final RedirectAttributes redirectAttributes) {
+    public String createOrder(@ModelAttribute("order") @Valid OrderDTO orderDTO, BindingResult result, final RedirectAttributes redirectAttributes) {
         if (result.hasErrors()) {
-            return "user/order/create";
+            return "user/order/new";
         }
         OrderDTO order = orderService.createOrder(userId, orderDTO);
         redirectAttributes.addFlashAttribute("message", "Tạo hóa đơn thành công!");

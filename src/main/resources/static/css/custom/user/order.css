@@ -38,7 +38,8 @@
     border-radius: 5px;
     color: var(--white);
 }
-.order_status{
+
+.order_status {
     font-size: .8em;
     font-weight: 600;
     width: 200px;
@@ -47,9 +48,31 @@
     right: -70px;
     transform: rotate(45deg) translate(37px);
 }
-.order_status.pending{
+
+.order_status.pending {
     background-color: #c2b398;
 }
+
+.order_status.accepted {
+    background-color: var(--info);
+}
+
+.order_status.rejected {
+    background-color: var(--danger);
+}
+
+.order_status.cancelled {
+    background-color: var(--warning);
+}
+
+.order_status.shipping {
+    background-color: var(--success);
+}
+
+.order_status.completed {
+    background-color: var(--primary);
+}
+
 input[type="date"]::-webkit-calendar-picker-indicator {
     background-image: url('/images/icons8-calendar-96.png');
     background-position: center;

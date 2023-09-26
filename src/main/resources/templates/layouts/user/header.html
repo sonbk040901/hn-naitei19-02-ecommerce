@@ -23,10 +23,11 @@
     </button>
     <div class="collapse navbar-collapse" id="navbarColor">
         <ul class="navbar-nav justify-content-between container-fluid">
-            <li class="nav-item rounded-10 bg-light search-nav-item flex-row" id="search_bar">
-                <input type="text" id="search" class="flex-fill bg-transparent" placeholder="Search products">
+            <form th:action="@{/search}" class="nav-item rounded-10 bg-light search-nav-item" id="search_bar">
+                <input type="text" id="search" name="name" th:value="${name}" class="flex-fill bg-transparent"
+                       placeholder="Search products">
                 <label for="search" class="fa fa-search text-muted"></label>
-            </li>
+            </form>
             <ul class="navbar-nav navbar-header">
                 <li class="nav-item">
                     <a class="nav-link" th:href="@{/orders}">
@@ -34,7 +35,7 @@
                     </a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" href="#">
+                    <a class="nav-link" th:href="@{/cart}">
                         <span class="text">Giỏ hàng</span>
                     </a>
                 </li>

@@ -4,6 +4,7 @@ import com.ecommerce.dto.FilterDTO;
 import com.ecommerce.dto.OrderDTO;
 import com.ecommerce.dto.ReceiverDTO;
 import org.springframework.data.domain.Page;
+import org.springframework.transaction.annotation.Transactional;
 
 /**
  * @Project: hn-naitei19-02-ecommerce
@@ -12,6 +13,10 @@ import org.springframework.data.domain.Page;
  * @Time: 20:15
  */
 public interface OrderService extends Service<Long, OrderDTO> {
-    OrderDTO createOrder(Long userId, ReceiverDTO receiver);
+    @Transactional
+    OrderDTO createOrder(Long userId, OrderDTO orderDTO);
+
+    OrderDTO initOrder(OrderDTO orderDTO);
+
     Page<OrderDTO> findOrdersByUserId(Long userId, FilterDTO filterDTO);
 }

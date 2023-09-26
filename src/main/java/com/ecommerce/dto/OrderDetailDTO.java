@@ -1,6 +1,7 @@
 package com.ecommerce.dto;
 
 
+import com.ecommerce.validator.ProductAvailable;
 import lombok.*;
 
 /**
@@ -17,6 +18,7 @@ import lombok.*;
 public class OrderDetailDTO extends BaseDTO {
     private Long price;
     private Long orderId;
+    private ProductDTO product;
     private Long productId;
     private Integer quantity;
 }
