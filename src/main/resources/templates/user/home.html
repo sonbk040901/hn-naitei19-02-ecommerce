@@ -9,7 +9,58 @@
     <link rel="stylesheet" th:href="@{css/custom/user/home.css}" />
   </head>
   <div layout:fragment="content">
-    <div class="container bootdey">
+    <!-- Carousel -->
+    <div class="container mt-4">
+      <div class="row">
+        <div class="col">
+          <div class="trends">
+            <div class="bbb_background"></div>
+            <div class="bbb_overlay"></div>
+            <div class="container">
+                <div class="row">
+                    <div class="col-lg-3">
+                        <div class="bbb_container">
+                            <h2 class="bbb_title">Latest Products 2023</h2>
+                            <div class="bbb_text">
+                                <p>Find the latest products in 2023</p>
+                            </div>
+                            <div class="bbb_slider_nav">
+                                <div class="bbb_prev bbb_nav"><i class="fa fa-angle-left"></i></div>
+                                <div class="bbb_next bbb_nav"><i class="fa fa-angle-right"></i></div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-lg-9">
+                        <div class="bbb_slider_container">
+                            <div class="owl-carousel owl-theme bbb_slider">
+                                <div class="owl-item" th:each="product: ${saleProducts}">
+                                    <div class="bbb_item is_new">
+                                        <div class="bbb_image d-flex flex-column align-items-center justify-content-center"><img th:src="${product.thumbnail}" alt=""></div>
+                                        <div class="bbb_content">
+                                            <div class="bbb_category"><a class="format-price" th:text="@{${product.price} + ' VND'}"></a></div>
+                                            <div class="bbb_info clearfix">
+                                                <div class="bbb_name"><a th:text="${product.name}" th:href="@{'/products/' + ${product.id}}"></a></div>
+                                            </div>
+                                        </div>
+                                        <ul class="bbb_marks">
+                                            <li class="bbb_mark bbb_discount">-25%</li>
+                                            <li class="bbb_mark bbb_new">new</li>
+                                        </ul>
+                                        <div class="bbb_fav"><i class="fa fa-heart"></i></div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        </div>
+      </div>
+    </div>
+    <!-- Content -->
+    <div class="container bootdey" id="products-content">
+      <!-- Filter -->
       <div class="col-md-3">
         <!-- Categories -->
         <section class="panel panel-margin">
@@ -163,7 +214,7 @@
                     th:text="${product.name}"
                   ></a>
                 </h4>
-                <p class="price" th:text="@{${product.price} + ' ' +'VND'}"></p>
+                <p class="price format-price" th:text="@{${product.price} + ' ' +'VND'}"></p>
             </div>
             </section>
           </div>
@@ -184,9 +235,10 @@
                 >Continue search</a
               >
         </div>
-          </div>
         </div>
+      </div>
     </div>
   </div>
   </div>
+
 </html>
