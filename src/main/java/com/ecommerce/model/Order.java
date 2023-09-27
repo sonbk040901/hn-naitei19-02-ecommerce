@@ -87,4 +87,7 @@ public class Order extends BaseEntity {
         this.userId = userId;
         this.orderDetails = orderDetails;
     }
+    public int getStatusValue() {
+        return status.value;
+    }
 }
