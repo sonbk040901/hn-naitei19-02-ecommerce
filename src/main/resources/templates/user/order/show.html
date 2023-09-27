@@ -1,10 +1,115 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="vi" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{layouts/user/layout}"
+      xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
     <title>Title</title>
+    <link rel="stylesheet" href="/css/custom/user/order/detail.css">
 </head>
 <body>
+<section layout:fragment="content">
+    <div class="container-fluid pt-8 main-content">
+        <nav aria-label="breadcrumb">
+            <ol class="breadcrumb box-link">
+                <li class="breadcrumb-item"><a th:href="@{/}">Trang chủ</a></li>
+                <li class="breadcrumb-item"><a th:href="@{/orders}">Hóa đơn</a></li>
+                <li class="breadcrumb-item active" aria-current="page">1</li>
+            </ol>
+        </nav>
+        <div class="container">
+            <!-- Main content -->
+            <div class="row">
+                <div class="col-lg-8">
+                    <!-- Details -->
+                    <div class="card mb-4">
+                        <div class="card-body">
+                            <div class="m-2 d-flex justify-content-between">
+                                <div>
+                                    <span>Ngày đặt hàng :</span>
+                                    <span class="me-3" th:text="${#dates.format(order.createdAt, 'dd/MM/yyyy')}"></span>
+                                </div>
+                                <div class="d-flex">
+                                    <th:block th:switch="${order.status}">
+                                        <span th:case="'0'" class="badge badge-secondary">Đang chờ</span>
+                                        <span th:case="'1'" class="badge badge-primary">Đã xác nhận</span>
+                                        <span th:case="'2'" class="badge badge-danger">Đã từ chối</span>
+                                        <span th:case="'3'" class="badge badge-warning">Đã hủy</span>
+                                        <span th:case="'4'" class="badge badge-info">Đang giao</span>
+                                        <span th:case="'5'" class="badge badge-success">Giao thành công</span>
+                                    </th:block>
+                                </div>
+                            </div>
+                            <table class="table table-borderless">
+                                <tbody>
+                                <tr th:each="item:${order.getOrderDetails()}">
+                                    <td>
+                                        <div class="d-flex mb-2">
+                                            <div class="flex-shrink-0">
+                                                <img th:src="${item.product.thumbnail}" th:alt="${item.product.name}"
+                                                     width="80" class="img-fluid">
+                                            </div>
+                                            <div class="flex-lg-grow-1 ms-3 pl-3">
+                                                <h6 class="small"><a th:href="@{/products/{id}(id=${item.productId})}"
+                                                                     class="text-reset"
+                                                                     th:text="${item.product.name}"></a></h6>
+                                            </div>
+                                        </div>
+                                    </td>
+                                    <td>
+                                        <span th:text="${item.quantity}"></span>
+                                    </td>
+                                    <td class="text-end">
+                                        <span th:text="${#numbers.formatDecimal(item.price, 0, 'COMMA', 0, 'POINT')} + ' VND'"></span>
+                                    </td>
+                                </tr>
+                                </tbody>
+                                <tfoot>
+                                <tr>
+                                    <td colspan="2">Tổng tiền hàng</td>
+                                    <td class="text-end">
+                                        <span th:text="${#numbers.formatDecimal(order.totalPrice, 0, 'COMMA', 0, 'POINT')} + ' VND'"></span>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td colspan="2">Phí vận chuyển</td>
+                                    <td class="text-end">
+                                        <span th:text="${#numbers.formatDecimal(order.shippingFee, 0, 'COMMA', 0, 'POINT')} + ' VND'"></span>
+                                    </td>
+                                </tr>
+                                <tr class="font-weight-bolder">
+                                    <td colspan="2">Thành tiền</td>
+                                    <td class="text-end">
+                                        <span th:text="${#numbers.formatDecimal(order.totalPrice, 0, 'COMMA', 0, 'POINT')} + ' VND'"></span>
+                                    </td>
+                                </tr>
+                                </tfoot>
+                            </table>
+                            <div th:if="${order.status} == 0" class="p-2 text-center ">
+                                <button type="button" class="btn btn-danger">Hủy đơn hàng</button>
+                            </div>
+                        </div>
+                    </div>
 
+                </div>
+                <div class="col-lg-4">
+                    <div class="card p-2">
+                        <!-- Shipping information -->
+                        <div class="card-body">
+                            <h3 class="h6">Địa chỉ nhận hàng</h3>
+                            <hr>
+                            <address>
+                                <span th:text="${order.receiver.name}"></span><br>
+                                <span th:text="${order.receiver.phone}"></span><br>
+                                <span th:text="${order.receiver.address}"></span>
+                            </address>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
 </body>
 </html>
