@@ -9,13 +9,20 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Optional;
 
 @Service
 public class ProductServiceImpl extends BaseService implements ProductService {
-    public Page<ProductDTO> findAllProducts(int page, int size){
+    public Page<ProductDTO> findAllProducts(int page, int size) {
         Pageable pageable = getPageable(page, size);
         Page<Product> products = productDAO.findAll(pageable);
         return products.map(product -> modelMapper.map(product, ProductDTO.class));
+    }
+
+    @Override
+    public boolean checkProductAvailable(Long id, int quantity) {
+        Optional<Product> productOptional = productDAO.findById(id);
+        return productOptional.isPresent() && productOptional.get().getQuantity() >= quantity;
     }
 
     @Override

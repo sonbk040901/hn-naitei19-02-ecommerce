@@ -1,6 +1,10 @@
 package com.ecommerce.dto;
 
+import com.ecommerce.validator.ContainProductInCart;
+import com.ecommerce.validator.ProductAvailable;
 import jakarta.validation.Valid;
+import jakarta.validation.constraints.NotEmpty;
+import jakarta.validation.constraints.NotNull;
 import lombok.*;
 
 import java.util.Date;
@@ -17,8 +21,10 @@ import java.util.List;
 @ToString
 @AllArgsConstructor
 @NoArgsConstructor
+@ProductAvailable
+@ContainProductInCart
 public class OrderDTO extends BaseDTO {
-    private Integer totalPrice;
+    private Long totalPrice;
     private String shippingStatus;
     private Long shippingFee;
     private Long receiverId;

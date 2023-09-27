@@ -1,9 +1,6 @@
 package com.ecommerce.service.impl;
 
-import com.ecommerce.dto.FilterDTO;
-import com.ecommerce.dto.OrderDTO;
-import com.ecommerce.dto.ProductDTO;
-import com.ecommerce.dto.ReceiverDTO;
+import com.ecommerce.dto.*;
 import com.ecommerce.exception.NotFound;
 import com.ecommerce.model.*;
 import com.ecommerce.service.OrderService;
@@ -16,7 +13,7 @@ import org.springframework.transaction.annotation.Transactional;
 import java.lang.reflect.Type;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Optional;
+import java.util.Objects;
 
 /**
  * @Project: hn-naitei19-02-ecommerce
@@ -72,40 +69,58 @@ public class OrderServiceImpl extends BaseService implements OrderService {
     }
 
     @Override
-    @Transactional
-    public OrderDTO createOrder(Long userId, ReceiverDTO receiverDTO) {
-        Optional<Cart> cartOptional = cartDAO.findByUserId(userId);
+    public OrderDTO createOrder(Long userId, OrderDTO orderDTO) {
+        ReceiverDTO receiverDTO = orderDTO.getReceiver();
+        List<OrderDetailDTO> orderDetailsDTO = orderDTO.getOrderDetails();
+        var cartOptional = cartDAO.findByUserId(userId);
         Cart cart;
-        //Kiểm tra xem cart có tồn tại ko, nếu không thì tạo mới
-        boolean isEmpty = cartOptional.isEmpty();
-        if (isEmpty) {
+        if (cartOptional.isEmpty()) {
             cart = new Cart(userId);
             cartDAO.save(cart);
-            throw new NotFound("Cart is empty");
+        } else {
+            cart = cartOptional.get();
         }
-        //Nếu có thì lấy cart đó ra
-        cart = cartOptional.get();
         List<CartDetail> cartDetails = cart.getCartDetails();
-        //Nếu cart đó không có sản phẩm nào thì báo lỗi
-        if (cartDetails.isEmpty()) {
-            throw new NotFound("Cart is empty");
-        }
+        //Lấy ra những sản phẩm có trong cart và có trong orderDetails
+        List<CartDetail> filteredCartDetail = cartDetails.stream().filter(
+                cd -> orderDetailsDTO.stream().anyMatch(od -> Objects.equals(cd.getProductId(), od.getProductId()))
+        ).toList();
         List<OrderDetail> orderDetails = new ArrayList<>();
-        mapCartDetailToOrderDetail(cartDetails, orderDetails);
+        mapCartDetailToOrderDetail(filteredCartDetail, orderDetails);
         long shippingFee = calculateShippingFee(orderDetails);
         long totalPrice = calculateTotalPrice(orderDetails, shippingFee);
+        //Lưu thông tin người nhận
         Receiver receiver = modelMapper.map(receiverDTO, Receiver.class);
         receiverDAO.save(receiver);
+        //Lưu thông tin order
         Order order = new Order(totalPrice, null, shippingFee, receiver.getId(), userId, 0);
-        //Lưu order và orderDetails
         orderDAO.save(order);
+        //Lưu thông tin orderDetails đồng thời trừ đi số lượng sản phẩm trong kho(tăng số lượng đã bán)
         orderDetails.forEach(orderDetail -> {
             orderDetail.setOrderId(order.getId());
+            var product = orderDetail.getProduct();
+            product.setQuantity(product.getQuantity() - orderDetail.getQuantity());
+            product.setNumberOfSale(product.getNumberOfSale() + orderDetail.getQuantity());
             orderDetailDAO.save(orderDetail);
         });
-        //Làm trống cart
-        cartDAO.emptyCart(cart.getId());
+        //Xóa những sản phẩm đã thanh toán order khỏi cart
+        cartDetailDAO.deleteAll(filteredCartDetail);
         return getMappedOrderDTO(order);
+    }
+
+    @Override
+    public OrderDTO initOrder(OrderDTO orderDTO) {
+        List<OrderDetailDTO> orderDetailsDTO = orderDTO.getOrderDetails();
+        long shippingFee = calculateShippingFee(orderDetailsDTO);
+        orderDetailsDTO = orderDetailsDTO.stream().peek(odd -> {
+            Product product = productDAO.findById(odd.getProductId()).orElseThrow(() -> new NotFound("Product not found"));
+            odd.setProduct(modelMapper.map(product, ProductDTO.class));
+        }).toList();
+        long totalPrice = orderDetailsDTO.stream().mapToLong(od -> od.getProduct().getPrice() * od.getQuantity()).sum() + shippingFee;
+        orderDTO.setOrderDetails(orderDetailsDTO);
+        orderDTO.setShippingFee(shippingFee);
+        orderDTO.setTotalPrice(totalPrice);
+        return orderDTO;
     }
 
     private OrderDTO getMappedOrderDTO(Order order) {
@@ -115,7 +130,7 @@ public class OrderServiceImpl extends BaseService implements OrderService {
                 .map(order);
     }
 
-    private static long calculateTotalPrice(List<OrderDetail> orderDetails, long shippingFee) {
+    private long calculateTotalPrice(List<OrderDetail> orderDetails, long shippingFee) {
         return orderDetails.stream().mapToLong(od -> od.getPrice() * od.getQuantity()).sum() + shippingFee;
     }
 
@@ -135,7 +150,7 @@ public class OrderServiceImpl extends BaseService implements OrderService {
         });
     }
 
-    private long calculateShippingFee(List<OrderDetail> orderDetails) {
+    private long calculateShippingFee(List<?> orderDetails) {
         return orderDetails.size() * 1000L;
     }
 }
