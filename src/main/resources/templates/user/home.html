@@ -63,8 +63,8 @@
       <!-- Filter -->
       <div class="col-md-3">
         <!-- Categories -->
-        <section class="panel panel-margin shadow-sm">
-          <header class="panel-heading"><a href="/">Category</a></header>
+        <section class="panel panel-margin">
+          <h3 class="panel-heading"><a href="/">Category</a></h3>
           <div class="panel-body">
             <ul class="nav prod-cat">
               <li th:each="category : ${categories}">
@@ -105,7 +105,7 @@
         </section>
         <!-- Price + Sale -->
         <section class="panel panel-margin">
-          <header class="panel-heading">Filter</header>
+          <h3 class="panel-heading">Filter</h3>
           <div class="panel-body">
             <form role="form product-form" th:action="@{/search}" method="get" id="form-filter">
               <div class="form-group mb-3">
@@ -130,7 +130,7 @@
         </section>
         <!-- Best seller -->
         <section class="panel">
-          <header class="panel-heading">Best Seller</header>
+          <h3 class="panel-heading">Best Seller</h3>
           <div class="panel-body">
             <div class="best-seller">
               <div class="card" th:each="saleProduct : ${saleProducts}">

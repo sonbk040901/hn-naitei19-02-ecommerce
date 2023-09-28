@@ -73,6 +73,10 @@ function formatPrice(price) {
   return price.toString().replace(/(\d)(?=(\d\d\d)+(?!\d))/g, "$1.");
 }
 
+function returnPrice(price) {
+  return parseInt(price.replace(/\./g, ""));
+}
+
 $(document).on("load", function () {
   $("html, body").animate(
     { scrollTop: $("#products-content").offset().bottom },

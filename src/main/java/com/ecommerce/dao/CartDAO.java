@@ -1,11 +1,11 @@
 package com.ecommerce.dao;
 
-import com.ecommerce.model.Cart;
+import java.util.Optional;
 
 import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
 
-import java.util.Optional;
+import com.ecommerce.model.Cart;
 
 /**
  * @Project: hn-naitei19-02-ecommerce
@@ -16,10 +16,10 @@ import java.util.Optional;
 public interface CartDAO extends DAO<Long, Cart> {
     Optional<Cart> findByUserId(Long userId);
 
+    Optional<Cart> findById(Long id);
+
     @Modifying
     @Query("DELETE FROM CartDetail cd WHERE cd.cartId = ?1")
     void emptyCart(Long cartId);
-
-    Optional<Cart> findById(Long id);
 
 }

@@ -1,9 +1,10 @@
 package com.ecommerce.dao;
 
-import com.ecommerce.model.BaseEntity;
+import java.io.Serializable;
+
 import org.springframework.data.jpa.repository.JpaRepository;
 
-import java.io.Serializable;
+import com.ecommerce.model.BaseEntity;
 
 /**
  * @Project: hn-naitei19-02-ecommerce
