@@ -19,4 +19,7 @@ public interface OrderService extends Service<Long, OrderDTO> {
     OrderDTO initOrder(OrderDTO orderDTO);
 
     Page<OrderDTO> findOrdersByUserId(Long userId, FilterDTO filterDTO);
+
+    @Transactional
+    void cancelOrder(Long id, Long userId);
 }

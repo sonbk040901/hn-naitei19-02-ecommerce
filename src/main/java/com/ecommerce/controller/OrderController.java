@@ -73,4 +73,10 @@ public class OrderController extends BaseController {
         return "user/order/show";
     }
 
+    @PatchMapping("/{id}/cancel")
+    @ResponseBody
+    public void cancelOrder(@PathVariable Long id) {
+        orderService.cancelOrder(id, userId);
+    }
+
 }
