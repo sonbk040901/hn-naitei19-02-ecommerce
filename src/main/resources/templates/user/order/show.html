@@ -33,7 +33,7 @@
         <!--                <li class="breadcrumb-item active" aria-current="page">1</li>-->
         <!--            </ol>-->
         <!--        </nav>-->
-        <h1 class="text-center p-4">Chi tiết đơn hàng <span th:text="'#'+${order.id}"></span></h1>
+        <h1 class="text-center p-4">Chi tiết đơn hàng <span id="orderId" th:data-order-id="${order.id}"  th:text="'#'+${order.id}"></span></h1>
         <div class="container">
             <!-- Main content -->
             <div class="row">

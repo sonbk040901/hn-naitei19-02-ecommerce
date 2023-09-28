@@ -4,6 +4,8 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
+import com.ecommerce.dao.CartDAO;
+import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -154,5 +156,11 @@ public class CartServiceImpl extends BaseService implements CartService {
 			return (int) cartDetailDAO.countByCartId(cart.getId());
 		}
 		return 0;
+	}
+	@Override
+	@Scheduled(fixedDelay = 24*60*60*1000)
+	public void deleteTimeoutProduct(){
+		var cartDetails = cartDetailDAO.getCartDetailByCreatedAtTimeout(15);
+		cartDetailDAO.deleteAll(cartDetails);
 	}
 }

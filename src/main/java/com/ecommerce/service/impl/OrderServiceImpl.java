@@ -78,20 +78,19 @@ public class OrderServiceImpl extends BaseService implements OrderService {
             throw new NotFound("User is not valid!");
         }
 
-        if (order.getStatus().equals(Order.Status.PENDING)) {
-            order.setStatus(Order.Status.CANCELLED);
-            orderDAO.save(order);
-            // update product quantity
-            order.getOrderDetails().forEach(orderDetail -> {
-                int quantity = orderDetail.getQuantity();
-                Product product = orderDetail.getProduct();
-                int oldQuantity = product.getQuantity();
-                product.setQuantity(quantity + oldQuantity);
-                productDAO.save(product);
-            });
-        }else{
+        if (!order.getStatus().equals(Order.Status.PENDING)) {
             throw new NotFound("Order status is not valid!");
         }
+        order.setStatus(Order.Status.CANCELLED);
+        orderDAO.save(order);
+        // update product quantity
+        order.getOrderDetails().forEach(orderDetail -> {
+            int quantity = orderDetail.getQuantity();
+            Product product = orderDetail.getProduct();
+            int oldQuantity = product.getQuantity();
+            product.setQuantity(quantity + oldQuantity);
+            productDAO.save(product);
+        });
 
     }
 

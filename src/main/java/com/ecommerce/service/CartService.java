@@ -5,6 +5,7 @@ import java.util.List;
 import com.ecommerce.dto.CartDTO;
 import com.ecommerce.dto.CartDetailDTO;
 import com.ecommerce.userdetails.CustomUserDetails;
+import org.springframework.transaction.annotation.Transactional;
 
 /**
  * @Project: hn-naitei19-02-ecommerce
@@ -33,4 +34,7 @@ public interface CartService {
     void deleteCartDetail(Long cartId, Long productId);
 
     int getCartSize(CustomUserDetails user);
+
+    @Transactional
+    void deleteTimeoutProduct();
 }
