@@ -8,14 +8,18 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
+import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 
+import com.ecommerce.dto.CartDTO;
 import com.ecommerce.dto.CategoryDTO;
 import com.ecommerce.dto.ProductDTO;
 import com.ecommerce.model.Product;
+import com.ecommerce.service.CartService;
 import com.ecommerce.service.CategoryService;
 import com.ecommerce.service.SearchService;
 
@@ -27,7 +31,10 @@ public class HomeController {
 
     private final CategoryService categoryService;
 
-    @GetMapping(value = {"/", "search"})
+    @Autowired
+    private CartService cartService;
+
+    @GetMapping(value = { "/", "search" })
     public ModelAndView index(
             @RequestParam(required = false) String name,
             @RequestParam(required = false) Long minPrice,
@@ -48,6 +55,10 @@ public class HomeController {
         List<ProductDTO> products = searchService.mapProductDTOs(pages.getContent());
         List<CategoryDTO> categories = categoryService.getAllByTree();
         List<ProductDTO> saleProducts = searchService.findTopSale();
+
+        CartDTO cart = cartService.getCartByUserId((long) 16);
+        modelAndView.addObject("cart", cart);
+        modelAndView.addObject("num_of_products", cart.getCartDetails().size());
 
         modelAndView.addObject("products", products);
         modelAndView.addObject("saleProducts", saleProducts);

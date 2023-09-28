@@ -9,5 +9,10 @@ import com.ecommerce.dto.CartDTO;
  * @Time: 02:09
  */
 public interface CartService extends Service<Long, CartDTO> {
+
+    CartDTO getCartByUserId(Long userId);
+
+    CartDTO addProductToCart(Long cartId, Long productId, Integer quantity);
+
     boolean existsProductInCart(Long productId, Long userId);
 }

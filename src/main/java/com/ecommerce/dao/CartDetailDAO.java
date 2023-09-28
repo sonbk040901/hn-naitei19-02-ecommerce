@@ -1,5 +1,7 @@
 package com.ecommerce.dao;
 
+import java.util.List;
+
 import com.ecommerce.model.CartDetail;
 
 /**
@@ -10,4 +12,6 @@ import com.ecommerce.model.CartDetail;
  */
 public interface CartDetailDAO extends DAO<Long, CartDetail> {
     void deleteAllByCartId(Long cartId);
+
+    List<CartDetail> findByCartId(Long cart_id);
 }
