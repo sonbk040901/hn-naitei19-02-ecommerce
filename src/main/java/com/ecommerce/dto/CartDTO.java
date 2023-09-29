@@ -5,6 +5,8 @@ import lombok.*;
 
 import java.util.List;
 
+import com.ecommerce.model.Cart;
+
 /**
  * @Project: hn-naitei19-02-ecommerce
  * @Author: sonle
@@ -16,7 +18,15 @@ import java.util.List;
 @ToString(callSuper = true)
 @NoArgsConstructor
 @AllArgsConstructor
-public class CartDTO extends BaseDTO{
+public class CartDTO extends BaseDTO {
+    public CartDTO(Cart cart, List<CartDetailDTO> cartDetails) {
+        this.cartDetails = cartDetails;
+        this.user_id = cart.getUserId();
+        this.id = cart.getId();
+    }
+
+    private Long id;
+    private Long user_id;
     @Valid
     List<CartDetailDTO> cartDetails;
 }

@@ -1,5 +1,7 @@
 package com.ecommerce.dto;
 
+import com.ecommerce.model.CartDetail;
+
 import lombok.*;
 
 /**
@@ -16,6 +18,12 @@ import lombok.*;
 public class CartDetailDTO extends BaseDTO {
     private Long cart_id;
     private Long product_id;
-    private Integer price;
     private Integer quantity;
+
+    public CartDetailDTO(CartDetail cartDetail) {
+        super();
+        this.cart_id = cartDetail.getCartId();
+        this.product_id = cartDetail.getProductId();
+        this.quantity = cartDetail.getQuantity();
+    }
 }

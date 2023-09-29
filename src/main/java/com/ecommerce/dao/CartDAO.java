@@ -1,6 +1,7 @@
 package com.ecommerce.dao;
 
 import com.ecommerce.model.Cart;
+
 import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
 
@@ -18,4 +19,7 @@ public interface CartDAO extends DAO<Long, Cart> {
     @Modifying
     @Query("DELETE FROM CartDetail cd WHERE cd.cartId = ?1")
     void emptyCart(Long cartId);
+
+    Optional<Cart> findById(Long id);
+
 }
