@@ -6,8 +6,10 @@ import lombok.*;
 @EqualsAndHashCode(callSuper = true)
 @Data
 @NoArgsConstructor
+@AllArgsConstructor
 @Entity
 @Table(name = "cart_details")
+@Builder
 public class CartDetail extends BaseEntity {
 
     private Integer quantity;

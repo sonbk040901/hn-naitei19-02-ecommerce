@@ -15,6 +15,7 @@ import lombok.*;
 @ToString
 @NoArgsConstructor
 @AllArgsConstructor
+@Builder
 public class OrderDetailDTO extends BaseDTO {
     private Long price;
     private Long orderId;

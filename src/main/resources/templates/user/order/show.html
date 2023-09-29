@@ -11,36 +11,40 @@
 <body>
 <section layout:fragment="content">
     <div class="container-fluid pt-8 main-content">
-        <nav aria-label="breadcrumb">
-            <ol class="breadcrumb box-link">
-                <li class="breadcrumb-item"><a th:href="@{/}">Trang chủ</a></li>
-                <li class="breadcrumb-item"><a th:href="@{/orders}">Hóa đơn</a></li>
-                <li class="breadcrumb-item active" aria-current="page">1</li>
-            </ol>
-        </nav>
+        <!--        <nav aria-label="breadcrumb" class="w-25">-->
+        <!--            <ol class="breadcrumb box-link">-->
+        <!--                <li class="breadcrumb-item"><a th:href="@{/}">Trang chủ</a></li>-->
+        <!--                <li class="breadcrumb-item"><a th:href="@{/orders}">Hóa đơn</a></li>-->
+        <!--                <li class="breadcrumb-item active" aria-current="page">1</li>-->
+        <!--            </ol>-->
+        <!--        </nav>-->
+        <h1 class="text-center p-4">Chi tiết đơn hàng <span th:text="'#'+${order.id}"></span></h1>
         <div class="container">
             <!-- Main content -->
             <div class="row">
                 <div class="col-lg-8">
                     <!-- Details -->
-                    <div class="card mb-4">
-                        <div class="card-body">
+                    <div class="card bg-white rounded-lg mb-4 shadow">
+                        <!--                        <div class="card-header">-->
+                        <!--                            <h5 class="mb-0">Chi tiết đơn hàng</h5>-->
+                        <!--                        </div>-->
+                        <div class="card-header bg-white">
                             <div class="m-2 d-flex justify-content-between">
                                 <div>
                                     <span>Ngày đặt hàng :</span>
                                     <span class="me-3" th:text="${#dates.format(order.createdAt, 'dd/MM/yyyy')}"></span>
                                 </div>
-                                <div class="d-flex">
-                                    <th:block th:switch="${order.status}">
-                                        <span th:case="'0'" class="badge badge-secondary">Đang chờ</span>
-                                        <span th:case="'1'" class="badge badge-primary">Đã xác nhận</span>
-                                        <span th:case="'2'" class="badge badge-danger">Đã từ chối</span>
-                                        <span th:case="'3'" class="badge badge-warning">Đã hủy</span>
-                                        <span th:case="'4'" class="badge badge-info">Đang giao</span>
-                                        <span th:case="'5'" class="badge badge-success">Giao thành công</span>
-                                    </th:block>
-                                </div>
+                                <th:block th:switch="${order.status}">
+                                    <span th:case="'0'" class="badge badge-secondary">Đang chờ</span>
+                                    <span th:case="'1'" class="badge badge-primary">Đã xác nhận</span>
+                                    <span th:case="'2'" class="badge badge-danger">Đã từ chối</span>
+                                    <span th:case="'3'" class="badge badge-warning">Đã hủy</span>
+                                    <span th:case="'4'" class="badge badge-info">Đang giao</span>
+                                    <span th:case="'5'" class="badge badge-success">Giao thành công</span>
+                                </th:block>
                             </div>
+                        </div>
+                        <div class="card-body">
                             <table class="table table-borderless">
                                 <tbody>
                                 <tr th:each="item:${order.getOrderDetails()}">
@@ -86,15 +90,15 @@
                                 </tr>
                                 </tfoot>
                             </table>
-                            <div th:if="${order.status} == 0" class="p-2 text-center ">
-                                <button type="button" class="btn btn-danger">Hủy đơn hàng</button>
-                            </div>
+                        </div>
+                        <div th:if="${order.status} == 0" class="py-3 text-center card-footer bg-white">
+                            <button type="button" class="btn btn-danger">Hủy đơn hàng</button>
                         </div>
                     </div>
 
                 </div>
                 <div class="col-lg-4">
-                    <div class="card p-2">
+                    <div class="card bg-white p-2 shadow rounded-lg">
                         <!-- Shipping information -->
                         <div class="card-body">
                             <h3 class="h6">Địa chỉ nhận hàng</h3>

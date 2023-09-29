@@ -5,11 +5,14 @@ import jakarta.persistence.*;
 import lombok.*;
 import org.hibernate.annotations.ColumnDefault;
 
-@EqualsAndHashCode(callSuper = true)
-@Data
+//@EqualsAndHashCode(callSuper = true)
+//@Data
 @NoArgsConstructor
 @Entity
+@Setter
+@Getter
 @Table(name = "accounts")
+//@Builder
 public class Account extends BaseEntity {
     @Getter
     @RequiredArgsConstructor
@@ -19,13 +22,12 @@ public class Account extends BaseEntity {
         OTHER(2);
         private final int value;
     }
-
     @Getter
     @RequiredArgsConstructor
     public enum Role {
         USER(0),
         ADMIN(1);
-        private final int value;
+        private final Integer value;
     }
 
     private String username;
@@ -34,7 +36,7 @@ public class Account extends BaseEntity {
 
     @Enumerated(EnumType.ORDINAL)
     @ColumnDefault("0")
-    private Role role;
+    private Role role = Role.USER;
 
     @Column(name = "is_actived")
     @ColumnDefault("false")
@@ -48,9 +50,9 @@ public class Account extends BaseEntity {
     private String phone;
 
     private String address;
-    @ColumnDefault("3")
+    @ColumnDefault("2")
     @Enumerated(EnumType.ORDINAL)
-    private Gender gender;
+    private Gender gender = Gender.OTHER;
 
     public Account(BaseDTO dto) {
         super(dto);
@@ -78,5 +80,11 @@ public class Account extends BaseEntity {
         this.phone = phone;
         this.address = address;
         this.gender = gender;
+    }
+    public int getGenderValue(){
+        return gender.value;
+    }
+    public int getRoleValue(){
+        return role.value;
     }
 }

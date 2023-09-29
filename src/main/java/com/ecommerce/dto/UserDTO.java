@@ -1,6 +1,8 @@
 package com.ecommerce.dto;
 
 
+import com.ecommerce.validator.PasswordMatch;
+import jakarta.validation.constraints.Size;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.ToString;
@@ -18,10 +20,14 @@ import lombok.*;
 @ToString
 @Builder
 @NoArgsConstructor
+@PasswordMatch
 @AllArgsConstructor
 public class UserDTO extends BaseDTO {
+    @Size(min = 6, max = 64, message = "Tên đăng nhập phải từ 6 đến 64 ký tự")
     private String username;
+    @Size(min = 6, max = 64, message = "Mật khẩu phải từ 6 đến 64 ký tự")
     private String password;
+    private String confirmPassword;
     private Integer role;
     private Integer isActived;
     private String fullname;

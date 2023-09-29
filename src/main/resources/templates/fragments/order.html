@@ -10,7 +10,7 @@
 </head>
 <body>
 
-<div class="order_card bg-light card order-list shadow-sm overflow-hidden position-relative"
+<div class="order_card bg-white card order-list shadow-sm overflow-hidden position-relative"
      th:fragment="order(id, product, totalProductNum, quantity, total, status, created_at)">
     <div class="p-3 d-flex flex-column align-items-lg-stretch text-dark">
         <div class="first-product d-flex">
@@ -28,7 +28,7 @@
             <a th:href="@{/orders/{id}(id=${id})}">Xem chi tiết</a>
         </div>
         <div th:classappend="${status} == 0 ? 'pending' : (${status} == 1 ? 'accepted' : (${status} == 2 ? 'rejected' : (${status} == 3 ? 'cancelled' : (${status} == 4 ? 'shipping' : 'completed'))))"
-             class="order_status position-absolute d-flex justify-content-center align-items-end pb-1">
+             class="order_status position-absolute d-flex justify-content-center align-items-end pb-1 text-white font-weight-bolder">
             <th:block th:switch="${status}">
                 <span th:case="'0'">Đang chờ</span>
                 <span th:case="'1'">Đã xác nhận</span>

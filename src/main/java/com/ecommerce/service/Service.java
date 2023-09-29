@@ -1,6 +1,7 @@
 package com.ecommerce.service;
 
 import com.ecommerce.dto.BaseDTO;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 

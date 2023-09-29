@@ -6,8 +6,10 @@ import lombok.*;
 @EqualsAndHashCode(callSuper = true)
 @Data
 @NoArgsConstructor
+@AllArgsConstructor
 @Entity
 @Table(name = "product_images")
+@Builder
 public class ProductImage extends BaseEntity {
 
     private String image;

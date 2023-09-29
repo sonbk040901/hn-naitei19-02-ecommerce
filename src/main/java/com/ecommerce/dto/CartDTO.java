@@ -18,6 +18,7 @@ import com.ecommerce.model.Cart;
 @ToString(callSuper = true)
 @NoArgsConstructor
 @AllArgsConstructor
+@Builder
 public class CartDTO extends BaseDTO {
     public CartDTO(Cart cart, List<CartDetailDTO> cartDetails) {
         this.cartDetails = cartDetails;

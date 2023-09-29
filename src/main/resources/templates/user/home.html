@@ -63,7 +63,7 @@
       <!-- Filter -->
       <div class="col-md-3">
         <!-- Categories -->
-        <section class="panel panel-margin">
+        <section class="panel panel-margin shadow-sm">
           <header class="panel-heading"><a href="/">Category</a></header>
           <div class="panel-body">
             <ul class="nav prod-cat">
@@ -155,7 +155,7 @@
       <!-- Products -->
       <div class="col-md-9">
         <!-- Pagination -->
-        <section class="panel panel-margin panel-pagination">
+        <section class="panel panel-margin panel-pagination shadow-sm">
           <div class="panel-sort-by">
             <span>Sort by</span>
             <a class="sort-item sort-item-price"data-type="numberOfSale" data-sort="DESC">Popularity</a>
@@ -196,7 +196,7 @@
         <!-- List products -->
         <div class="row product-list" th:if="${!products.empty}">
           <div class="col-md-4" th:each="product : ${products}">
-            <section class="panel panel-margin">
+            <section class="panel panel-margin shadow-sm">
               <div class="pro-img-box">
                 <img th:src="@{${product.thumbnail}}" alt="" />
                 <a href="#" class="adtocart">

@@ -15,6 +15,7 @@ import lombok.*;
 @ToString(callSuper = true)
 @NoArgsConstructor
 @AllArgsConstructor
+@Builder
 public class CartDetailDTO extends BaseDTO {
     private Long cart_id;
     private Long product_id;

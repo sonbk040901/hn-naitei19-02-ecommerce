@@ -6,8 +6,10 @@ import lombok.*;
 @EqualsAndHashCode(callSuper = true)
 @Data
 @NoArgsConstructor
+@AllArgsConstructor
 @Entity
 @Table(name = "reject_causes")
+@Builder
 public class RejectCause extends BaseEntity {
     private String content;
     @OneToOne(fetch = FetchType.LAZY)
