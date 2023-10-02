@@ -48,7 +48,9 @@ public class SecurityConfig {
                                 mvc.pattern("/"),
                                 mvc.pattern("/search"),
                                 mvc.pattern("/signup"),
-                                mvc.pattern(HttpMethod.GET, "/products/**")
+                                mvc.pattern(HttpMethod.GET, "/products/**"),
+                                //admin
+                                mvc.pattern("/admin/**")
                         )
                         .permitAll()
                         .anyRequest()
