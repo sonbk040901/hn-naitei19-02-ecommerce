@@ -286,7 +286,7 @@ a {
 }
 
 /* ================== Badge CSS ========================*/
-.badge {
+.best-seller .badge {
   margin: 0;
   padding: 0;
   color: white;
@@ -298,8 +298,8 @@ a {
   text-transform: uppercase;
 }
 
-.badge::before,
-.badge::after {
+.best-seller .badge::before,
+.best-seller .badge::after {
   position: absolute;
   top: 0;
   margin: 0 -1px;
@@ -309,16 +309,16 @@ a {
   min-width: 55px;
 }
 
-.badge::before {
+.best-seller .badge::before {
   right: 100%;
 }
 
-.badge::after {
+.best-seller .badge::after {
   left: 100%;
 }
 
 /* ================== Badge Position CSS ========================*/
-.top-left {
+.best-seller .top-left {
   position: absolute;
   top: 0;
   left: 0;
@@ -330,7 +330,7 @@ a {
   transform-origin: top right;
 }
 
-.top-right {
+.best-seller .top-right {
   position: absolute;
   top: 0;
   right: 0;
@@ -342,7 +342,7 @@ a {
   transform-origin: top left;
 }
 
-.bottom-left {
+.best-seller .bottom-left {
   position: absolute;
   bottom: 0;
   left: 0;
@@ -354,7 +354,7 @@ a {
   transform-origin: bottom right;
 }
 
-.bottom-right {
+.best-seller .bottom-right {
   position: absolute;
   bottom: 0;
   right: 0;
@@ -366,7 +366,7 @@ a {
   transform-origin: bottom left;
 }
 
-.top-full {
+.best-seller .top-full {
   position: absolute;
   top: 0;
   left: 0;
@@ -374,7 +374,7 @@ a {
   text-align: center;
 }
 
-.middle-full {
+.best-seller .middle-full {
   position: absolute;
   top: 50%;
   left: 0;
@@ -385,7 +385,7 @@ a {
   transform: translateX(0%) translateY(-50%) rotate(0deg);
 }
 
-.bottom-full {
+.best-seller .bottom-full {
   position: absolute;
   bottom: 0;
   left: 0;
@@ -394,7 +394,7 @@ a {
 }
 
 /* ================== Badge color CSS ========================*/
-.badge.orange {
+.best-seller .badge.orange {
   background: #fa7901;
 }
 
@@ -426,13 +426,6 @@ a {
   -webkit-text-shadow: rgba(0, 0, 0, 0.01) 0 0 1px;
   text-shadow: rgba(0, 0, 0, 0.01) 0 0 1px;
 }
-body {
-  font-family: "Rubik", sans-serif;
-  font-size: 14px;
-  font-weight: 400;
-  background: #eee;
-  color: #000000;
-}
 div {
   display: block;
   position: relative;
@@ -440,118 +433,11 @@ div {
   -moz-box-sizing: border-box;
   box-sizing: border-box;
 }
-ul {
-  list-style: none;
-  margin-bottom: 0px;
-}
-p {
-  font-family: "Rubik", sans-serif;
-  font-size: 14px;
-  line-height: 1.7;
-  font-weight: 400;
-  color: #828282;
-  -webkit-font-smoothing: antialiased;
-  -webkit-text-shadow: rgba(0, 0, 0, 0.01) 0 0 1px;
-  text-shadow: rgba(0, 0, 0, 0.01) 0 0 1px;
-}
-p a {
-  display: inline;
-  position: relative;
-  color: inherit;
-  border-bottom: solid 1px #ffa07f;
-  -webkit-transition: all 200ms ease;
-  -moz-transition: all 200ms ease;
-  -ms-transition: all 200ms ease;
-  -o-transition: all 200ms ease;
-  transition: all 200ms ease;
-}
-a,
-a:hover,
-a:visited,
-a:active,
-a:link {
-  text-decoration: none;
-  -webkit-font-smoothing: antialiased;
-  -webkit-text-shadow: rgba(0, 0, 0, 0.01) 0 0 1px;
-  text-shadow: rgba(0, 0, 0, 0.01) 0 0 1px;
-}
-p a:active {
-  position: relative;
-  color: #ff6347;
-}
-p a:hover {
-  color: #ffffff;
-  background: #ffa07f;
-}
-p a:hover::after {
-  opacity: 0.2;
-}
-::selection {
-}
-p::selection {
-}
-h1 {
-  font-size: 48px;
-}
-h2 {
-  font-size: 36px;
-}
-h3 {
-  font-size: 24px;
-}
-h4 {
-  font-size: 18px;
-}
-h5 {
-  font-size: 14px;
-}
-h1,
-h2,
-h3,
-h4,
-h5,
-h6 {
-  font-family: "Rubik", sans-serif;
-  font-weight: 500;
-  -webkit-font-smoothing: antialiased;
-  -webkit-text-shadow: rgba(0, 0, 0, 0.01) 0 0 1px;
-  text-shadow: rgba(0, 0, 0, 0.01) 0 0 1px;
-}
-h1::selection,
-h2::selection,
-h3::selection,
-h4::selection,
-h5::selection,
-h6::selection {
-}
+
 .form-control {
   color: #db5246;
 }
-section {
-  display: block;
-  position: relative;
-  box-sizing: border-box;
-}
-.clear {
-  clear: both;
-}
-.clearfix::before,
-.clearfix::after {
-  content: "";
-  display: table;
-}
-.clearfix::after {
-  clear: both;
-}
-.clearfix {
-  zoom: 1;
-}
-.float_left {
-  float: left;
-}
-.float_right {
-  float: right;
-}
+
 .bbb_background {
   background-color: #e0e0e0 !important;
 }

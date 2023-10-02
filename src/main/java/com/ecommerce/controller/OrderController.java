@@ -3,6 +3,8 @@ package com.ecommerce.controller;
 import com.ecommerce.dto.FilterDTO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
+import org.springframework.security.access.prepost.PreAuthorize;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -24,7 +26,7 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 @Controller
 @RequestMapping("/orders")
 @RequiredArgsConstructor(onConstructor = @__(@Autowired))
-public class OrderController {
+public class OrderController extends BaseController {
     private final OrderService orderService;
     private final Long userId = 9L; // fixme: get userId from session/cookie
 
@@ -32,7 +34,8 @@ public class OrderController {
     public String showAllOrders(
             @Valid FilterDTO filter,
             Model model) {
-        Page<OrderDTO> orders = orderService.findOrdersByUserId(userId, filter);
+        var currentUser = getCurrentUser();
+        Page<OrderDTO> orders = orderService.findOrdersByUserId(currentUser.getId(), filter);
         model.addAttribute("orders", orders.getContent());
         model.addAttribute("currentPage", orders.getNumber() + 1);
         model.addAttribute("totalItems", orders.getTotalElements());

@@ -13,7 +13,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
     
     <link rel="stylesheet" th:href="@{/css/bootstrap.min.css}">
-    <link rel="stylesheet" th:href="@{/css/font-awesome.min.css}">
+    <link rel="stylesheet" th:href="@{/css/font-awesome.css}">
     <link rel="stylesheet" th:href="@{/css/owl.carousel.min.css}"/>
     <link rel="stylesheet" th:href="@{/css/owl.theme.default.css}">
     <link rel="stylesheet" th:href="@{/css/animate.css}">
@@ -23,7 +23,7 @@
     <link rel="stylesheet" th:href="@{/css/custom/main.css}"/>
 
 </head>
-<body>
+<body class="bg-light">
 <header th:replace="~{/layouts/user/header :: header}"></header>
 <section layout:fragment="content"></section>
 <footer th:replace="~{/layouts/user/footer :: footer}"></footer>
@@ -37,6 +37,7 @@
 <script th:src="@{/js/user/home.js}"></script>
 <script th:src="@{/js/owl.carousel.js}"></script>
 <script th:src="@{js/user/cart.js}"></script>
+<script th:src="@{/js/custom/header.js}"></script>
 <script>
     new WOW(
     ).init();

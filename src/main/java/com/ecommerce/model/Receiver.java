@@ -8,6 +8,7 @@ import lombok.*;
 @NoArgsConstructor
 @Entity
 @Table(name = "receivers")
+@Builder
 public class Receiver extends BaseEntity{
     private String name;
     @Column(columnDefinition = "char(10)")

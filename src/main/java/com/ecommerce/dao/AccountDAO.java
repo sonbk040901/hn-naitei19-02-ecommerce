@@ -3,6 +3,7 @@ package com.ecommerce.dao;
 import com.ecommerce.model.Account;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
+import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Repository;
 
 import java.util.Optional;
@@ -17,6 +18,6 @@ import java.util.Optional;
 
 @Repository
 public interface AccountDAO extends DAO<Long, Account> {
-    Optional<Account> findAllByUsername(String username);
+    Optional<Account> findFirstByUsername(String username);
     Page<Account> findAllByAddress(Pageable pageable, String address);
 }

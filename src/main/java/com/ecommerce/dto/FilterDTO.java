@@ -2,10 +2,7 @@ package com.ecommerce.dto;
 
 import jakarta.validation.constraints.Min;
 import jakarta.validation.constraints.Pattern;
-import lombok.Data;
-import lombok.Getter;
-import lombok.Setter;
-import lombok.ToString;
+import lombok.*;
 import org.springframework.format.annotation.DateTimeFormat;
 
 import java.util.Date;
@@ -18,15 +15,19 @@ import java.util.Date;
  */
 @Data
 @ToString
+//@Builder
 public class FilterDTO {
     @Min(0)
+//    @Builder.Default
     private int page = 1;
     @Min(1)
+//    @Builder.Default
     private int size = 6;
     @DateTimeFormat(pattern = "yyyy-MM-dd")
     private Date from;
     @DateTimeFormat(pattern = "yyyy-MM-dd")
     private Date to;
+//    @Builder.Default
     @Pattern(regexp = "(^|pending|accepted|rejected|cancelled|shipping|completed)$", message = "Invalid filter")
     private String s = "";//status
     public Integer getStatusValue(){

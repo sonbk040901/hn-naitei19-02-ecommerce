@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html
+        xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+        xmlns:th="http://www.thymeleaf.org"
+        xmlns="http://www.w3.org/1999/xhtml"
+        lang="vi"
+>
+<head>
+    <meta charset="UTF-8">
+    <title></title>
+    <link rel="stylesheet" th:href="@{/css/bootstrap.min.css}"/>
+    <link rel="stylesheet" th:href="@{/css/animate.css}">
+    <script th:src="@{/js/vendor/jquery-3.7.0.min.js}"></script>
+    <script th:src="@{/js/bootstrap.min.js}"></script>
+    <script th:src="@{/js/wow.min.js}"></script>
+    <script>
+        new WOW().init();
+    </script>
+</head>
+<body>
+<section class="vh-100 bg-secondary">
+    <div class="container py-5 h-100 w-100">
+        <div class="row d-flex justify-content-center align-items-center h-100">
+            <div class="w-100">
+                <div class="card shadow-lg" style="border-radius: 1rem;">
+                    <div class="row g-0">
+                        <div class="col-md-6 col-lg-5 d-none d-md-block">
+                            <img src="https://indian-retailer.s3.ap-south-1.amazonaws.com/s3fs-public/2022-08/parcel-paper-cartons-with-shopping-cart-logo-trolley-laptop-keyboard-min.jpg"
+                                 alt="login form"
+                                 style="border-radius: 1rem 0 0 1rem;width: 100%;height: 100%;object-fit: cover;object-position: 85% 50%"/>
+                        </div>
+                        <div layout:fragment="content"></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+</body>
+</html>

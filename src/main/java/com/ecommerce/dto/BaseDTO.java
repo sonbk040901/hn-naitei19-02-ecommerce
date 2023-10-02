@@ -2,6 +2,7 @@ package com.ecommerce.dto;
 
 import com.ecommerce.model.BaseEntity;
 import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import org.springframework.beans.BeanUtils;

@@ -1,115 +1,47 @@
-* {
-    box-sizing: border-box
+#navbar {
+    box-shadow: rgba(29, 30, 34, 0.47) 0 0 3px 0;
+    backdrop-filter: blur(10px);
 }
-
-.navbar-nav.navbar-header {
-    display: flex;
-    align-items: center;
-    gap: 1rem
-}
-
-.navbar-header .nav-item {
+#navbar .nav-link{
     font-weight: 600;
 }
-/*.navbar-header .nav-link {*/
-/*    color: #000000 !important;*/
-/*}*/
-
-.navbar-header > .nav-item:hover {
-    border-bottom: 1px solid #000;
+#navbar .nav-link:hover{
+    font-weight: 900;
+    color: black;
+}
+.has-search .form-control {
+    padding-left: 2.375rem;
+    margin-bottom: 0;
 }
 
-#search {
-    outline: none;
-    border: none;
-    display: inline-block
-}
-
-#search_bar {
-    box-shadow: rgba(49, 51, 54, 0.47) 0 0 1px 0;
-}
-
-#burgundy {
-    color: rgb(153, 40, 59)
-}
-
-#orange {
-    color: orange
-}
-
-.navbar {
-    box-shadow: rgba(29, 30, 34, 0.47) 0 0 3px 0;
-    padding: .8rem 1rem;
-}
-
-#navbarColor {
-}
-
-.fa-search {
-    font-size: 20px;
-    margin-bottom: 3px;
-    padding: 10px 20px 10px 10px;
-}
-
-.search-nav-item {
-    height: 40px;
-    display: flex;
-    margin: 0 0 0 15rem;
-    width: 350px;
-    border-radius: 10px;
-    padding-left: .8rem;
-    cursor: text;
-}
-
-.search-nav-item > label {
-    cursor: inherit;
-}
-
-header {
-    padding: 100px 100px;
-    margin-bottom: 20px;
-}
-
-.fa-user,
-.fa-shopping-cart {
-    font-size: 20px;
-    padding: 4px
-}
-
-.form-group {
-    margin-bottom: 5px
-}
-
-label {
-    padding-left: 10px
-}
-
-.form-group:last-child {
-    margin-bottom: 0
-}
-
-h6 {
-    margin-bottom: 0px
-}
-
-#sort {
-    outline: none;
-    border: none
-}
-
-.card-body {
-    padding: 8px
-}
-
-/*.sign {*/
-/*    width: 25px;*/
-/*    height: 25px*/
-/*}*/
-
-.discount {
-    border: 1px solid orange;
-    border-radius: 5px;
-    width: 65px;
+.has-search .form-control-feedback {
     position: absolute;
-    top: 2%
+    z-index: 2;
+    display: block;
+    width: 2.375rem;
+    height: 2.375rem;
+    line-height: 2.375rem;
+    text-align: center;
+    pointer-events: none;
+    color: #aaa;
+}
+.personal_nav{
+    gap: 1rem;
+}
+#avatar{
+    width: 35px;
+    height: 35px;
+    object-fit: cover;
+    cursor: pointer;
+    outline: 2px solid #fff;
+}
+.dropdown-toggle::after {
+    content: none;
+}
+.header-item{
+    transition: .1s;
+}
+.header-item:hover{
+    transform: scale(1.05);
+    box-shadow: #585959 0 0 5px -2px;
 }

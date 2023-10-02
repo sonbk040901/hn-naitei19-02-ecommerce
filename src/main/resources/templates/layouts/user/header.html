@@ -3,62 +3,158 @@
         lang="en"
         xmlns:th="http://www.thymeleaf.org"
         xmlns="http://www.w3.org/1999/xhtml"
+        xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity6"
 >
 <head>
     <meta charset="UTF-8"/>
     <title>Header</title>
 </head>
 <body>
+<li th:if="${cart}" class="nav-item">
+    <div class="dropdown">
+        <button class="nav-link btn dropdown-toggle p-1 border-0" type="button"
+                data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"
+        ><span class="fa fa-shopping-cart"></span
+        ><span class="text">Giỏ hàng</span>(<span th:utext="${num_of_products}"
+                                                  class="num_of_products"></span>)
+            <span class="invisible my-cart" th:id="${cart.id}"></span>
+        </button>
 
-<header th:fragment="header"
-        class="navbar navbar-expand-sm navbar-light bg-white border-bottom sticky-top container-fluid"
-        data-wow-delay=".1s"
->
-    <a class="navbar-brand ml-2 font-weight-bold" th:href="@{/}">
-        <span id="burgundy">EC-</span><span id="orange">FullStack</span>
-    </a>
-    <button class="navbar-toggler .btn" type="button" data-toggle="collapse" data-target="#navbarColor"
-            aria-controls="navbarColor" aria-expanded="false" aria-label="Toggle navigation"><span
-            class="navbar-toggler-icon"></span>
-    </button>
-    <div class="collapse navbar-collapse" id="navbarColor">
-        <ul class="navbar-nav justify-content-between container-fluid">
-            <form th:action="@{/search}" class="nav-item rounded-10 bg-light search-nav-item" id="search_bar">
-                <input type="text" id="search" name="name" th:value="${name}" class="flex-fill bg-transparent"
-                       placeholder="Search products">
-                <label for="search" class="fa fa-search text-muted"></label>
+        <div class="dropdown-menu dropdown-menu-right" aria-labelledby="dropdownMenuButton">
+
+            <div class="p-3">Số sản phẩm đang có trong giỏ hàng: <span
+                    class="text-danger font-weight-bold">[[${num_of_products}]]</span></div>
+            <a th:href="@{/cart}" class="badge badge-warning m-3">Xem giỏ hàng</a>
+        </div>
+    </div>
+</li>
+<header id="navbar" th:fragment="header" style="top: 0;right: 0;z-index: 999;"
+        class="position-sticky navbar navbar-expand-lg">
+    <!-- Container wrapper -->
+    <div class="container-fluid d-flex justify-content-between">
+        <!-- Collapsible wrapper -->
+        <div class="collapse navbar-collapse" id="navbarSupportedContent">
+            <!-- Navbar brand -->
+            <a class="navbar-brand" th:href="@{/}">
+                <img
+                        th:src="@{/images/logo.png}"
+                        height="30"
+                        alt="MDB Logo"
+                        loading="lazy"
+                        style="object-fit: contain"
+                />
+            </a>
+            <form class="has-search ml-5" th:action="@{/search}">
+                <label for="search_product" class="fa fa-search form-control-feedback"></label>
+                <input name="name" th:value="${name}" id="search_product" type="text" class="text-reset form-control"
+                       placeholder="Tìm kiếm sản phẩm">
             </form>
-            <ul class="navbar-nav navbar-header">
-                <li class="nav-item">
-                    <a class="nav-link" th:href="@{/orders}">
-                        <span class="text">Danh sách hóa đơn</span>
-                    </a>
-                </li>
-                <li class="nav-item">
-                  <div class="dropdown">
-                    <button class="nav-link btn dropdown-toggle p-1 border-0" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"
-                        ><span class="fa fa-shopping-cart"></span
-                        ><span class="text">Giỏ hàng</span>(<span th:utext=${num_of_products} class="num_of_products"></span>)
-                        <span class="invisible my-cart" th:id=${cart.id}></span>
-                        </button>
-                        
-                        <div class="dropdown-menu dropdown-menu-right" aria-labelledby="dropdownMenuButton">
-                        
-                            <div class="p-3">Số sản phẩm đang có trong giỏ hàng: <span class="text-danger font-weight-bold">[[${num_of_products}]]</span></div>
-                            <a th:href="@{/cart}" class="badge badge-warning m-3">Xem giỏ hàng</a>
-                        </div>
-                    <div/>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link" href="#">
-                        <span class="text">Login</span>
-                    </a>
-                </li>
-            </ul>
-        </ul>
+            <!-- Left links -->
+        </div>
+        <!-- Right elements -->
+        <div class="personal_nav d-flex align-items-center">
+            <!-- Icon -->
+            <div class="dropdown header-item">
+                <button class="btn bg-white shadow-sm dropdown-toggle text-reset"
+                        data-toggle="dropdown"
+                        aria-expanded="false"
+                >
+                    <span>Giỏ hàng</span>
+                    <span class="position-relative">
+                        <span class="fa fa-shopping-cart"></span>
+                        <span th:text="${num_of_products}"
+                              class="position-absolute num_of_products badge badge-info badge-pill"
+                              style="top: -6px; right: -6px;font-size: .5rem;"
+                        >
+                        </span>
+                    </span>
+                </button>
+
+                <div class="dropdown-menu dropdown-menu-right" aria-labelledby="dropdownMenuButton">
+
+                    <div class="p-3">Số sản phẩm đang có trong giỏ hàng: <span
+                            class="text-danger font-weight-bold">[[${num_of_products}]]</span></div>
+                    <a th:href="@{/cart}" class="badge badge-warning m-3">Xem giỏ hàng</a>
+                </div>
+            </div>
+            <!--            Orders-->
+            <div class="header-item">
+                <a th:href="@{/orders}" class="btn bg-white shadow-sm dropdown-toggle text-reset">
+                    <span>Hóa đơn</span>
+                    <i class="fa-solid fa-file-invoice"></i>
+                </a>
+            </div>
+
+            <!--            Notifications-->
+            <div class="dropdown header-item">
+                <button class="btn bg-white shadow-sm dropdown-toggle text-reset" data-toggle="dropdown"
+                        aria-expanded="false">
+                    <span>Thông báo</span>
+                    <span class="position-relative">
+                    <i class="fas fa-bell"></i>
+                        <span th:text="'1'"
+                              class="position-absolute num_of_products badge badge-warning badge-pill"
+                              style="top: -6px; right: -6px;font-size: .5rem;"
+                        >
+                        </span>
+                    </span>
+                </button>
+                <ul class="dropdown-menu dropdown-menu-right"
+                    aria-labelledby="navbarDropdownMenuLink"
+                >
+                    <li>
+                        <a class="dropdown-item" href="#">Some news</a>
+                    </li>
+                    <li>
+                        <a class="dropdown-item" href="#">Another news</a>
+                    </li>
+                    <li>
+                        <a class="dropdown-item" href="#">Something else here</a>
+                    </li>
+                </ul>
+            </div>
+            <!-- Avatar -->
+            <div sec:authorize="isAuthenticated()" class="dropdown">
+                <img id="avatar" src="https://cdn-icons-png.flaticon.com/512/147/147285.png"
+                     class="rounded-circle shadow-sm"
+                     alt="Black and White Portrait of a Man" loading="lazy" data-toggle="dropdown"
+                     aria-expanded="false"/>
+                <ul class="dropdown-menu dropdown-menu-right"
+                >
+                    <li>
+                        <a class="dropdown-item" href="#">Thông tin cá nhân</a>
+                    </li>
+                    <li>
+                        <a class="dropdown-item" href="#">Cài đặt</a>
+                    </li>
+                    <li>
+                        <a class="dropdown-item" th:href="@{/logout}">Đăng xuất</a>
+                    </li>
+                </ul>
+            </div>
+            <a th:href="@{/login}" sec:authorize="isAnonymous()" class="btn bg-white shadow-sm text-reset header-item">
+                <span>Đăng nhập</span>
+                <i class="fas fa-user"></i>
+            </a>
+        </div>
+        <!-- Right elements -->
+    </div>
+    <!-- Container wrapper -->
+    <div id="toast" class="wow bounceInRight" th:if="${param.login}"
+         style="position: fixed; top: 10px; right: 10px;"
+    >
+        <div class="toast bg-light overflow-hidden" data-delay="2000">
+            <div class="toast-header">
+                <strong class="mr-auto text-success">Thành công</strong>
+                <button type="button" class="ml-2 mb-1 close" data-dismiss="toast" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="toast-body">
+                Đăng nhập thành công
+            </div>
+        </div>
     </div>
 </header>
-
-
 </body>
 </html>

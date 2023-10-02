@@ -23,6 +23,7 @@ import java.util.List;
 @NoArgsConstructor
 @ProductAvailable
 @ContainProductInCart
+@Builder
 public class OrderDTO extends BaseDTO {
     private Long totalPrice;
     private String shippingStatus;

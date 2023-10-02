@@ -3,15 +3,15 @@ package com.ecommerce.model;
 import java.util.List;
 
 import jakarta.persistence.*;
-import lombok.Data;
-import lombok.EqualsAndHashCode;
-import lombok.NoArgsConstructor;
+import lombok.*;
 
 @EqualsAndHashCode(callSuper = true)
 @NoArgsConstructor
+@AllArgsConstructor
 @Entity
 @Table(name = "categories")
 @Data
+@Builder
 public class Category extends BaseEntity {
 
     private String name;

@@ -5,16 +5,14 @@ import java.util.List;
 import com.ecommerce.model.Category;
 
 import groovy.transform.ToString;
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
+import lombok.*;
 
 @Getter
 @Setter
 @ToString
 @NoArgsConstructor
 @AllArgsConstructor
+@Builder
 public class CategoryDTO extends BaseDTO {
     private Long id;
     private String name;

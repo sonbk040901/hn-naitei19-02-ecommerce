@@ -7,7 +7,9 @@ import lombok.*;
 @Data
 @Entity
 @NoArgsConstructor
+@AllArgsConstructor
 @Table(name = "order_details")
+@Builder
 public class OrderDetail extends BaseEntity {
     private Long price;
 

@@ -8,8 +8,10 @@ import java.util.List;
 @EqualsAndHashCode(callSuper = true)
 @Data
 @NoArgsConstructor
+@AllArgsConstructor
 @Entity
 @Table(name = "carts")
+@Builder
 public class Cart extends BaseEntity {
 
     @OneToOne(fetch = FetchType.LAZY)

@@ -4,6 +4,7 @@ import com.ecommerce.dto.BaseDTO;
 import jakarta.persistence.*;
 import lombok.*;
 import org.hibernate.annotations.ColumnDefault;
+import org.hibernate.annotations.Formula;
 
 import java.util.List;
 
@@ -11,7 +12,9 @@ import java.util.List;
 @Data
 @Entity
 @NoArgsConstructor
+@AllArgsConstructor
 @Table(name = "orders")
+@Builder
 public class Order extends BaseEntity {
     @Getter
     @RequiredArgsConstructor
@@ -25,8 +28,10 @@ public class Order extends BaseEntity {
         private final int value;
     }
 
+    @Formula("total_price - shipping_fee")
+    private Long totalAmount;// tổng tiền hàng (chưa tính phí ship)
     @Column(name = "total_price")
-    private Long totalPrice;
+    private Long totalPrice; // tổng tiền hàng (đã tính phí ship)
     @Column(name = "shipping_status")
     private String shippingStatus;
     @Column(name = "shipping_fee")
@@ -62,6 +67,7 @@ public class Order extends BaseEntity {
     }
 
     public Order(Long totalPrice, String shippingStatus, Long shippingFee, Long receiverId, Long userId, Integer status) {
+        this.totalAmount = totalPrice - shippingFee;
         this.totalPrice = totalPrice;
         this.shippingStatus = shippingStatus;
         this.shippingFee = shippingFee;
@@ -87,6 +93,7 @@ public class Order extends BaseEntity {
         this.userId = userId;
         this.orderDetails = orderDetails;
     }
+
     public int getStatusValue() {
         return status.value;
     }
