@@ -2,7 +2,12 @@ package com.ecommerce.dto;
 
 import com.ecommerce.model.CartDetail;
 
-import lombok.*;
+import groovy.transform.builder.Builder;
+import lombok.AllArgsConstructor;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
+import lombok.ToString;
 
 /**
  * @Project: hn-naitei19-02-ecommerce
@@ -17,14 +22,18 @@ import lombok.*;
 @AllArgsConstructor
 @Builder
 public class CartDetailDTO extends BaseDTO {
-    private Long cart_id;
-    private Long product_id;
+
+    private Long id;
+    private Long cartId;
+    private Long productId;
     private Integer quantity;
+    private ProductDTO product;
 
     public CartDetailDTO(CartDetail cartDetail) {
         super();
-        this.cart_id = cartDetail.getCartId();
-        this.product_id = cartDetail.getProductId();
         this.quantity = cartDetail.getQuantity();
+        this.id = cartDetail.getId();
+        this.cartId = cartDetail.getCartId();
+        this.productId = cartDetail.getProductId();
     }
 }

@@ -1,47 +1,47 @@
 #navbar {
-    box-shadow: rgba(29, 30, 34, 0.47) 0 0 3px 0;
-    backdrop-filter: blur(10px);
+  box-shadow: rgba(29, 30, 34, 0.47) 0 0 3px 0;
+  backdrop-filter: blur(10px);
 }
-#navbar .nav-link{
-    font-weight: 600;
+#navbar .nav-link {
+  font-weight: 600;
 }
-#navbar .nav-link:hover{
-    font-weight: 900;
-    color: black;
+#navbar .nav-link:hover {
+  font-weight: 900;
+  color: black;
 }
 .has-search .form-control {
-    padding-left: 2.375rem;
-    margin-bottom: 0;
+  padding-left: 2.375rem;
+  margin-bottom: 0;
 }
 
 .has-search .form-control-feedback {
-    position: absolute;
-    z-index: 2;
-    display: block;
-    width: 2.375rem;
-    height: 2.375rem;
-    line-height: 2.375rem;
-    text-align: center;
-    pointer-events: none;
-    color: #aaa;
+  position: absolute;
+  z-index: 2;
+  display: block;
+  width: 2.375rem;
+  height: 2.375rem;
+  line-height: 2.375rem;
+  text-align: center;
+  pointer-events: none;
+  color: #aaa;
 }
-.personal_nav{
-    gap: 1rem;
+.personal_nav {
+  gap: 1rem;
 }
-#avatar{
-    width: 35px;
-    height: 35px;
-    object-fit: cover;
-    cursor: pointer;
-    outline: 2px solid #fff;
+#avatar {
+  width: 35px;
+  height: 35px;
+  object-fit: cover;
+  cursor: pointer;
+  outline: 2px solid #fff;
 }
 .dropdown-toggle::after {
-    content: none;
+  content: none;
 }
-.header-item{
-    transition: .1s;
+.header-item {
+  transition: 0.1s;
 }
-.header-item:hover{
-    transform: scale(1.05);
-    box-shadow: #585959 0 0 5px -2px;
+.header-item:hover {
+  transform: scale(1.05);
+  box-shadow: #585959 0 0 5px -2px;
 }

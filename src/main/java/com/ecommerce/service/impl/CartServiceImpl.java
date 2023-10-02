@@ -1,18 +1,18 @@
 package com.ecommerce.service.impl;
 
-import com.ecommerce.dto.CartDTO;
-import com.ecommerce.model.Cart;
-import com.ecommerce.dto.CartDetailDTO;
-import com.ecommerce.exception.NotFound;
-import com.ecommerce.model.CartDetail;
-import com.ecommerce.service.CartService;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Optional;
 
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Optional;
+import com.ecommerce.dto.CartDTO;
+import com.ecommerce.dto.CartDetailDTO;
+import com.ecommerce.exception.NotFound;
+import com.ecommerce.model.Cart;
+import com.ecommerce.model.CartDetail;
+import com.ecommerce.service.CartService;
 
 /**
  * @Project: hn-naitei19-02-ecommerce
@@ -22,40 +22,18 @@ import java.util.Optional;
  */
 @Service
 public class CartServiceImpl extends BaseService implements CartService {
-	@Override
-	public List<CartDTO> get() {
-		return null;
-	}
-
-	@Override
-	public CartDTO get(Long id) {
-		return null;
-	}
-
-	@Override
-	public void save(CartDTO e) {
-	}
-
-	@Override
-	public void update(CartDTO e) {
-	}
-
-	@Override
-	public void delete(CartDTO e) {
-	}
 
 	@Override
 	@Transactional
 	public CartDTO getCartByUserId(Long userId) {
 		Optional<Cart> cartOptional = cartDAO.findByUserId(userId);
-
 		Cart cart;
 		// Kiểm tra xem cart có tồn tại ko, nếu không thì tạo mới
 		boolean isEmpty = cartOptional.isEmpty();
 		if (isEmpty) {
 			cart = new Cart(userId);
 			cartDAO.save(cart);
-			throw new NotFound("Cart is empty");
+			return new CartDTO(cart);
 		}
 		// Nếu có thì lấy cart đó ra
 		cart = cartOptional.get();
@@ -75,7 +53,6 @@ public class CartServiceImpl extends BaseService implements CartService {
 	@Override
 	public CartDTO addProductToCart(Long cartId, Long productId, Integer quantity) {
 		Optional<Cart> cartOptional = cartDAO.findById(cartId);
-
 		Cart cart;
 		cart = cartOptional.get();
 
@@ -104,4 +81,67 @@ public class CartServiceImpl extends BaseService implements CartService {
 		Cart cart = cartOptional.get();
 		return cart.getCartDetails().stream().anyMatch(cd -> cd.getProductId().equals(productId));
 	}
+
+	@Override
+	public boolean checkOwnerCart(Long cartId, Long userId) {
+		Optional<Cart> cartOptional = cartDAO.findById(cartId);
+		if (cartOptional.isEmpty()) {
+			return false;
+		}
+		Cart cart = cartOptional.get();
+		return cart.getUserId().equals(userId);
+	}
+
+	@Override
+	@Transactional
+	public void updateQuantity(Long cartId, Long productId, Integer quantity) {
+		Optional<CartDetail> cartDetailOptional = cartDetailDAO.findByCartIdAndProductId(cartId, productId);
+		if (cartDetailOptional.isEmpty()) {
+			throw new NotFound("Product not found");
+		}
+
+		CartDetail cartDetail = cartDetailOptional.get();
+		if (cartDetail.getQuantity() <= 0) {
+			cartDetailDAO.delete(cartDetail);
+		} else {
+			cartDetail.setQuantity(quantity);
+			cartDetailDAO.save(cartDetail);
+		}
+	}
+
+	@Override
+	@Transactional
+	public void deleteCartDetail(Long cartId, Long productId) {
+		Optional<CartDetail> cartItem = cartDetailDAO.findByCartIdAndProductId(cartId, productId);
+		if (cartItem.isEmpty()) {
+			throw new NotFound("Product not found");
+		}
+		cartDetailDAO.delete(cartItem.get());
+	}
+
+	@Override
+	public CartDTO getById(Long id) {
+		return getMappedCartDTO(cartDAO.findById(id).get());
+	}
+
+	@Override
+	public CartDTO getByUserId(Long userId) {
+		return getMappedCartDTO(cartDAO.findByUserId(userId).get());
+	}
+
+	@Override
+	public Long getTotalPrice(List<CartDetailDTO> cartDetails) {
+		Long totalPrice = 0L;
+		for (CartDetailDTO cartDetail : cartDetails) {
+			totalPrice += cartDetail.getQuantity() * (cartDetail.getProduct().getPrice());
+		}
+		return totalPrice;
+	}
+
+	private CartDTO getMappedCartDTO(Cart cart) {
+		return modelMapper
+				.typeMap(Cart.class, CartDTO.class)
+				.map(cart);
+	}
+
 }
