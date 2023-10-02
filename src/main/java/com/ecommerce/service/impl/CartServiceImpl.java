@@ -14,6 +14,8 @@ import com.ecommerce.model.Cart;
 import com.ecommerce.model.CartDetail;
 import com.ecommerce.service.CartService;
 
+import com.ecommerce.userdetails.CustomUserDetails;
+
 /**
  * @Project: hn-naitei19-02-ecommerce
  * @Author: sonle
@@ -46,8 +48,7 @@ public class CartServiceImpl extends BaseService implements CartService {
 			cartDetailDTOs.add(i, new CartDetailDTO(detail));
 		}
 
-		CartDTO cartDTO = new CartDTO(cart, cartDetailDTOs);
-		return cartDTO;
+		return getMappedCartDTO(cart);
 	}
 
 	@Override
@@ -144,4 +145,14 @@ public class CartServiceImpl extends BaseService implements CartService {
 				.map(cart);
 	}
 
+	@Override
+	public int getCartSize(CustomUserDetails userDetails) {
+		var user = userDetails.getUser();
+		var cartOptional = cartDAO.findByUserId(user.getId());
+		if (cartOptional.isPresent()) {
+			var cart = cartOptional.get();
+			return (int) cartDetailDAO.countByCartId(cart.getId());
+		}
+		return 0;
+	}
 }

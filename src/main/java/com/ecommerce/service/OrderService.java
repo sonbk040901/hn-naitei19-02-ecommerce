@@ -3,6 +3,7 @@ package com.ecommerce.service;
 import com.ecommerce.dto.FilterDTO;
 import com.ecommerce.dto.OrderDTO;
 import com.ecommerce.dto.ReceiverDTO;
+import com.ecommerce.userdetails.CustomUserDetails;
 import org.springframework.data.domain.Page;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -22,4 +23,6 @@ public interface OrderService extends Service<Long, OrderDTO> {
 
     @Transactional
     void cancelOrder(Long id, Long userId);
+
+    int getOrderSize(CustomUserDetails user);
 }

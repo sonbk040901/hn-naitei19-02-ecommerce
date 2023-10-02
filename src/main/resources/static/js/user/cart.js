@@ -87,7 +87,6 @@ function removeCartItem(cartId, productId) {
             element.remove();
           }
         });
-        $(".num_of_products").text(Number($(".num_of_products").text()) - 1);
         $("#update-cart-success").show();
         $("#update-cart-fail").hide();
         setTimeout(() => {

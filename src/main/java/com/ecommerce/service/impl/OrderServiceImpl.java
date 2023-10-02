@@ -1,10 +1,10 @@
 package com.ecommerce.service.impl;
 
-import com.ecommerce.dao.OrderDAO;
 import com.ecommerce.dto.*;
 import com.ecommerce.exception.NotFound;
 import com.ecommerce.model.*;
 import com.ecommerce.service.OrderService;
+import com.ecommerce.userdetails.CustomUserDetails;
 import org.modelmapper.TypeToken;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -15,7 +15,6 @@ import java.lang.reflect.Type;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
-import java.util.Optional;
 
 /**
  * @Project: hn-naitei19-02-ecommerce
@@ -94,6 +93,12 @@ public class OrderServiceImpl extends BaseService implements OrderService {
             throw new NotFound("Order status is not valid!");
         }
 
+    }
+
+    @Override
+    public int getOrderSize(CustomUserDetails userDetails) {
+        var user = userDetails.getUser();
+        return (int) orderDAO.countByUserId(user.getId());
     }
 
     @Override

@@ -3,9 +3,13 @@ package com.ecommerce.controller;
 import com.ecommerce.model.Account;
 import com.ecommerce.userdetails.CustomUserDetails;
 import lombok.NonNull;
+import lombok.val;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.util.Assert;
+
+import java.util.Optional;
 
 /**
  * @Project: hn-naitei19-02-ecommerce
@@ -15,17 +19,19 @@ import org.springframework.security.core.userdetails.UserDetails;
  */
 public abstract class BaseController {
     public static Account getCurrentUser() {
-        var userDetails = getCurrentUserDetails();
-        return userDetails.getUser();
+        var currentUserDetails = getCurrentUserDetails();
+        return currentUserDetails.getUser();
     }
 
     public static CustomUserDetails getCurrentUserDetails() {
-        Authentication authentication = getAuthentication();
+        var authentication = getAuthentication();
         return (CustomUserDetails) authentication.getPrincipal();
     }
 
     private static Authentication getAuthentication() {
-        return SecurityContextHolder.getContext().getAuthentication();
+        val authentication = SecurityContextHolder.getContext().getAuthentication();
+        Assert.notNull(authentication, "No authentication found in context");
+        return authentication;
     }
 
 }

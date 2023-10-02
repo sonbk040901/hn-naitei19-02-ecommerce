@@ -4,6 +4,7 @@ import java.util.List;
 
 import com.ecommerce.dto.CartDTO;
 import com.ecommerce.dto.CartDetailDTO;
+import com.ecommerce.userdetails.CustomUserDetails;
 
 /**
  * @Project: hn-naitei19-02-ecommerce
@@ -30,4 +31,6 @@ public interface CartService {
     boolean checkOwnerCart(Long cartId, Long userId);
 
     void deleteCartDetail(Long cartId, Long productId);
+
+    int getCartSize(CustomUserDetails user);
 }
