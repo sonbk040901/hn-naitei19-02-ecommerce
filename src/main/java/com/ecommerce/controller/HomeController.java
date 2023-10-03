@@ -2,9 +2,6 @@ package com.ecommerce.controller;
 
 import java.util.List;
 
-import com.ecommerce.dto.HeaderInfoDTO;
-import com.ecommerce.service.OrderService;
-import com.ecommerce.userdetails.CustomUserDetails;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
@@ -16,13 +13,15 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 
-import com.ecommerce.dto.CartDTO;
 import com.ecommerce.dto.CategoryDTO;
+import com.ecommerce.dto.HeaderInfoDTO;
 import com.ecommerce.dto.ProductDTO;
 import com.ecommerce.model.Product;
 import com.ecommerce.service.CartService;
 import com.ecommerce.service.CategoryService;
+import com.ecommerce.service.OrderService;
 import com.ecommerce.service.SearchService;
+import com.ecommerce.userdetails.CustomUserDetails;
 
 import lombok.RequiredArgsConstructor;
 
@@ -60,10 +59,6 @@ public class HomeController {
         List<CategoryDTO> categories = categoryService.getAllByTree();
         List<ProductDTO> saleProducts = searchService.findTopSale();
 
-        CartDTO cart = cartService.getCartByUserId((long) 16);
-        modelAndView.addObject("cart", cart);
-        modelAndView.addObject("num_of_products", cart.getCartDetails().size());
-
         modelAndView.addObject("products", products);
         modelAndView.addObject("saleProducts", saleProducts);
         modelAndView.addObject("categories", categories);
@@ -81,7 +76,7 @@ public class HomeController {
     public HeaderInfoDTO header(UsernamePasswordAuthenticationToken principal) {
         var user = (CustomUserDetails) principal.getPrincipal();
         var cartSize = cartService.getCartSize(user);
-        var notificationSize = 5; //fixme: get notification size
+        var notificationSize = 5; // fixme: get notification size
         var orderSize = orderService.getOrderSize(user);
         return new HeaderInfoDTO(cartSize, notificationSize, orderSize);
     }

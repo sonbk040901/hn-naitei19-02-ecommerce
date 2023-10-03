@@ -6,6 +6,7 @@ import com.ecommerce.model.*;
 import com.ecommerce.service.OrderService;
 import com.ecommerce.userdetails.CustomUserDetails;
 import org.modelmapper.TypeToken;
+import org.springframework.beans.BeanUtils;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
@@ -15,6 +16,7 @@ import java.lang.reflect.Type;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
+import java.util.Optional;
 
 /**
  * @Project: hn-naitei19-02-ecommerce
@@ -186,4 +188,63 @@ public class OrderServiceImpl extends BaseService implements OrderService {
     private long calculateShippingFee(List<?> orderDetails) {
         return orderDetails.size() * 1000L;
     }
+
+	@Override
+	public List<OrderDTO> showAllByAdmin() {
+		List<Order> orders = orderDAO.findAll();
+		List<OrderDTO> orderDTOs = new ArrayList<>();
+		
+		for (Order order : orders)
+		{
+			OrderDTO orderDTO = new OrderDTO();
+	        BeanUtils.copyProperties(order, orderDTO);
+	        orderDTO.setFullname(order.getUser().getFullname()); // lay ten nguoi dat hang tu model
+	        orderDTO.setStatus(order.getStatus().getValue());	//anh xa tu enum-Model sang int-DTO
+	        orderDTOs.add(orderDTO);
+		}
+		
+		return orderDTOs;
+	}
+
+	@Override
+	public OrderDTO getOrderDetail(Long orderId) {
+		Optional<Order> optionalOrder = orderDAO.findById(orderId);
+
+		if (optionalOrder.isPresent()) 
+		{
+			Order order = optionalOrder.get();
+			OrderDTO orderDTO = new OrderDTO();
+			ReceiverDTO receiverDTO = new ReceiverDTO();
+
+			// Lay receiver tu order
+			BeanUtils.copyProperties(order.getReceiver(), receiverDTO);
+			BeanUtils.copyProperties(order, orderDTO);
+			orderDTO.setStatus(order.getStatus().getValue());
+			orderDTO.setReceiver(receiverDTO);
+
+			// Lay product va order-detail tu order
+			List<OrderDetailDTO> orderDetailDTOs = getProductFromOrder(order);
+			orderDTO.setOrderDetails(orderDetailDTOs);
+
+			return orderDTO;
+		}
+
+		return null;
+	}
+	
+	private List<OrderDetailDTO> getProductFromOrder(Order order) {
+		List<OrderDetail> orderDetails = order.getOrderDetails();
+		List<OrderDetailDTO> orderDetailDTOs = new ArrayList<>();
+		for ( OrderDetail orderDetail : orderDetails)
+		{
+			ProductDTO productDTO = new ProductDTO();
+			OrderDetailDTO orderDetailDTO = new OrderDetailDTO();
+			
+			BeanUtils.copyProperties(orderDetail.getProduct(), productDTO);
+			BeanUtils.copyProperties(orderDetail, orderDetailDTO);
+			orderDetailDTO.setProduct(productDTO);
+			orderDetailDTOs.add(orderDetailDTO);
+		}
+		return orderDetailDTOs;
+	}
 }
