@@ -1,5 +1,6 @@
 package com.ecommerce.service.impl;
 
+import com.ecommerce.dao.OrderDAO;
 import com.ecommerce.dto.*;
 import com.ecommerce.exception.NotFound;
 import com.ecommerce.model.*;
@@ -14,6 +15,7 @@ import java.lang.reflect.Type;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
+import java.util.Optional;
 
 /**
  * @Project: hn-naitei19-02-ecommerce
@@ -66,6 +68,32 @@ public class OrderServiceImpl extends BaseService implements OrderService {
             orderDTO.setFirstProduct(productDTO);
             return orderDTO;
         });
+    }
+
+    @Override
+    public void cancelOrder(Long id, Long userId) {
+        // set status
+        Order order = orderDAO.findById(id).orElseThrow(() -> new NotFound("Order not found"));
+        //check user
+        if (!order.getUserId().equals(userId)) {
+            throw new NotFound("User is not valid!");
+        }
+
+        if (order.getStatus().equals(Order.Status.PENDING)) {
+            order.setStatus(Order.Status.CANCELLED);
+            orderDAO.save(order);
+            // update product quantity
+            order.getOrderDetails().forEach(orderDetail -> {
+                int quantity = orderDetail.getQuantity();
+                Product product = orderDetail.getProduct();
+                int oldQuantity = product.getQuantity();
+                product.setQuantity(quantity + oldQuantity);
+                productDAO.save(product);
+            });
+        }else{
+            throw new NotFound("Order status is not valid!");
+        }
+
     }
 
     @Override

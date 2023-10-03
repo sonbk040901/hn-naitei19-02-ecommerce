@@ -6,10 +6,25 @@
 <head>
     <meta charset="UTF-8">
     <title>Title</title>
-    <link rel="stylesheet" href="/css/custom/user/order/detail.css">
+    <link rel="stylesheet" th:href="@{/css/custom/user/order/detail.css}">
+    <script defer th:src="@{/js/custom/orderDetail.js}"></script>
 </head>
 <body>
 <section layout:fragment="content">
+    <!-- Flexbox container for aligning the toasts -->
+    <div th:if="${param.canceled}" class="position-fixed bottom-0 right-0 p-3" style="z-index: 5; right: 0; bottom: 0;">
+        <div id="liveToast" class="toast hide" role="alert" aria-live="assertive" aria-atomic="true" data-delay="2000" style="background-color: #2a9cf8">
+            <div class="toast-header">
+                <strong class="mr-auto">Thông báo</strong>
+                <button type="button" class="ml-2 mb-1 close" data-dismiss="toast" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="toast-body" style="color: white">
+                Hủy đơn hàng thành công!
+            </div>
+        </div>
+    </div>
     <div class="container-fluid pt-8 main-content">
         <!--        <nav aria-label="breadcrumb" class="w-25">-->
         <!--            <ol class="breadcrumb box-link">-->
@@ -90,9 +105,13 @@
                                 </tr>
                                 </tfoot>
                             </table>
-                        </div>
-                        <div th:if="${order.status} == 0" class="py-3 text-center card-footer bg-white">
-                            <button type="button" class="btn btn-danger">Hủy đơn hàng</button>
+                            <div th:if="${order.status} == 0" class="p-2 text-center ">
+                                <button type="button" class="btn btn-danger" data-toggle="modal"
+                                        data-target="#huydonhang">Hủy đơn hàng
+                                </button>
+                            </div>
+                            <div th:replace="~{fragments/confirm :: confirm('huydonhang', 'Hủy đơn hàng','Bạn chắc chắn muốn hủy đơn hàng này chứ?')}"></div>
+
                         </div>
                     </div>
 
