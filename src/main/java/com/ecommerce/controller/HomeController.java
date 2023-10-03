@@ -2,13 +2,18 @@ package com.ecommerce.controller;
 
 import java.util.List;
 
+import com.ecommerce.dto.HeaderInfoDTO;
+import com.ecommerce.service.OrderService;
+import com.ecommerce.userdetails.CustomUserDetails;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
+import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 
 import com.ecommerce.dto.CartDTO;
@@ -30,6 +35,8 @@ public class HomeController {
     private final CategoryService categoryService;
 
     private final CartService cartService;
+
+    private final OrderService orderService;
 
     @GetMapping(value = { "/", "search" })
     public ModelAndView index(
@@ -67,5 +74,15 @@ public class HomeController {
         modelAndView.addObject("sortBy", sortBy);
 
         return modelAndView;
+    }
+
+    @GetMapping("/header-info")
+    @ResponseBody
+    public HeaderInfoDTO header(UsernamePasswordAuthenticationToken principal) {
+        var user = (CustomUserDetails) principal.getPrincipal();
+        var cartSize = cartService.getCartSize(user);
+        var notificationSize = 5; //fixme: get notification size
+        var orderSize = orderService.getOrderSize(user);
+        return new HeaderInfoDTO(cartSize, notificationSize, orderSize);
     }
 }

@@ -4,6 +4,7 @@ import com.ecommerce.service.impl.UserDetailsServiceImpl;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.http.HttpMethod;
 import org.springframework.security.authentication.dao.DaoAuthenticationProvider;
 import org.springframework.security.config.annotation.method.configuration.EnableMethodSecurity;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
@@ -46,7 +47,8 @@ public class SecurityConfig {
                                 mvc.pattern("/login"),
                                 mvc.pattern("/"),
                                 mvc.pattern("/search"),
-                                mvc.pattern("/signup")
+                                mvc.pattern("/signup"),
+                                mvc.pattern(HttpMethod.GET, "/products/**")
                         )
                         .permitAll()
                         .anyRequest()

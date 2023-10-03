@@ -38,9 +38,4 @@ public class Config {
         filter.setAfterMessagePrefix("REQUEST DATA: ");
         return filter;
     }
-
-//    @Bean
-//    public BCryptPasswordEncoder passwordEncoder() {
-//        return new BCryptPasswordEncoder();
-//    }
 }

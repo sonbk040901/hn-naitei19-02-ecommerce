@@ -45,3 +45,8 @@
   transform: scale(1.05);
   box-shadow: #585959 0 0 5px -2px;
 }
+.header-item .active {
+  background: #009cff;
+  color: #ffffff !important;
+  font-weight: bold;
+}

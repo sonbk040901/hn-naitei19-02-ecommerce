@@ -49,7 +49,8 @@ public class CartController extends BaseController {
     @ResponseStatus(HttpStatus.OK)
     public String updateCart(@RequestBody UpdateCartDTO updateCartDTO, @PathVariable Long cartId,
             @PathVariable Long productId) {
-        if (!cartService.checkOwnerCart(cartId, getCurrentUser().getId())) {
+        var currentUser = getCurrentUser();
+        if (!cartService.checkOwnerCart(cartId, currentUser.getId())) {
             throw new UpdateCartFail("You are not owner of this cart");
         }
         cartService.updateQuantity(cartId, productId, updateCartDTO.getQuantity());
@@ -60,7 +61,8 @@ public class CartController extends BaseController {
     @ResponseBody
     @ResponseStatus(HttpStatus.OK)
     public String deleteProductInCart(@PathVariable Long cartId, @PathVariable Long productId) {
-        if (!cartService.checkOwnerCart(cartId, getCurrentUser().getId())) {
+        var currentUser = getCurrentUser();
+        if (!cartService.checkOwnerCart(cartId, currentUser.getId())) {
             throw new UpdateCartFail("You are not owner of this cart");
         }
         cartService.deleteCartDetail(cartId, productId);
