@@ -2,6 +2,7 @@ package com.ecommerce.controller;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
+import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -68,4 +69,6 @@ public class CartController extends BaseController {
         cartService.deleteCartDetail(cartId, productId);
         return "Product deleted successfully";
     }
+
+
 }

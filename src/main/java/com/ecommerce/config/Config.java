@@ -6,6 +6,7 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.data.jpa.repository.config.EnableJpaAuditing;
 import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
+import org.springframework.scheduling.annotation.EnableScheduling;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.web.filter.CommonsRequestLoggingFilter;
 import org.springframework.web.servlet.config.annotation.ResourceHandlerRegistry;
@@ -19,6 +20,7 @@ import org.springframework.web.servlet.config.annotation.ResourceHandlerRegistry
 @Configuration
 @EnableJpaRepositories(basePackages = "com.ecommerce.dao")
 @EnableJpaAuditing
+@EnableScheduling
 public class Config {
     @Bean
     public ModelMapper modelMapper() {

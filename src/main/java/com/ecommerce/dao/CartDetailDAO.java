@@ -1,8 +1,10 @@
 package com.ecommerce.dao;
 
+import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Optional;
 
+import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
 
 import com.ecommerce.model.CartDetail;
@@ -22,6 +24,11 @@ public interface CartDetailDAO extends DAO<Long, CartDetail> {
     void updateQuantity(Long id, Long productId, Integer quantity);
 
     void deleteByProductId(Long productId);
+
+
+    @Modifying
+    @Query(value = "SELECT * FROM cart_details cd WHERE cd.created_at < SUBDATE(CURRENT_TIMESTAMP, INTERVAL ?1 DAY)", nativeQuery = true)
+    List<CartDetail> getCartDetailByCreatedAtTimeout(int exp);
 
     @Query(value = "SELECT * FROM cart_details WHERE cart_id = ?1 AND product_id = ?2 limit 1", nativeQuery = true)
     Optional<CartDetail> findByCartIdAndProductId(Long cartId, Long productId);
