@@ -32,6 +32,10 @@ function addToCart(productId, quantity) {
     }),
     contentType: "application/json",
     success: function (response) {
+      if (!parseInt(response)) {
+        alert("Please login to add product to cart!");
+        return;
+      }
       $("#cart_size").text(response);
       alert("Product added to cart successfully!");
     },
@@ -76,13 +80,12 @@ function updateCart(cartId, productId, quantity) {
 }
 
 function removeCartItem(cartId, productId) {
-  console.log(cartId, productId);
   $.ajax({
     url: `/cart/${cartId}/delete/${productId}`,
     type: "delete",
     contentType: "application/json",
     success: function (response) {
-      if (response) {
+      if (response > 0) {
         $(".cart-item").each((index, element) => {
           if (element.getAttribute("data-product-id") == productId) {
             element.remove();
@@ -95,6 +98,8 @@ function removeCartItem(cartId, productId) {
         }, 3000);
         countTotalPrice();
         $("#cart_size").text(response);
+      } else if (response == 0) {
+        window.location.href = "/cart";
       } else {
         $("#update-cart-fail").show();
         $("#update-cart-success").hide();
@@ -127,4 +132,8 @@ function formatPrice(price) {
 
 function returnPrice(price) {
   return parseInt(price.replace(/\./g, ""));
+}
+
+function checkNumber(string) {
+  return /^\d+$/.test(string);
 }
