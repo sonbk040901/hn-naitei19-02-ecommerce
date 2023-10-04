@@ -33,5 +33,5 @@ public interface CartDetailDAO extends DAO<Long, CartDetail> {
     @Query(value = "SELECT * FROM cart_details WHERE cart_id = ?1 AND product_id = ?2 limit 1", nativeQuery = true)
     Optional<CartDetail> findByCartIdAndProductId(Long cartId, Long productId);
 
-    long countByCartId(Long cartId);
+    Integer countByCartId(Long cartId);
 }

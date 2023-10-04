@@ -18,7 +18,6 @@ import org.springframework.web.bind.annotation.ResponseStatus;
 import com.ecommerce.dto.CartDTO;
 import com.ecommerce.dto.UpdateCartDTO;
 import com.ecommerce.exception.UpdateCartFail;
-import com.ecommerce.model.CartDetail;
 import com.ecommerce.service.CartService;
 
 @Controller
@@ -27,11 +26,14 @@ public class CartController extends BaseController {
     @Autowired
     private CartService cartService;
 
-    @ResponseBody
     @PostMapping("/add")
-    public void AddProductToCart(@RequestBody CartDetail cartDetail) throws Exception {
-        cartService.addProductToCart(cartDetail.getCartId(), cartDetail.getProductId(), cartDetail.getQuantity());
-        return;
+    @ResponseBody
+    @ResponseStatus(HttpStatus.OK)
+    public Integer addProductToCart(@RequestBody UpdateCartDTO addCartDTO) {
+        var currentUser = getCurrentUser();
+        Integer totalItem = cartService.addProductToCart(addCartDTO.getProductId(), addCartDTO.getQuantity(),
+                currentUser.getId());
+        return totalItem;
     }
 
     @GetMapping()
@@ -61,13 +63,13 @@ public class CartController extends BaseController {
     @DeleteMapping("/{cartId}/delete/{productId}")
     @ResponseBody
     @ResponseStatus(HttpStatus.OK)
-    public String deleteProductInCart(@PathVariable Long cartId, @PathVariable Long productId) {
+    public Integer deleteProductInCart(@PathVariable Long cartId, @PathVariable Long productId) {
         var currentUser = getCurrentUser();
         if (!cartService.checkOwnerCart(cartId, currentUser.getId())) {
             throw new UpdateCartFail("You are not owner of this cart");
         }
-        cartService.deleteCartDetail(cartId, productId);
-        return "Product deleted successfully";
+        Integer totalItem = cartService.deleteCartDetail(cartId, productId);
+        return totalItem;
     }
 
 
