@@ -2,10 +2,11 @@ package com.ecommerce.service;
 
 import java.util.List;
 
+import org.springframework.transaction.annotation.Transactional;
+
 import com.ecommerce.dto.CartDTO;
 import com.ecommerce.dto.CartDetailDTO;
 import com.ecommerce.userdetails.CustomUserDetails;
-import org.springframework.transaction.annotation.Transactional;
 
 /**
  * @Project: hn-naitei19-02-ecommerce
@@ -17,7 +18,7 @@ public interface CartService {
 
     CartDTO getCartByUserId(Long userId);
 
-    CartDTO addProductToCart(Long cartId, Long productId, Integer quantity);
+    Integer addProductToCart(Long productId, Integer quantity, Long userId);
 
     boolean existsProductInCart(Long productId, Long userId);
 
@@ -31,10 +32,10 @@ public interface CartService {
 
     boolean checkOwnerCart(Long cartId, Long userId);
 
-    void deleteCartDetail(Long cartId, Long productId);
-
-    int getCartSize(CustomUserDetails user);
+    Integer deleteCartDetail(Long cartId, Long productId);
 
     @Transactional
     void deleteTimeoutProduct();
+
+    Integer getCartSize(CustomUserDetails user);
 }

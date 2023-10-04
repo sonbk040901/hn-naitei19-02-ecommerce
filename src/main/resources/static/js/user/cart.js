@@ -1,26 +1,3 @@
-function addToCart(cartDetails, productId) {
-  if (!cartDetails.find((x) => x.product_id === productId)) {
-    var addToCart = {
-      productId: productId,
-      quantity: 1,
-      // cartId: Number($(".my-cart").attr("id")),
-      cartId: 11,
-    };
-    // Send the AJAX POST request
-    $.ajax({
-      type: "POST",
-      url: "/cart/add", // Replace with your server-side processing script
-      data: JSON.stringify(addToCart),
-      contentType: "application/json",
-      success: function (response) {
-        $(".num_of_products").text(Number($(".num_of_products").text()) + 1);
-        alert("Thêm sản phẩm vào giỏ hàng thành công!");
-      },
-    });
-  } else {
-    alert("Sản phẩm đã có sẵn trong giỏ hàng!");
-  }
-}
 $("#update-cart-success").hide();
 $("#update-cart-fail").hide();
 
@@ -39,6 +16,30 @@ $(".cart-item").each((index, element) => {
     updateCart(cartId, productId, quantity);
   });
 });
+
+function submitAddToCartForm() {
+  const quantity = $("#product-quantity").val();
+  const productId = $("#product-quantity").data("product-id");
+  addToCart(productId, quantity);
+}
+function addToCart(productId, quantity) {
+  $.ajax({
+    type: "POST",
+    url: "/cart/add",
+    data: JSON.stringify({
+      productId,
+      quantity: quantity ? parseInt(quantity) : 1,
+    }),
+    contentType: "application/json",
+    success: function (response) {
+      $("#cart_size").text(response);
+      alert("Product added to cart successfully!");
+    },
+    error: function (xhr) {
+      alert("Product added to cart failed!");
+    },
+  });
+}
 
 function updateCart(cartId, productId, quantity) {
   $.ajax({
@@ -93,6 +94,7 @@ function removeCartItem(cartId, productId) {
           $("#update-cart-success").hide();
         }, 3000);
         countTotalPrice();
+        $("#cart_size").text(response);
       } else {
         $("#update-cart-fail").show();
         $("#update-cart-success").hide();
