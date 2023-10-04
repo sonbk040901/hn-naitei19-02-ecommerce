@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout" xmlns:th="http://www.thymeleaf.org"
+	xmlns="http://www.w3.org/1999/xhtml" lang="vi" layout:decorate="~{layouts/admin/layout}">
+
+<head>
+	<meta charset="UTF-8">
+	<title>Admin page</title>
+</head>
+
+<body layout:fragment="content">
+	<div class="col-md-12 col-md-pull-3">
+		<div class="panel panel-default panel-table">
+			<div class="panel-body">
+				<table class="table table-striped table-bordered table-list">
+					<thead style="text-align:center">
+						<tr>
+							<th class="hidden-xs">STT</th>
+							<th class="hidden-xs">ID đơn hàng</th>
+							<th>Họ tên người đặt hàng</th>
+							<th>Tổng tiền</th>
+							<th>Trạng thái đơn hàng</th>
+							<th>Trạng thái vận chuyển</th>
+							<th>Hành động</th>
+						</tr>
+					</thead>
+					<tbody>
+						<tr th:each="order, state : ${orders}">
+							<td class="hidden-xs" th:text="${state.count}"></td>
+							<td th:text="${order.id}"> </td>
+							<td th:text="${order.fullname}"> </td>
+							<td th:text="${order.totalPrice}"> </td>
+							<td th:text="${order.status}"> </td>
+							<td th:text="${order.shippingStatus}"> </td>
+							<td align="center">
+								<a href="#" class="btn btn-default view-order" th:attr="data-order-id=${order.id}"><em
+										class="fa fa-ellipsis-v"></em></a>
+								<a href="" class="btn btn-default"><em class="fa fa-pencil-square-o"></em></a>
+							</td>
+						</tr>
+					</tbody>
+				</table>
+
+			</div>
+			<div class="container">
+				<ul class="pagination">
+					<li class="disabled"><a href="#">«</a></li>
+					<li class="active"><a href="#">1 <span class="sr-only">(current)</span></a></li>
+					<li><a href="#">2</a></li>
+					<li><a href="#">3</a></li>
+					<li><a href="#">4</a></li>
+					<li><a href="#">5</a></li>
+					<li><a href="#">»</a></li>
+				</ul>
+			</div>
+		</div>
+	</div>
+	<!-- Modal -->
+	<style>
+		.modal-dialog {
+			max-width: 1200px;
+		}
+
+		.modal-content {
+			height: 1400px;
+		}
+	</style>
+	<div class="modal fade" id="orderDetailModal" tabindex="-1" role="dialog" aria-labelledby="orderDetailModalLabel"
+		aria-hidden="true">
+		<div class="modal-dialog" role="document">
+			<div class="modal-content">
+				<div class="modal-header">
+					<h5 class="modal-title" id="orderDetailModalLabel">Chi tiết đơn hàng</h5>
+					<button type="button" class="close" data-dismiss="modal" aria-label="Close">
+						<span aria-hidden="true">&times;</span>
+					</button>
+				</div>
+				<div class="modal-body">
+					<!-- Nội dung chi tiết đơn hàng sẽ được hiển thị ở đây -->
+				</div>
+			</div>
+		</div>
+	</div>
+</body>
+
+</html>

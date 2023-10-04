@@ -23,7 +23,7 @@ import lombok.RequiredArgsConstructor;
 @RequiredArgsConstructor(onConstructor = @__(@Autowired))
 public class UserController {
     private final UserService userService;
-
+    
     @GetMapping("/{username}")
     @ResponseBody
     public UserDTO findByUsername(@PathVariable String username) {

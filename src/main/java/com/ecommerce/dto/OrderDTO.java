@@ -37,4 +37,5 @@ public class OrderDTO extends BaseDTO {
     private List<OrderDetailDTO> orderDetails;
     private ProductDTO firstProduct;
     private Date createdAt;
+    private String fullname;
 }

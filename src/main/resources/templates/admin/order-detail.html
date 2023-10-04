@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout" xmlns:th="http://www.thymeleaf.org"
+	xmlns="http://www.w3.org/1999/xhtml" lang="vi">
+
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<title>Chi tiết đơn hàng</title>
+	
+</head>
+
+<body>
+		<h2>Thông tin đơn hàng</h2>
+
+		<div>
+			<strong>Mã đơn hàng:</strong> <span th:text="${order.Id}"></span> <br>
+			<strong>Thời gian đặt hàng:</strong> <span th:text="${order.createdAt}"></span> <br>
+			<strong>Tình trạng:</strong> 
+			<span th:switch="${order.status}">
+				<span th:case="0" class="status stat0">Đang xử lý</span>
+				<span th:case="1" class="status stat1">Tiếp nhận</span>
+				<span th:case="2" class="status stat2">Từ chối</span>
+				<span th:case="3" class="status stat3">Đã hủy</span>
+				<span th:case="4" class="status stat4">Đang giao</span>
+				<span th:case="5" class="status stat5">Giao thành công</span>
+			</span>
+		</div>
+
+		<div class="product-description">
+			<h3>Thông tin sản phẩm</h3>
+			<table>
+				<tr>
+					<th>Ảnh sản phẩm</th>
+					<th>Tên sản phẩm</th>
+					<th>Giá tiền</th>
+					<th>Số lượng</th>
+					<th>Chi tiết sản phẩm</th>
+				</tr>
+				<tr th:each="orderDetail : ${orderDetails}">
+					<td><img th:src="${orderDetail.product.thumbnail}"
+							alt="Ảnh sản phẩm 1" width="125" height="150"></td>
+					<td th:text="${orderDetail.product.name}"></td>
+					<td th:text="${orderDetail.price}"></td>
+					<td th:text="${orderDetail.quantity}"></td>
+					<td><a href="#"> Xem </a></td>
+				</tr>
+			</table>
+		</div>
+		<!-- Thêm các mô tả sản phẩm khác nếu cần -->
+
+		<div class="product-details">
+			<div class="recipient-info">
+				<h2>Thông tin người nhận</h2>
+				<strong><span th:text="${receiver.name}"> </span></strong> <br>
+				<strong>Địa chỉ:</strong> <span th:text="${receiver.address}"></span> <br>
+				<strong>Số điện thoại:</strong> <span th:text="${receiver.phone}"></span>
+			</div>
+			<div class="price">
+				<h2>Giá tiền</h2>
+				<strong>Tổng tiền sản phẩm</strong> <span th:text="${order.totalPrice}"></span>đ <br>
+				<span class="spacer"></span>
+				<strong>Tổng phí ship</strong> <span th:text="${order.shippingFee}"></span>đ <br>
+				<span class="spacer"></span>
+				<hr>
+				<strong>TỔNG CỘNG</strong> <span th:text="${total}"></span>
+				<span class="spacer"></span>
+			</div>
+		</div>
+</body>
+
+</html>

@@ -1,0 +1,100 @@
+body {
+	font-family: Arial, sans-serif;
+	margin: 0;
+	padding: 0;
+	background-color: #f4f4f4;
+}
+
+.order-details {
+	background-color: #fff;
+	border: 1px solid #ddd;
+	padding: 20px;
+	margin: 20px;
+	box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+}
+
+.product-description {
+	margin-top: 10px;
+	padding: 10px;
+	background-color: #f9f9f9;
+	border: 1px solid #eee;
+}
+
+table {
+	border-collapse: collapse;
+	/* Loại bỏ khoảng cách giữa các ô */
+	width: 100%;
+}
+
+th,
+td {
+	padding: 10px;
+	/* Thêm padding vào các ô */
+	text-align: center;
+	/* Căn trái nội dung trong các ô */
+	border: 1px solid #ddd;
+	/* Thêm viền cho các ô */
+}
+
+.product-details {
+	display: flex;
+	justify-content: space-between;
+	/* Đặt các phần tử bên trong cùng một hàng */
+}
+
+.recipient-info,
+.price {
+	width: 60%;
+	/* Chia đều khoảng trống cho cả hai cột */
+}
+
+.spacer {
+	flex-grow: 2;
+}
+
+.status {
+	color: rgb(0, 0, 0);
+    font-weight: normal;
+    border: 2px solid rgb(255, 255, 255);
+    background-color: rgb(255, 255, 0);
+}
+
+.status.stat0 {
+	color: rgb(0, 0, 0);
+    font-weight: normal;
+    border: 2px solid rgb(255, 255, 255);
+    background-color: rgb(255, 255, 0);
+}
+
+.status.stat1 {
+	color: rgb(0, 0, 0);
+    font-weight: italic;
+    border: 2px solid rgb(255, 255, 255);
+    background-color: rgb(0, 128, 255);
+}
+
+.status.stat2 {
+	color: rgb(0, 0, 0);
+    font-weight: italic;
+    border: 2px solid rgb(255, 255, 255);
+    background-color: rgb(255, 0, 0);
+}
+.status.stat3 {
+	color: rgb(0, 0, 0);
+    font-weight: italic;
+    border: 2px solid rgb(255, 255, 255);
+    background-color: rgb(128, 0, 64);
+}
+.status.stat4 {
+	color: rgb(0, 0, 0);
+    font-weight: italic;
+    border: 2px solid rgb(255, 255, 255);
+    background-color: rgb(64, 0, 128);
+}
+.status.stat5 {
+	color: rgb(0, 0, 0);
+    font-weight: italic;
+    border: 2px solid rgb(255, 255, 255);
+    background-color: rgb(0, 0, 64);
+}
+.pagination>li>a, .pagination>li>span { border-radius: 50% !important;margin: 0 5px;}
