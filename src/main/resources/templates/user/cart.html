@@ -1,144 +1,158 @@
 <html
-  xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
-  xmlns:th="http://www.thymeleaf.org"
-  xmlns="http://www.w3.org/1999/xhtml"
-  lang="vi"
-  layout:decorate="~{layouts/user/layout}"
+        xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+        xmlns:th="http://www.thymeleaf.org"
+        xmlns="http://www.w3.org/1999/xhtml"
+        lang="vi"
+        layout:decorate="~{layouts/user/layout}"
 >
-  <head>
-    <link rel="stylesheet" th:href="@{css/custom/user/cart.css}" />
-  </head>
-  <div layout:fragment="content">
+<head>
+    <link rel="stylesheet" th:href="@{css/custom/user/cart.css}"/>
+</head>
+<div layout:fragment="content">
     <section class="ftco-section">
-      <div class="alert alert-success" role="alert" id="update-cart-success">
-        Update cart successfully!
-      </div>
-      <div class="alert alert-danger" role="alert" id="update-cart-fail">
-        Update cart failed!
-      </div>
-
-      <div class="container">
-        <div class="row">
-          <div class="col-md-12 mt-5">
-            <h3 class="h5 mb-4 text-center">Shopping cart</h3>
-            <div class="table-wrap">
-              <table class="table">
-                <thead class="thead-primary">
-                  <tr>
-                    <th>&nbsp;</th>
-                    <th>Product</th>
-                    <th>Price</th>
-                    <th>Quantity</th>
-                    <th>Total</th>
-                    <th>&nbsp;</th>
-                  </tr>
-                </thead>
-                <tbody th:if="${totalPrice > 0}">
-                  <tr
-                    class="alert cart-item"
-                    th:each="item : ${cartItems}"
-                    th:data-product-id="${item.product.id}"
-                    th:data-cart-id="${cartId}"
-                    th:data-item-id="${item.id}"
-                  >
-                    <td>
-                      <div class="img">
-                        <img
-                          class="img-fluid"
-                          th:src="${item.product.thumbnail}"
-                        />
-                      </div>
-                    </td>
-                    <td>
-                      <div class="email">
-                        <a
-                          th:text="${item.product.name}"
-                          th:href="@{'/products/' + ${item.product.id}}"
-                        ></a>
-                      </div>
-                    </td>
-                    <td
-                      th:text="${item.product.price} + ' VND'"
-                      class="format-price cart-item-price"
-                    ></td>
-                    <td class="quantity">
-                      <div class="input-group">
-                        <input
-                          type="text"
-                          name="quantity"
-                          class="quantity form-control input-number cart-item-quantity"
-                          th:value="${item.quantity}"
-                          min="1"
-                          max="100"
-                        />
-                      </div>
-                    </td>
-                    <td
-                      th:text="${item.product.price * item.quantity} + ' VND'"
-                      class="format-price cart-item-total-price"
-                    ></td>
-                    <td>
-                      <button
-                        type="button"
-                        class="close"
-                        data-dismiss="alert"
-                        aria-label="Close"
-                        th:onClick="|removeCartItem(${cartId}, ${item.product.id})|"
-                      >
-                        <span aria-hidden="true"
-                          ><i class="fa fa-close"></i
-                        ></span>
-                      </button>
-                    </td>
-                  </tr>
-                  <tr>
-                    <td colspan="2" class="text-right">
-                      <a
-                        href="/"
-                        class="btn btn-primary cart-btn-transform m-3"
-                        data-abc="true"
-                        >Continue shopping</a
-                      >
-                      <a
-                        href="/checkout"
-                        class="btn btn-outline-primary cart-btn-transform m-3"
-                        data-abc="true"
-                        >Checkout</a
-                      >
-                    </td>
-                    <td colspan="2" class="text-right">Total:</td>
-                    <td
-                      colspan="2"
-                      class="total-price format-price cart-total-price"
-                      th:text="${totalPrice} + ' VND'"
-                    ></td>
-                  </tr>
-                </tbody>
-                <tbody th:unless="${totalPrice > 0}">
-                  <tr>
-                    <td colspan="6" class="text-center pt-5 pb-5">
-                      <img
-                        src="https://i.imgur.com/dCdflKN.png"
-                        width="130"
-                        height="130"
-                        class="img-fluid mb-4 mr-3"
-                      />
-                      <h3 class="h5 mb-4">Your cart is empty!</h3>
-                      <a
-                        href="/"
-                        class="btn btn-primary cart-btn-transform m-3"
-                        data-abc="true"
-                        >Continue shopping</a
-                      >
-                    </td>
-                  </tr>
-                </tbody>
-              </table>
-            </div>
-          </div>
+        <div style="display: none;top: 0;left: 0;" class="alert alert-success position-relative" role="alert"
+             id="update-cart-success">
+            Cập nhật giỏ hàng thành công!
         </div>
-      </div>
+        <div style="display: none;" class="alert alert-danger" role="alert" id="update-cart-fail">
+            Cập nhật giỏ hàng thất bại!
+        </div>
+
+        <div class="container">
+            <div class="my-5 table-wrap">
+                <h1 class="h1 text-dark font-weight-bolder mb-4 text-center">Giỏ hàng <i class="fa fa-shopping-cart"></i></h1>
+                <table class="table text-nowrap shadow-sm">
+                    <th:block th:if="${totalPrice > 0}">
+                        <thead class="bg-secondary">
+                        <tr>
+                            <th scope="col">
+                                <div class="custom-control custom-checkbox">
+                                    <input id="check-all" type="checkbox" class="custom-control-input check-all">
+                                    <label for="check-all" class="custom-control-label"></label>
+                                </div>
+                            </th>
+                            <th scope="col" colspan="2">Sản phẩm</th>
+                            <th scope="col">Đơn giá</th>
+                            <th scope="col">Số lượng</th>
+                            <th scope="col">Tổng</th>
+                            <th scope="col">Hành động</th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        <tr
+                                class="alert cart-item"
+                                th:each="item : ${cartItems}"
+                                th:data-product-id="${item.product.id}"
+                                th:data-cart-id="${cartId}"
+                                th:data-item-id="${item.id}"
+                                th:title="${item.product.name}"
+                        >
+                            <td>
+                                <div class="custom-control custom-checkbox">
+                                    <input th:id="${item.id}" th:data-item-id="${item.id}" type="checkbox"
+                                           class="cart-item-checkbox custom-control-input check-item">
+                                    <label th:for="${item.id}" class="custom-control-label"></label>
+                                </div>
+                            </td>
+                            <td>
+                                <div class="img">
+                                    <img
+                                            class="img-fluid"
+                                            th:src="${item.product.thumbnail}"
+                                    />
+                                </div>
+                            </td>
+                            <td>
+                                <div class="email">
+                                    <a
+                                            th:text="${item.product.name}"
+                                            th:href="@{'/products/' + ${item.product.id}}"
+                                            class="d-inline-block text-truncate"
+                                            style="width: 200px;"
+                                    ></a>
+                                </div>
+                            </td>
+                            <td
+                                    th:text="${item.product.price} + ' VND'"
+                                    class="format-price cart-item-price"
+                            ></td>
+                            <td class="quantity">
+                                <div class="input-group">
+                                    <input
+                                            type="number"
+                                            name="quantity"
+                                            class="quantity form-control input-number cart-item-quantity"
+                                            th:value="${item.quantity}"
+                                            min="1"
+                                            max="100"
+                                    />
+                                </div>
+                            </td>
+                            <td
+                                    th:text="${item.product.price * item.quantity} + ' VND'"
+                                    class="format-price cart-item-total-price"
+                            ></td>
+                            <td>
+                                <button
+                                        type="button"
+                                        class="btn btn-outline-danger btn-sm"
+                                        data-dismiss="alert"
+                                        aria-label="Close"
+                                        th:onClick="|removeCartItem(${cartId}, ${item.product.id})|"
+                                ><i class="fa fa-trash"></i>
+                                </button>
+                            </td>
+                        </tr>
+                        </tbody>
+                        <tfoot>
+                        <tr>
+                            <td colspan="4" class="text-right">
+                                <a
+                                        href="/"
+                                        class="btn btn-primary cart-btn-transform m-3"
+                                        data-abc="true"
+                                >Tiếp tục mua hàng</a
+                                >
+                                <button
+                                        href="/checkout"
+                                        class="btn btn-outline-primary cart-btn-transform m-3"
+                                        data-abc="true"
+                                        id="checkout-btn"
+                                        onclick="checkOut()"
+                                >
+                                    Thanh toán
+                                </button>
+                            </td>
+                            <td colspan="1" class="text-right"><strong>Tổng giá</strong> :</td>
+                            <td colspan="2" class="font-weight-bold total-price format-price cart-total-price"
+                                th:text="${totalPrice} + ' VND'"></td>
+                        </tr>
+                        </tfoot>
+                    </th:block>
+                    <tfoot th:unless="${totalPrice > 0}">
+                    <tr>
+                        <td colspan="7" class="text-center pt-5 pb-5">
+                            <img
+                                    src="https://i.imgur.com/dCdflKN.png"
+                                    width="130"
+                                    height="130"
+                                    class="img-fluid mb-4 mr-3"
+                            />
+                            <h3 class="h5 mb-4">Giỏ hàng trống!</h3>
+                            <a
+                                    href="/"
+                                    class="btn btn-primary cart-btn-transform m-3"
+                                    data-abc="true"
+                            >Tiếp tục mua hàng</a
+                            >
+                        </td>
+                    </tr>
+                    </tfoot>
+                </table>
+            </div>
+        </div>
     </section>
-  </div>
-  <script th:src="@{js/user/cart.js}"></script>
+    <form th:action="@{orders/new}" method="get" id="checkout-form"></form>
+</div>
+<script th:src="@{/js/user/cart.js}"></script>
 </html>

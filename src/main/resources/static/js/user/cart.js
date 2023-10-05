@@ -1,6 +1,3 @@
-$("#update-cart-success").hide();
-$("#update-cart-fail").hide();
-
 $(".cart-item").each((index, element) => {
   const input = element.querySelector(".cart-item-quantity");
   const priceElement = element.querySelector(".cart-item-price");
@@ -132,6 +129,56 @@ function formatPrice(price) {
 
 function returnPrice(price) {
   return parseInt(price.replace(/\./g, ""));
+}
+
+const checkOuts = $(".check-item");
+const checkAll = $(".check-all");
+
+checkAll.on("click", () => {
+    if (checkAll.prop("checked")) {
+        checkOuts.each((index, element) => {
+            $(element).prop("checked", true);
+        });
+    } else {
+        checkOuts.each((index, element) => {
+            $(element).prop("checked", false);
+        });
+    }
+});
+
+function isAllItemSelected(checkOuts) {
+    for (const element of checkOuts) {
+        if (!$(element).prop("checked")) {
+            return false;
+        }
+    }
+    return true;
+}
+
+checkOuts.each((index, element) => {
+    $(element).on("click", () => {
+        if (!$(element).prop("checked")) {
+            checkAll.prop("checked", false);
+        }
+        checkAll.prop("checked", isAllItemSelected(checkOuts));
+    });
+});
+
+function checkOut() {
+    const checkOutForm = $("#checkout-form");
+    const checkedItems = $(".check-item:checked");
+    const dataObject = checkedItems
+        .map((index, element) => {
+            return parseInt($(element).attr("data-item-id"));
+        })
+        .get();
+    if (dataObject.length === 0) {
+        alert("No item selected!");
+        return;
+    }
+    // const data = JSON.stringify(dataObject);
+    checkOutForm.append(`<input type="hidden" name="itemIds" value='${dataObject.join(',')}'/>`);
+    checkOutForm.submit();
 }
 
 function checkNumber(string) {

@@ -16,6 +16,7 @@ import java.lang.reflect.Type;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
+import java.util.Random;
 import java.util.Optional;
 
 /**
@@ -137,8 +138,9 @@ public class OrderServiceImpl extends BaseService implements OrderService {
             product.setNumberOfSale(product.getNumberOfSale() + orderDetail.getQuantity());
             orderDetailDAO.save(orderDetail);
         });
+        cart.getCartDetails().removeAll(filteredCartDetail);
+        cartDAO.save(cart);
         //Xóa những sản phẩm đã thanh toán order khỏi cart
-        cartDetailDAO.deleteAll(filteredCartDetail);
         return getMappedOrderDTO(order);
     }
 
@@ -157,6 +159,32 @@ public class OrderServiceImpl extends BaseService implements OrderService {
         return orderDTO;
     }
 
+    @Override
+    public OrderDTO initOrder(Account user, List<? extends Long> cartDetailIds) {
+        //Khởi tạo orderDTO
+        var orderDTO = new OrderDTO();
+        var cart = cartDAO.findByUserId(user.getId()).orElseThrow(() -> new NotFound("Cart not found"));
+        var cartDetailIdsInCart = cart.getCartDetails();
+        var isAllCartDetailContainInCart = cartDetailIds.stream().allMatch(cd -> cartDetailIdsInCart.stream().mapToLong(CartDetail::getId).anyMatch(id -> id == cd));
+        if (!isAllCartDetailContainInCart) throw new NotFound("Cart detail not found");
+        //Lấy ra thông tin chi tiết của những cartdetail mà người dùng chọn
+        var cartDetails = cartDetailIdsInCart.stream().filter(cd -> cartDetailIds.contains(cd.getId())).toList();
+        var shippingFee = calculateShippingFee(cartDetails);
+        var orderDetailsDTO = cartDetails.stream().map(cdd -> modelMapper.map(cdd, OrderDetailDTO.class)).toList();
+        var totalPrice = orderDetailsDTO.stream().mapToLong(od -> od.getProduct().getPrice() * od.getQuantity()).sum() + shippingFee;
+        var receiver = modelMapper.typeMap(Account.class, ReceiverDTO.class).addMappings(mapper -> {
+            mapper.map(Account::getAddress, ReceiverDTO::setAddress);
+            mapper.map(Account::getFullname, ReceiverDTO::setName);
+            mapper.map(Account::getPhone, ReceiverDTO::setPhone);
+        }).map(user);
+        orderDTO.setOrderDetails(orderDetailsDTO);
+        orderDTO.setShippingFee(shippingFee);
+        orderDTO.setTotalPrice(totalPrice);
+        orderDTO.setReceiver(receiver);
+        orderDTO.setUserId(user.getId());
+        return orderDTO;
+    }
+
     private OrderDTO getMappedOrderDTO(Order order) {
         return modelMapper
                 .typeMap(Order.class, OrderDTO.class)
@@ -170,7 +198,8 @@ public class OrderServiceImpl extends BaseService implements OrderService {
 
 
     private void mapCartDetailToOrderDetail(CartDetail cartDetail, OrderDetail orderDetail) {
-        Product product = cartDetail.getProduct();
+        var product = productDAO.findById(cartDetail.getProductId()).get();
+        orderDetail.setProduct(product);
         orderDetail.setPrice(product.getPrice());
         orderDetail.setQuantity(cartDetail.getQuantity());
         orderDetail.setProductId(product.getId());
@@ -185,14 +214,16 @@ public class OrderServiceImpl extends BaseService implements OrderService {
     }
 
     private long calculateShippingFee(List<?> orderDetails) {
-        return orderDetails.size() * 1000L;
+        var random = new Random();
+        var randomValue = random.nextInt(10000);
+        return orderDetails.size() * 1000L + randomValue;
     }
 
 	@Override
 	public List<OrderDTO> showAllByAdmin() {
 		List<Order> orders = orderDAO.findAll();
 		List<OrderDTO> orderDTOs = new ArrayList<>();
-		
+
 		for (Order order : orders)
 		{
 			OrderDTO orderDTO = new OrderDTO();
@@ -201,7 +232,7 @@ public class OrderServiceImpl extends BaseService implements OrderService {
 	        orderDTO.setStatus(order.getStatus().getValue());	//anh xa tu enum-Model sang int-DTO
 	        orderDTOs.add(orderDTO);
 		}
-		
+
 		return orderDTOs;
 	}
 
@@ -209,7 +240,7 @@ public class OrderServiceImpl extends BaseService implements OrderService {
 	public OrderDTO getOrderDetail(Long orderId) {
 		Optional<Order> optionalOrder = orderDAO.findById(orderId);
 
-		if (optionalOrder.isPresent()) 
+		if (optionalOrder.isPresent())
 		{
 			Order order = optionalOrder.get();
 			OrderDTO orderDTO = new OrderDTO();
@@ -230,7 +261,7 @@ public class OrderServiceImpl extends BaseService implements OrderService {
 
 		return null;
 	}
-	
+
 	private List<OrderDetailDTO> getProductFromOrder(Order order) {
 		List<OrderDetail> orderDetails = order.getOrderDetails();
 		List<OrderDetailDTO> orderDetailDTOs = new ArrayList<>();
@@ -238,7 +269,7 @@ public class OrderServiceImpl extends BaseService implements OrderService {
 		{
 			ProductDTO productDTO = new ProductDTO();
 			OrderDetailDTO orderDetailDTO = new OrderDetailDTO();
-			
+
 			BeanUtils.copyProperties(orderDetail.getProduct(), productDTO);
 			BeanUtils.copyProperties(orderDetail, orderDetailDTO);
 			orderDetailDTO.setProduct(productDTO);

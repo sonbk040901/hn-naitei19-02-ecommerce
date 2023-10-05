@@ -17,6 +17,8 @@ import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
+import java.util.List;
+
 /**
  * @Project: hn-naitei19-02-ecommerce
  * @Author: sonle
@@ -50,9 +52,10 @@ public class OrderController extends BaseController {
     }
 
     //Handle hiển thị giao diện thanh toán hóa đơn (aka tạo hóa đơn)
-    @GetMapping("/new")
-    public String showPaymentForm(@ModelAttribute("order") @Valid OrderDTO orderDTO, Model model) {
-        orderDTO = orderService.initOrder(orderDTO);
+    @RequestMapping(value = "/new", method = {RequestMethod.GET, RequestMethod.POST})
+    public String showPaymentForm(@RequestParam("itemIds") List<Long> cartDetailIds, Model model) {
+        var currentUser = getCurrentUser();
+        var orderDTO = orderService.initOrder(currentUser, cartDetailIds);
         model.addAttribute("order", orderDTO);
         return "user/order/new";
     }
