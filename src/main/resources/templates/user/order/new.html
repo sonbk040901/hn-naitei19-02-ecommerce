@@ -1,10 +1,113 @@
 <!DOCTYPE html>
-<html lang="en">
+<html xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      xmlns:th="http://www.thymeleaf.org"
+      xmlns="http://www.w3.org/1999/xhtml"
+      lang="vi"
+      layout:decorate="~{layouts/user/layout}"
+>
 <head>
     <meta charset="UTF-8">
-    <title>Title</title>
+    <title>Xác nhận thanh toán</title>
+    <script defer th:src="@{/js/custom/newOrder.js}"></script>
 </head>
 <body>
-
+<!--  Hiển thị form xác nhận thanh toán (điển tt người nhận, vv)  -->
+<section class="container my-5 p-0" layout:fragment="content">
+    <form th:object="${order}" id="payment-form" th:action="@{/orders}" method="post"
+          class="card rounded-lg m-0 shadow">
+        <div class="card-header"><h1 class="h1 font-weight-bold text-dark text-center">Xác nhận thanh toán</h1></div>
+        <div class="card-body">
+            <table class="table table-hover table-wrap table-borderless text-dark">
+                <thead>
+                <tr>
+                    <th scope="col">STT</th>
+                    <th colspan="2" scope="col">Sản phẩm</th>
+                    <th scope="col">Đơn giá (VNĐ)</th>
+                    <th scope="col">Số lượng</th>
+                    <th scope="col">Tổng (VNĐ)</th>
+                </tr>
+                </thead>
+                <tbody>
+                <tr th:each="orderDetail, i: *{orderDetails}" th:with="product=${orderDetail.product}">
+                    <input type="hidden" th:field="*{{orderDetails[__${i.index}__].productId}}">
+                    <input type="hidden" th:field="*{{orderDetails[__${i.index}__].quantity}}">
+                    <input type="hidden" th:field="*{{orderDetails[__${i.index}__].price}}">
+                    <input type="hidden" th:field="*{{orderDetails[__${i.index}__].product.id}}">
+                    <input type="hidden" th:field="*{{orderDetails[__${i.index}__].product.name}}">
+                    <input type="hidden" th:field="*{{orderDetails[__${i.index}__].product.price}}">
+                    <input type="hidden" th:field="*{{orderDetails[__${i.index}__].product.quantity}}">
+                    <input type="hidden" th:field="*{{orderDetails[__${i.index}__].product.thumbnail}}">
+                    <td class="align-middle font-weight-bold" th:text="${i.count}"></td>
+                    <td>
+                        <img class="rounded shadow-sm" width="100" th:src="${product.thumbnail}"
+                             th:alt="${product.name}">
+                    </td>
+                    <td class="align-middle"><a class="card-link d-inline-block text-nowrap text-truncate"
+                                                style="width: 200px"
+                                                th:href="@{/products/{id}(id=${product.id})}"
+                                                th:text="${product.name}"></a></td>
+                    <td class="align-middle"
+                        th:text="${#numbers.formatDecimal(product.price, 0, 'COMMA', 0, 'POINT')}"></td>
+                    <td class="align-middle" th:text="${orderDetail.quantity}"></td>
+                    <td class="align-middle" th:with="total= ${orderDetail.quantity * product.price}"
+                        th:text="${#numbers.formatDecimal(total, 0, 'COMMA', 0, 'POINT')}"></td>
+                </tr>
+                </tbody>
+                <tfoot>
+                <tr>
+                    <td colspan="4"></td>
+                    <td class="text-end font-weight-bold">Tổng tiền hàng:</td>
+                    <td class="font-weight-bold"
+                        th:text="${#numbers.formatDecimal(order.totalPrice - order.shippingFee, 0, 'COMMA', 0, 'POINT')}"></td>
+                </tr>
+                <tr>
+                    <td colspan="4"></td>
+                    <td class="text-end font-weight-bold">Phí vận chuyển:</td>
+                    <td class="font-weight-bold"
+                        th:text="${#numbers.formatDecimal(order.shippingFee, 0, 'COMMA', 0, 'POINT')}"></td>
+                </tr>
+                <tr>
+                    <td colspan="4"></td>
+                    <td class="text-end font-weight-bold">Tổng thanh toán:</td>
+                    <td class="font-weight-bold"
+                        th:text="${#numbers.formatDecimal(order.totalPrice, 0, 'COMMA', 0, 'POINT')}"></td>
+                </tr>
+                <tr>
+                    <td class="font-weight-bold table-header" colspan="3">Thông tin người nhận:</td>
+                </tr>
+                <tr>
+                    <td colspan="2"><label for="name" class="" id="1">Tên người nhận: </label></td>
+                    <td colspan="2">
+                        <input name="receiver.name" th:value="*{receiver.name}" id="name" type="name"
+                               class="form-control"
+                               aria-describedby="validatedInputGroupPrepend" required>
+                    </td>
+                </tr>
+                <tr>
+                    <td colspan="2"><label for="name1" class="" id="2">Số điện thoại</label></td>
+                    <td colspan="2">
+                        <input name="receiver.phone" th:value="*{receiver.phone}" id="name1" type="phone"
+                               class="form-control"
+                               aria-describedby="validatedInputGroupPrepend" required>
+                    </td>
+                </tr>
+                <tr>
+                    <td colspan="2"><label for="name2" class="" id="3">Địa chỉ nhận hàng: </label></td>
+                    <td colspan="2">
+                        <input name="receiver.address" th:value="*{receiver.address}" id="name2" type="phone"
+                               class="form-control"
+                               aria-describedby="validatedInputGroupPrepend" required>
+                    </td>
+                </tr>
+                </tfoot>
+            </table>
+        </div>
+        <input type="hidden" name="userId" th:value="*{userId}">
+        <div class="card-footer text-center">
+            <a onclick="history.back()" class="btn btn-secondary m-2">Quay lại</a>
+            <button type="submit" th:href="@{#}" class="btn btn-primary m-2">Xác nhận</button>
+        </div>
+    </form>
+</section>
 </body>
 </html>

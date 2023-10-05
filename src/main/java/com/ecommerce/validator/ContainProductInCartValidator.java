@@ -29,6 +29,7 @@ public class ContainProductInCartValidator implements ConstraintValidator<Contai
     @Override
     public boolean isValid(OrderDTO orderDTO, ConstraintValidatorContext constraintValidatorContext) {
         List<OrderDetailDTO> odds = orderDTO.getOrderDetails();
-        return odds.stream().allMatch(odd -> cartService.existsProductInCart(odd.getProductId(), orderDTO.getUserId()));
+        boolean bool = odds.stream().allMatch(odd -> cartService.existsProductInCart(odd.getProductId(), orderDTO.getUserId()));
+        return bool;
     }
 }

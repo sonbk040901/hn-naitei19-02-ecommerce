@@ -21,20 +21,21 @@
 }
 .table thead th {
   border: none;
-  padding: 30px;
+  padding: 30px 1rem;
   font-size: 13px;
-  font-weight: 500;
   color: white;
 }
 .table tbody tr {
   margin-bottom: 10px;
 }
-.table tbody th,
+.table tbody tr:hover {
+  background-color: var(--light);
+}
+.table tfoot td,
 .table tbody td {
   border: none;
-  padding: 30px;
+  padding: 1rem;
   font-size: 14px;
-  background: #fff;
   border-bottom: 4px solid #f8f9fd;
   vertical-align: middle;
 }
@@ -43,7 +44,6 @@
 }
 .table tbody td .img {
   width: 100px;
-  height: 80px;
 }
 .table tbody td .email span {
   display: block;

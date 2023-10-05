@@ -3,12 +3,15 @@ package com.ecommerce.service;
 import com.ecommerce.dto.FilterDTO;
 import com.ecommerce.dto.OrderDTO;
 import com.ecommerce.dto.ReceiverDTO;
+import com.ecommerce.model.Account;
 import com.ecommerce.userdetails.CustomUserDetails;
 
 import java.util.List;
 
 import org.springframework.data.domain.Page;
 import org.springframework.transaction.annotation.Transactional;
+
+import java.util.List;
 
 /**
  * @Project: hn-naitei19-02-ecommerce
@@ -21,6 +24,7 @@ public interface OrderService extends Service<Long, OrderDTO> {
     OrderDTO createOrder(Long userId, OrderDTO orderDTO);
 
     OrderDTO initOrder(OrderDTO orderDTO);
+    OrderDTO initOrder(Account user, List<? extends Long> cartDetailIds);
 
     Page<OrderDTO> findOrdersByUserId(Long userId, FilterDTO filterDTO);
 
